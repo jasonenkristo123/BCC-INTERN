@@ -4,7 +4,7 @@ const config = {
   },
   extends: {
     fontFamily: {
-      roboto: ["var(--font-roboto)", "sans-serif"],
+      roboto: ['var(--font-roboto)', 'sans-serif'],
     },
   },
 }
