@@ -1,1 +1,42 @@
 @import 'tailwindcss';
+
+@layer components {
+  .all-\[unset\] {
+    all: unset;
+  }
+}
+
+@layer utilities {
+  .font-roboto-400 {
+    font-family: var(--font-roboto);
+    font-weight: 400;
+  }
+  .font-roboto-500 {
+    font-family: var(--font-roboto);
+    font-weight: 500;
+  }
+  .font-roboto-600 {
+    font-family: var(--font-roboto);
+    font-weight: 600;
+  }
+  .font-roboto-700 {
+    font-family: var(--font-roboto);
+    font-weight: 700;
+  }
+  .font-roboto-800 {
+    font-family: var(--font-roboto);
+    font-weight: 800;
+  }
+  .font-roboto-900 {
+    font-family: var(--font-roboto);
+    font-weight: 900;
+  }
+}
+
+@theme inline {
+  --color-primary: #0a3626;
+  --color-primary-muda: #0D4531;
+  --color-secondary: #115c41;
+  --color-semi-white: #e8f5f0;
+  --color-text-primary: #1c996d;
+}
