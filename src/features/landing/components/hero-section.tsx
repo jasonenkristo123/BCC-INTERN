@@ -3,7 +3,7 @@ import Button from '@/shared/components/ui/button'
 
 export default function HeroSection() {
   return (
-    <section id='beranda' className="relative w-full h-screen overflow-hidden">
+    <section id="beranda" className="relative w-full h-screen overflow-hidden">
       <Image
         src="/assets/heroimg.webp"
         alt="Fresh vegetables and fruits background"
@@ -81,7 +81,12 @@ export default function HeroSection() {
         </h1>
 
         <div className="flex flex-col sm:flex-row gap-4">
-          <Button variant="primary" size="lg" href="#" className='text-primary-muda'>
+          <Button
+            variant="primary"
+            size="lg"
+            href="#"
+            className="text-primary-muda"
+          >
             Mulai Kelola Makanan
           </Button>
           <Button variant="secondary" size="lg" href="#">
