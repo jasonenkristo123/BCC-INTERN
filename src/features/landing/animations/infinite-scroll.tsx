@@ -41,7 +41,8 @@ export default function InfiniteScrollRow({
     }, [controls, startX, startAnimation])
 
     return (
-        <div className={`w-full ${className}`}
+        <div
+            className={`w-full ${className}`}
             onMouseEnter={() => controls.stop()}
             onMouseLeave={() => startAnimation()}
         >
@@ -51,9 +52,7 @@ export default function InfiniteScrollRow({
                 style={{ transform: 'translateZ(0)' }}
             >
                 {doubled.map((child, i) => (
-                    <div key={i}>
-                        {child}
-                    </div>
+                    <div key={i}>{child}</div>
                 ))}
             </motion.div>
         </div>

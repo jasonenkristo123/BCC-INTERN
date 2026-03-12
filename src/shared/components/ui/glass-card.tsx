@@ -12,7 +12,7 @@ export default function GlassCard({ title, description, className = "", ...props
             {...props}
         >
             <h3 className="text-3xl md:text-4xl font-roboto-700 font-bold text-primaryskyblue mb-2">{title}</h3>
-            <p className="text-sm md:text-base font-roboto-400 text-skyblue/90">{description}</p>
+            <p className="text-sm md:text-base font-roboto-400 text-skyblue">{description}</p>
         </div>
     );
 }

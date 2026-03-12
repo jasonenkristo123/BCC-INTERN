@@ -3,6 +3,9 @@ import FiturPage from '@/features/landing/components/fitur'
 import HeroSection from '@/features/landing/components/hero-section'
 import RiskPanelPage from '@/features/landing/components/risk-panel-page'
 import TentangKami from '@/features/landing/components/tentang-kami'
+import TeamPage from '@/features/landing/components/team-page'
+import Kelola from '@/features/landing/components/kelola'
+import Footer from '@/shared/components/layout/footer'
 
 export default function LandingPage() {
   return (
@@ -12,6 +15,9 @@ export default function LandingPage() {
       <RiskPanelPage />
       <FaktaPage />
       <TentangKami />
+      <TeamPage />
+      <Kelola />
+      <Footer />
     </section>
   )
 }

@@ -1,6 +1,6 @@
 export default function TentangKami() {
     return (
-        <section className="w-full min-h-[50vh] bg-white px-6 md:px-12 lg:px-[155px] py-10 md:py-15">
+        <section id="tentang-kami" className="w-full min-h-[50vh] bg-white px-6 md:px-12 lg:px-[155px] py-10 md:py-15">
             <div>
                 <h2 className="font-roboto-500 text-base md:text-xl lg:text-2xl xl:text-4xl mb-2 xl:mb-4 ">
                     Tentang Kami

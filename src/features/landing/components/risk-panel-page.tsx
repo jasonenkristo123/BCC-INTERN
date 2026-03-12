@@ -21,7 +21,7 @@ export default function RiskPanelPage() {
                             <span className="text-primary-lebihmuda font-bold">
                                 nilai ekonomis
                             </span>
-                            &nbsp;dan
+                            &nbsp;dan&nbsp;
                             <span className="text-primary-lebihmuda font-bold">
                                 sisa masa simpan.
                             </span>
