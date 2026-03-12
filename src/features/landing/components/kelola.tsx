@@ -1,5 +1,4 @@
-import Button from "@/shared/components/ui/button";
-
+import Button from '@/shared/components/ui/button'
 
 export default function Kelola() {
     return (
@@ -9,10 +8,15 @@ export default function Kelola() {
                     Mulai Kelola Bahan Makananmu Hari ini
                 </h2>
                 <p className="font-roboto-400 text-base sm:text-lg lg:text-2xl xl:text-3xl text-text-secondary max-w-[1130px] text-center mb-4">
-                    Kurangi food waste, hemat pengeluaran. Gunakan bahan makanan dengan lebih bijak bersama ribuan pengguna lainnya. 
+                    Kurangi food waste, hemat pengeluaran. Gunakan bahan makanan dengan
+                    lebih bijak bersama ribuan pengguna lainnya.
                 </p>
                 <div className="flex gap-6">
-                    <Button variant="secondary" size="md" className="bg-primary-lebihmuda">
+                    <Button
+                        variant="secondary"
+                        size="md"
+                        className="bg-primary-lebihmuda"
+                    >
                         Daftar
                     </Button>
                     <Button variant="primary" size="md" className="bg-skyblue">

@@ -1,4 +1,4 @@
-"use client"
+'use client'
 
 import { useState } from 'react'
 
@@ -18,12 +18,12 @@ export function useTeamCarousel(teamData: TeamMember[]) {
 
     const orderedTeamData = [
         ...teamData.slice(activeIndex),
-        ...teamData.slice(0, activeIndex)
+        ...teamData.slice(0, activeIndex),
     ]
 
     return {
         activeIndex,
         orderedTeamData,
-        handleCardClick
+        handleCardClick,
     }
 }

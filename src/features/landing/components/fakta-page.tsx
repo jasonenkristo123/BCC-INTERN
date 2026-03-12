@@ -4,7 +4,11 @@ import InfiniteScrollRow from '../animations/infinite-scroll'
 
 const faktaDataInfo = [
     { title: '931jt', description: 'Ton Makanan Terbuang (UNEP 2021)' },
-    { title: '23-48 juta ton', description: 'food waste dihasilkan di Indonesia setiap tahunnya - Bappenas' },
+    {
+        title: '23-48 juta ton',
+        description:
+            'food waste dihasilkan di Indonesia setiap tahunnya - Bappenas',
+    },
     { title: '61%', description: 'food waste berasal dari rumah makan' },
     { title: '931jt', description: 'Ton Makanan Terbuang (UNEP 2021)' },
 ]
