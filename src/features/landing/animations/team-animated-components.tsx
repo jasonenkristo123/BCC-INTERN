@@ -1,4 +1,4 @@
-"use client"
+'use client'
 import { motion, AnimatePresence } from 'framer-motion'
 import CardProfile from '@/shared/components/ui/card-profile'
 import { textVariants } from './team-animations'
@@ -12,7 +12,12 @@ interface AnimatedTextProps {
     id: string
 }
 
-export function AnimatedText({ text, activeIndex, className, id }: AnimatedTextProps) {
+export function AnimatedText({
+    text,
+    activeIndex,
+    className,
+    id,
+}: AnimatedTextProps) {
     return (
         <div className="overflow-hidden">
             <AnimatePresence mode="popLayout">
@@ -39,7 +44,7 @@ interface AnimatedDotProps {
 
 export function AnimatedDot({ index, activeIndex, onClick }: AnimatedDotProps) {
     const isActive = index === activeIndex
-    
+
     return (
         <button
             onClick={onClick}
@@ -51,11 +56,11 @@ export function AnimatedDot({ index, activeIndex, onClick }: AnimatedDotProps) {
                 <motion.div
                     layoutId="activeDot"
                     className="absolute inset-0 bg-text-primary rounded-full z-10"
-                    transition={{ 
-                        type: "spring", 
-                        stiffness: 300, 
+                    transition={{
+                        type: 'spring',
+                        stiffness: 300,
                         damping: 30,
-                        mass: 0.8
+                        mass: 0.8,
                     }}
                 />
             )}
@@ -69,10 +74,10 @@ interface AnimatedCardCarouselProps {
     onCardClick: (originalIndex: number) => void
 }
 
-export function AnimatedCardCarousel({ 
-    orderedTeamData, 
-    teamData, 
-    onCardClick 
+export function AnimatedCardCarousel({
+    orderedTeamData,
+    teamData,
+    onCardClick,
 }: AnimatedCardCarouselProps) {
     return (
         <div className="flex-1 w-full flex items-center justify-start lg:pl-10 xl:pl-16">
@@ -80,8 +85,10 @@ export function AnimatedCardCarousel({
                 <AnimatePresence mode="popLayout">
                     {orderedTeamData.map((member, idx) => {
                         const isActive = idx === 0
-                        const originalIndex = teamData.findIndex(m => m.name === member.name)
-                        
+                        const originalIndex = teamData.findIndex(
+                            (m) => m.name === member.name,
+                        )
+
                         return (
                             <motion.div
                                 key={member.name}
@@ -89,11 +96,11 @@ export function AnimatedCardCarousel({
                                 initial={{ opacity: 0, x: 100, scale: 0.8 }}
                                 animate={{ opacity: 1, x: 0, scale: 1 }}
                                 exit={{ opacity: 0, x: -100, scale: 0.8 }}
-                                transition={{ 
-                                    type: "spring", 
-                                    stiffness: 260, 
+                                transition={{
+                                    type: 'spring',
+                                    stiffness: 260,
                                     damping: 25,
-                                    mass: 1
+                                    mass: 1,
                                 }}
                                 className="shrink-0 transform-gpu"
                             >
