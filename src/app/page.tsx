@@ -1,9 +1,5 @@
-import { redirect } from "next/navigation"
+import { redirect } from 'next/navigation'
 
 export default function Home() {
-  return (
-    <main>
-      
-    </main>
-  )
+  return <main>{redirect('/landing')}</main>
 }
