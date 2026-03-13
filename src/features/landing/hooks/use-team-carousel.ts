@@ -8,7 +8,7 @@ export interface TeamMember {
     imageSrc: string
 }
 
-export function useTeamCarousel(teamData: TeamMember[]) {
+export function useTeamCarousel() {
     const [activeIndex, setActiveIndex] = useState(0)
 
     const handleCardClick = (originalIndex: number) => {
@@ -16,14 +16,8 @@ export function useTeamCarousel(teamData: TeamMember[]) {
         setActiveIndex(originalIndex)
     }
 
-    const orderedTeamData = [
-        ...teamData.slice(activeIndex),
-        ...teamData.slice(0, activeIndex),
-    ]
-
     return {
         activeIndex,
-        orderedTeamData,
         handleCardClick,
     }
 }

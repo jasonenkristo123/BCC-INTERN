@@ -24,7 +24,8 @@ export default function CardProfile({
     return (
         <div
             onClick={onClick}
-            className={`relative overflow-hidden cursor-pointer transition-all duration-500 shrink-0 ${isActive ? activeClass : inactiveClass} ${className}`}
+            // Use precise duration and delay to match Framer Motion variants
+            className={`relative overflow-hidden cursor-pointer transition-all duration-800 delay-500 ease-in-out shrink-0 ${isActive ? activeClass : inactiveClass} ${className}`}
         >
             <Image
                 src={imageSrc}

@@ -1,23 +1,16 @@
-'use client'
 import { motion, AnimatePresence } from 'framer-motion'
 import CardProfile from '@/shared/components/ui/card-profile'
-import { textVariants } from './team-animations'
+import { getCardVariants, textVariants, Breakpoint } from './team-animations'
 import { TeamMember } from '../hooks/use-team-carousel'
-import { ReactNode } from 'react'
+import { ReactNode, useState, useEffect } from 'react'
 
-interface AnimatedTextProps {
+// AnimatedText — unchanged
+export function AnimatedText({ text, activeIndex, className, id }: {
     text: ReactNode
     activeIndex: number
     className: string
     id: string
-}
-
-export function AnimatedText({
-    text,
-    activeIndex,
-    className,
-    id,
-}: AnimatedTextProps) {
+}) {
     return (
         <div className="overflow-hidden">
             <AnimatePresence mode="popLayout">
@@ -36,15 +29,13 @@ export function AnimatedText({
     )
 }
 
-interface AnimatedDotProps {
+// AnimatedDot — unchanged
+export function AnimatedDot({ index, activeIndex, onClick }: {
     index: number
     activeIndex: number
     onClick: () => void
-}
-
-export function AnimatedDot({ index, activeIndex, onClick }: AnimatedDotProps) {
+}) {
     const isActive = index === activeIndex
-
     return (
         <button
             onClick={onClick}
@@ -56,12 +47,7 @@ export function AnimatedDot({ index, activeIndex, onClick }: AnimatedDotProps) {
                 <motion.div
                     layoutId="activeDot"
                     className="absolute inset-0 bg-text-primary rounded-full z-10"
-                    transition={{
-                        type: 'spring',
-                        stiffness: 300,
-                        damping: 30,
-                        mass: 0.8,
-                    }}
+                    transition={{ type: 'spring', stiffness: 300, damping: 30, mass: 0.8, delay: 0.7 }}
                 />
             )}
         </button>
@@ -69,51 +55,66 @@ export function AnimatedDot({ index, activeIndex, onClick }: AnimatedDotProps) {
 }
 
 interface AnimatedCardCarouselProps {
-    orderedTeamData: TeamMember[]
     teamData: TeamMember[]
-    onCardClick: (originalIndex: number) => void
+    onCardClick: (index: number) => void
+    activeIndex: number
 }
 
 export function AnimatedCardCarousel({
-    orderedTeamData,
     teamData,
     onCardClick,
+    activeIndex,
 }: AnimatedCardCarouselProps) {
-    return (
-        <div className="flex-1 w-full flex items-center justify-start lg:pl-10 xl:pl-16">
-            <div className="flex items-end gap-4 sm:gap-6 lg:gap-8 xl:gap-[30px] w-max">
-                <AnimatePresence mode="popLayout">
-                    {orderedTeamData.map((member, idx) => {
-                        const isActive = idx === 0
-                        const originalIndex = teamData.findIndex(
-                            (m) => m.name === member.name,
-                        )
+    const [screen, setScreen] = useState<Breakpoint>('xl')
 
-                        return (
-                            <motion.div
-                                key={member.name}
-                                layout
-                                initial={{ opacity: 0, x: 100, scale: 0.8 }}
-                                animate={{ opacity: 1, x: 0, scale: 1 }}
-                                exit={{ opacity: 0, x: -100, scale: 0.8 }}
-                                transition={{
-                                    type: 'spring',
-                                    stiffness: 260,
-                                    damping: 25,
-                                    mass: 1,
-                                }}
-                                className="shrink-0 transform-gpu"
-                            >
-                                <CardProfile
-                                    imageSrc={member.imageSrc}
-                                    imageAlt={member.name}
-                                    isActive={isActive}
-                                    onClick={() => onCardClick(originalIndex)}
-                                />
-                            </motion.div>
-                        )
-                    })}
-                </AnimatePresence>
+    useEffect(() => {
+        const handleResize = () => {
+            const w = window.innerWidth;
+            if (w >= 1280) setScreen('xl');
+            else if (w >= 1024) setScreen('lg');
+            else if (w >= 640) setScreen('sm');
+            else setScreen('mobile');
+        }
+        handleResize()
+        window.addEventListener('resize', handleResize)
+        return () => window.removeEventListener('resize', handleResize)
+    }, [])
+
+    return (
+        <div className="flex-1 w-full flex items-center justify-start lg:pl-10 xl:pl-16 overflow-visible relative h-[400px] lg:h-[500px]">
+            <div className="relative w-full h-full flex items-end">
+                {teamData.map((member, idx) => {
+                    // Calculate the relative position recursively for an infinite loop
+                    const totalCards = teamData.length;
+                    const diff = (idx - activeIndex + totalCards) % totalCards;
+                    
+                    // State flags
+                    const isActive = diff === 0;
+
+                    return (
+                        <motion.div
+                            key={member.name}
+                            custom={diff}
+                            variants={getCardVariants(screen)}
+                            initial="initial"
+                            animate="animate"
+                            // Use absolute positioning to stack cards predictably based on z-index
+                            className="absolute transform-gpu"
+                            style={{ 
+                                originX: 0, 
+                                originY: 1, 
+                                bottom: 0
+                            }}
+                        >
+                            <CardProfile
+                                imageSrc={member.imageSrc}
+                                imageAlt={member.name}
+                                isActive={isActive}
+                                onClick={() => onCardClick(idx)}
+                            />
+                        </motion.div>
+                    )
+                })}
             </div>
         </div>
     )

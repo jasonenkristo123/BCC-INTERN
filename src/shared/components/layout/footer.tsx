@@ -5,40 +5,48 @@ export default function Footer() {
     return (
         <footer className="relative w-full bg-secondary text-white py-16 px-6 md:px-12 lg:px-24 overflow-hidden mt-12">
             {/* Background Images */}
-            <div className="absolute top-16 left-4 md:left-8 opacity-80 pointer-events-none w-[60px] md:w-[80px]">
+            <div className="absolute opacity-50 top-[1%] left-[1%] lg:top-[10%] lg:left-[2%] rotate-75 xl:top-[16%] xl:left-[2%] w-[121px] h-[95px] xl:rotate-75">
+                {/* wortel */}
                 <Image
                     src="/assets/wortel.webp"
                     alt="Wortel"
-                    width={80}
-                    height={80}
-                    className="w-full h-auto -rotate-12"
+                    quality={100}
+                    unoptimized
+                    width={61}
+                    height={95}
+                    className="w-full h-auto"
                 />
             </div>
-            <div className="absolute bottom-16 left-4 md:left-8 opacity-80 pointer-events-none w-[50px] md:w-[70px]">
+            <div className="absolute bottom-[-2%] left-[1%] sm:bottom-[2%] sm:left-[1%] md:bottom-[1%] md:left-[2%] lg:bottom-[5%] lg:left-[2%] opacity-50 w-[121px] h-[95px] rotate-[-10deg]">
+                {/* brokoli */}
                 <Image
                     src="/assets/brokoli.webp"
                     alt="Brokoli"
+                    quality={100}
+                    unoptimized
                     width={70}
                     height={70}
-                    className="w-full h-auto -rotate-12"
+                    className="w-full h-auto"
                 />
             </div>
-            <div className="absolute top-16 right-4 md:right-8 opacity-80 pointer-events-none w-[70px] md:w-[90px]">
+            <div className="absolute opacity-50 right-[1%] top-[1%] scale-x-[-1] 2xl:top-[16%] 2xl:right-[3%]">
+                {/* ikan */}
                 <Image
                     src="/assets/ikan.webp"
                     alt="Ikan"
                     width={90}
                     height={90}
-                    className="w-full h-auto object-contain"
+                    className="w-full h-auto"
                 />
             </div>
-            <div className="absolute bottom-16 right-4 md:right-8 opacity-80 pointer-events-none w-[60px] md:w-[80px]">
+            <div className="absolute opacity-50 bottom-[-2%] right-[1%] sm:bottom-[1%]">
+                {/* daging */}
                 <Image
                     src="/assets/daging.webp"
                     alt="Daging"
                     width={80}
                     height={80}
-                    className="w-full h-auto -rotate-12"
+                    className="w-full h-auto "
                 />
             </div>
 
