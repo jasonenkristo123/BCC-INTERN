@@ -49,8 +49,9 @@ export default function FiturPage() {
             {features.map((feature, index) => (
               <div
                 key={feature.label}
-                className={`w-full flex justify-center ${index === 2 ? 'md:col-span-2 lg:col-span-1' : ''
-                  }`}
+                className={`w-full flex justify-center ${
+                  index === 2 ? 'md:col-span-2 lg:col-span-1' : ''
+                }`}
               >
                 <FeatureCard
                   label={feature.label}

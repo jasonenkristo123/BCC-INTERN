@@ -18,7 +18,7 @@ export default function Navbar() {
   return (
     <>
       <nav className="hidden fixed z-999 w-full bg-primary lg:flex justify-between items-center px-10 py-6">
-        <FadeIn className='w-full h-full flex justify-between items-center '>
+        <FadeIn className="w-full h-full flex justify-between items-center ">
           <div className="font-roboto-400 text-white text-2xl">Simpanin.id</div>
           <div className="flex gap-6 items-center">
             <div className="flex gap-6">
@@ -34,7 +34,11 @@ export default function Navbar() {
               ))}
             </div>
             <div className="flex gap-6">
-              <Button variant="secondary" size="md" className='hover:bg-gray-50/20'>
+              <Button
+                variant="secondary"
+                size="md"
+                className="hover:bg-gray-50/20"
+              >
                 Masuk
               </Button>
               <Button
