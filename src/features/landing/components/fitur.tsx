@@ -1,29 +1,8 @@
 import FadeIn from '@/shared/animations/Fadein'
 import FeatureCard from '@/shared/components/ui/card'
+import { features } from '../data/landing-data'
 
-const features = [
-  {
-    label: 'Estimasi Masa Simpan',
-    description: 'Ketahui berapa lama bahan makanan bisa disimpan.',
-    imageSrc: '/assets/frame1.webp',
-    imageAlt: 'Ilustrasi kulkas dengan bahan makanan',
-    contentImg: '/assets/kulkas.webp',
-  },
-  {
-    label: 'Reminder Sebelum Basi',
-    description: 'Jangan sampai bahan makanan basi karena lupa.',
-    imageSrc: '/assets/frame2.webp',
-    imageAlt: 'Ilustrasi sayuran segar',
-    contentImg: '/assets/buah.webp',
-  },
-  {
-    label: 'Food Waste Cost Estimator',
-    description: 'Pernah sadar berapa uang yang hilang karena makanan dibuang?',
-    imageSrc: '/assets/frame3.webp',
-    imageAlt: 'Ilustrasi makanan yang terbuang',
-    contentImg: '/assets/buahbusuk.webp',
-  },
-]
+
 
 export default function FiturPage() {
   return (
