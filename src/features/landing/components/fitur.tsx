@@ -2,8 +2,6 @@ import FadeIn from '@/shared/animations/Fadein'
 import FeatureCard from '@/shared/components/ui/card'
 import { features } from '../data/landing-data'
 
-
-
 export default function FiturPage() {
   return (
     <section
