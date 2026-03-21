@@ -19,7 +19,7 @@ export default function HeroSection() {
         {/* Icons */}
         <div className="absolute inset-0 pointer-events-none">
           {/* Fish icon - top left */}
-          <div className="absolute top-[11%] left-[19%] w-[142px] h-[101px]">
+          <div className="absolute top-[15%] left-[10%] rotate-10 sm:rotate-0 sm:top-[11%] sm:left-[19%] w-[90px] h-[60px] sm:w-[142px] sm:h-[101px]">
             <Image
               src="/assets/ikan.webp"
               alt="Fish Icon"
@@ -32,7 +32,7 @@ export default function HeroSection() {
           </div>
 
           {/* Broccoli icon - bottom left */}
-          <div className="absolute bottom-[20%] left-[10%] w-[172px] h-[136px] ">
+          <div className="absolute bottom-[10%] left-[10%] w-[132px] h-[101px] sm:bottom-[20%] sm:left-[10%] sm:w-[172px] sm:h-[136px] ">
             <Image
               src="/assets/brokoli.webp"
               alt="Broccoli Icon"
@@ -45,7 +45,7 @@ export default function HeroSection() {
           </div>
 
           {/* Carrot icon - top right*/}
-          <div className="absolute top-[19%] right-[11%] w-[130px] h-[127px]">
+          <div className="absolute top-[13%] right-[11%] w-[100px] h-[80px] sm:top-[19%] sm:right-[11%] sm:w-[130px] sm:h-[127px]">
             <Image
               src="/assets/wortel.webp"
               alt="Carrot Icon"
@@ -58,7 +58,7 @@ export default function HeroSection() {
           </div>
 
           {/* Meat/steak icon - bottom right */}
-          <div className="absolute bottom-[9%] right-[8%] w-[222px] h-[182px]">
+          <div className="absolute bottom-[9%] right-[8%] w-[102px] h-[82px] sm:bottom-[9%] sm:right-[8%] sm:w-[222px] sm:h-[182px]">
             <Image
               src="/assets/daging.webp"
               alt="Meat Icon"
@@ -66,7 +66,7 @@ export default function HeroSection() {
               quality={100}
               width={677}
               height={369}
-              className="w-[222px] h-[182px]"
+              
             />
           </div>
         </div>

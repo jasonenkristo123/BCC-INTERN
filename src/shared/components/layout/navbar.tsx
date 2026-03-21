@@ -4,9 +4,11 @@ import Link from 'next/link'
 import Button from '../ui/button'
 import { useState } from 'react'
 import FadeIn from '@/shared/animations/Fadein'
+import { Menu, X } from 'lucide-react'
 
 export default function Navbar() {
   const [activeSection, setActiveSection] = useState('#beranda')
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 
   const navLinks = [
     { name: 'Beranda', href: '#beranda' },
@@ -53,7 +55,56 @@ export default function Navbar() {
         </FadeIn>
       </nav>
 
-      <nav className="lg:hidden z-999 fixed w-full bg-primary flex px-10 py-6"></nav>
+      <nav className="lg:hidden z-999 fixed w-full bg-primary">
+        <div className="flex justify-between items-center px-10 py-6">
+          <div className="font-roboto-400 text-white text-2xl">
+            Simpanin.id
+          </div>
+          <button 
+            className="text-white"
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          >
+            {isMobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
+          </button>
+        </div>
+
+        {/* Mobile Menu Dropdown */}
+        {isMobileMenuOpen && (
+          <FadeIn className="flex flex-col px-10 pb-6 gap-4 bg-primary shadow-lg ">
+            <div className="flex flex-col gap-4 border-t border-white/40 pt-4 ">
+              {navLinks.map((links) => (
+                <Link
+                  key={links.href}
+                  href={links.href}
+                  onClick={() => {
+                    setActiveSection(links.href)
+                    setIsMobileMenuOpen(false)
+                  }}
+                  className={`${activeSection === links.href ? 'opacity-100' : 'opacity-60'} font-roboto-500 text-white transition-opacity`}
+                >
+                  {links.name}
+                </Link>
+              ))}
+            </div>
+            <div className="flex flex-col gap-4 mt-2">
+              <Button
+                variant="secondary"
+                size="md"
+                className="hover:bg-gray-50/20 w-full justify-center"
+              >
+                Masuk
+              </Button>
+              <Button
+                variant="primary"
+                size="md"
+                className="text-primary-lebihmuda w-full justify-center"
+              >
+                Daftar
+              </Button>
+            </div>
+          </FadeIn>
+        )}
+      </nav>
     </>
   )
 }
