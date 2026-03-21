@@ -21,10 +21,7 @@ export default function Kelola() {
             >
               Daftar
             </Button>
-            <Button
-              variant="primary"
-              size="md"
-              className="bg-skyblue">
+            <Button variant="primary" size="md" className="bg-skyblue">
               Masuk
             </Button>
           </div>

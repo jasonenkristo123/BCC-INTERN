@@ -57,10 +57,8 @@ export default function Navbar() {
 
       <nav className="lg:hidden z-999 fixed w-full bg-primary">
         <div className="flex justify-between items-center px-10 py-6">
-          <div className="font-roboto-400 text-white text-2xl">
-            Simpanin.id
-          </div>
-          <button 
+          <div className="font-roboto-400 text-white text-2xl">Simpanin.id</div>
+          <button
             className="text-white"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           >

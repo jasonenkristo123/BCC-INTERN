@@ -66,7 +66,6 @@ export default function HeroSection() {
               quality={100}
               width={677}
               height={369}
-              
             />
           </div>
         </div>
