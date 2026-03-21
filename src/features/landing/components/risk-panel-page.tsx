@@ -1,5 +1,7 @@
 import FadeIn from '@/shared/animations/Fadein'
+import RiskPanelCard from '@/shared/components/ui/risk-panel-card'
 import Image from 'next/image'
+import { riskPanelData } from '../data/riskPanel-data'
 
 export default function RiskPanelPage() {
   return (
@@ -27,8 +29,6 @@ export default function RiskPanelPage() {
                 <span className="text-primary-lebihmuda font-roboto-700">
                   sisa masa simpan.
                 </span>
-                &nbsp;Anda akan selalu tahu bahan mana yang paling mendesak
-                untuk segera digunakan atau diolah.
               </p>
               <div className="flex items-start gap-4 mb-6">
                 <Image
@@ -72,107 +72,17 @@ export default function RiskPanelPage() {
                   Daftar Bahan &quot;Gunakan Segera&quot;
                 </h3>
 
-                {/* Daging Sapi */}
-                <div className="w-full px-4 sm:px-5 py-3 sm:py-4 bg-redlight rounded-[16px] flex items-center gap-3 sm:gap-4 mb-4">
-                  <div className="w-12 h-12 sm:w-14 sm:h-14 bg-white rounded-xl shadow-sm flex items-center justify-center shrink-0">
-                    <Image
-                      src="/assets/dagingkecil.webp"
-                      unoptimized
-                      quality={100}
-                      width={28}
-                      height={28}
-                      alt="meat"
-                      className="w-7 h-7 sm:w-8 sm:h-8 object-contain"
-                    />
-                  </div>
-                  <div className="flex-1">
-                    <h3 className="font-roboto-700 text-brown text-sm sm:text-base md:text-lg leading-[150%]">
-                      Daging Sapi &#40;500g&#41;
-                    </h3>
-                    <p className="font-roboto-500 text-brown text-[11px] sm:text-[13px] md:text-sm mt-1 leading-[150%]">
-                      Jika tidak digunakan total kerugian&nbsp;
-                      <span className="text-rednormal font-bold">
-                        Rp 35.000
-                      </span>
-                    </p>
-                    <p className="text-rednormal font-bold text-[11px] sm:text-[13px] md:text-sm mt-0.5 leading-[150%]">
-                      Sisa 1 hari lagi
-                    </p>
-                  </div>
-                  <div className="bg-pinklight px-3 py-1.5 rounded-full shrink-0 flex items-center justify-center self-center sm:self-center">
-                    <p className="text-rednormal font-roboto-600 text-[10px] sm:text-xs md:text-sm whitespace-nowrap">
-                      High Risk
-                    </p>
-                  </div>
-                </div>
-
-                {/* Sawi */}
-                <div className="w-full px-4 sm:px-5 py-3 sm:py-4 bg-redlight rounded-[16px] flex items-center gap-3 sm:gap-4 mb-4">
-                  <div className="w-12 h-12 sm:w-14 sm:h-14 bg-white rounded-xl shadow-sm flex items-center justify-center shrink-0">
-                    <Image
-                      src="/assets/sawi.webp"
-                      unoptimized
-                      quality={100}
-                      width={28}
-                      height={28}
-                      alt="vegetable"
-                      className="w-7 h-7 sm:w-8 sm:h-8 object-contain"
-                    />
-                  </div>
-                  <div className="flex-1">
-                    <h3 className="font-roboto-700 text-brown text-sm sm:text-base md:text-lg leading-[150%]">
-                      Bayam Hijau &#40;1 ikat&#41;
-                    </h3>
-                    <p className="font-roboto-500 text-brown text-[11px] sm:text-[13px] md:text-sm mt-1 leading-[150%]">
-                      Jika tidak digunakan total kerugian&nbsp;
-                      <span className="text-rednormal font-bold">
-                        Rp 15.000
-                      </span>
-                    </p>
-                    <p className="text-rednormal font-bold text-[11px] sm:text-[13px] md:text-sm mt-0.5 leading-[150%]">
-                      Sisa 1 hari lagi
-                    </p>
-                  </div>
-                  <div className="bg-pinklight px-3 py-1.5 rounded-full shrink-0 flex items-center justify-center self-center sm:self-center">
-                    <p className="text-rednormal font-roboto-600 text-[10px] sm:text-xs md:text-sm whitespace-nowrap">
-                      High Risk
-                    </p>
-                  </div>
-                </div>
-
-                {/* Susu */}
-                <div className="w-full px-4 sm:px-5 py-3 sm:py-4 bg-orangelight/30 rounded-[16px] flex items-center gap-3 sm:gap-4">
-                  <div className="w-12 h-12 sm:w-14 sm:h-14 bg-white rounded-xl shadow-sm flex items-center justify-center shrink-0">
-                    <Image
-                      src="/assets/susu.webp"
-                      unoptimized
-                      quality={100}
-                      width={28}
-                      height={28}
-                      alt="milk"
-                      className="w-7 h-7 sm:w-8 sm:h-8 object-contain"
-                    />
-                  </div>
-                  <div className="flex-1">
-                    <h3 className="font-roboto-700 text-brown text-sm sm:text-base md:text-lg leading-[150%]">
-                      Susu Segar
-                    </h3>
-                    <p className="font-roboto-500 text-brown text-[11px] sm:text-[13px] md:text-sm mt-1 leading-[150%]">
-                      Jika tidak digunakan total kerugian&nbsp;
-                      <span className="text-orangnormal font-bold">
-                        Rp 35.000
-                      </span>
-                    </p>
-                    <p className="text-orangnormal font-bold text-[11px] sm:text-[13px] md:text-sm mt-0.5 leading-[150%]">
-                      Sisa 5 hari lagi
-                    </p>
-                  </div>
-                  <div className="bg-orangelight px-3 py-1.5 rounded-full shrink-0 flex items-center justify-center self-center sm:self-center bg-opacity-70">
-                    <p className="text-orangnormal font-roboto-600 text-[10px] sm:text-xs md:text-sm whitespace-nowrap">
-                      Use Soon
-                    </p>
-                  </div>
-                </div>
+                {riskPanelData.map((item, index) => (
+                  <RiskPanelCard
+                    key={index}
+                    imageSrc={item.imageSrc}
+                    imageAlt={item.imageAlt}
+                    name={item.name}
+                    loss={item.loss}
+                    daysLeft={item.daysLeft}
+                    riskLevel={item.riskLevel}
+                  />
+                ))}
               </div>
             </div>
           </div>
