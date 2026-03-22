@@ -18,10 +18,16 @@ export default function Kelola() {
               variant="secondary"
               size="md"
               className="bg-primary-lebihmuda"
+              href="/register"
             >
               Daftar
             </Button>
-            <Button variant="primary" size="md" className="bg-skyblue">
+            <Button
+              variant="primary"
+              size="md"
+              className="bg-skyblue"
+              href="/login"
+            >
               Masuk
             </Button>
           </div>

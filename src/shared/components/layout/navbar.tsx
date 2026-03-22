@@ -40,6 +40,7 @@ export default function Navbar() {
                 variant="secondary"
                 size="md"
                 className="hover:bg-gray-50/20"
+                href="/login"
               >
                 Masuk
               </Button>
@@ -47,6 +48,7 @@ export default function Navbar() {
                 variant="primary"
                 size="md"
                 className="text-primary-lebihmuda"
+                href="/register"
               >
                 Daftar
               </Button>
@@ -89,6 +91,7 @@ export default function Navbar() {
                 variant="secondary"
                 size="md"
                 className="hover:bg-gray-50/20 w-full justify-center"
+                href="/login"
               >
                 Masuk
               </Button>
@@ -96,6 +99,7 @@ export default function Navbar() {
                 variant="primary"
                 size="md"
                 className="text-primary-lebihmuda w-full justify-center"
+                href="/register"
               >
                 Daftar
               </Button>
