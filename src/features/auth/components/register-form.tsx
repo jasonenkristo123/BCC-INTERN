@@ -53,7 +53,7 @@ export default function RegisterFormWithZod() {
       <div className="relative z-10 flex w-full h-screen">
         <div className="hidden md:flex flex-col justify-between p-12 h-full w-[40%] lg:w-[38%]">
           <h1 className="text-white text-2xl font-roboto-500 tracking-wide">
-            Simpanin.id
+            <Link href="/home">Simpanin.id</Link>
           </h1>
 
           <div className="mb-20">

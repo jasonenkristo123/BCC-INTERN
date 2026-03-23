@@ -1,3 +1,10 @@
 export default function DashBoardUser() {
-  return <h1>Dashboard</h1>
+
+  
+
+  return (
+    <section className="w-full min-h-screen bg-birumuda">
+      
+    </section>
+  )
 }

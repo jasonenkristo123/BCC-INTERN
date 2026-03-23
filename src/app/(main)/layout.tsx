@@ -1,7 +1,14 @@
+import MainNavbar from "@/shared/components/layout/main-navbar"
+
 export default function MainLayout({
-    children,
+  children,
 }: {
-    children: React.ReactNode
+  children: React.ReactNode
 }) {
-    return <main>{children}</main>
+  return (
+    <>
+      <MainNavbar />
+      {children}
+    </>
+  )
 }
