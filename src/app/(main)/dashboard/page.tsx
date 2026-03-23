@@ -1,10 +1,5 @@
+import DashBoardPage from '@/features/dashboard/components/dashboard-page'
+
 export default function DashBoardUser() {
-
-  
-
-  return (
-    <section className="w-full min-h-screen bg-birumuda">
-      
-    </section>
-  )
+  return <DashBoardPage />
 }

@@ -86,7 +86,7 @@ export default function HeroSection() {
               variant="primary"
               size="lg"
               href="#"
-              className="text-primary-muda"
+              className="text-primary-muda bg-skyblue"
             >
               Mulai Kelola Makanan
             </Button>

@@ -1,4 +1,4 @@
-import MainNavbar from "@/shared/components/layout/main-navbar"
+import MainNavbar from '@/shared/components/layout/main-navbar'
 
 export default function MainLayout({
   children,

@@ -47,7 +47,7 @@ export default function Navbar() {
               <Button
                 variant="primary"
                 size="md"
-                className="text-primary-lebihmuda"
+                className="text-primary-lebihmuda bg-skyblue"
                 href="/register"
               >
                 Daftar
@@ -98,7 +98,7 @@ export default function Navbar() {
               <Button
                 variant="primary"
                 size="md"
-                className="text-primary-lebihmuda w-full justify-center"
+                className="text-primary-lebihmuda w-full justify-center bg-skyblue"
                 href="/register"
               >
                 Daftar
