@@ -24,13 +24,13 @@ type ButtonProps = ButtonAsButton | ButtonAsLink
 
 const variantStyles: Record<ButtonVariant, string> = {
   primary:
-    ' border-[1.5px] text-primary-lebihmuda border-primary-lebihmuda font-roboto-500 font-medium text-[17px] hover:opacity-80',
+    ' border-[1.5px]  font-roboto-500 font-medium text-[17px] hover:opacity-80',
   secondary:
     'text-white font-roboto-500 border-[1.5px] border-white/90 hover:opacity-80',
 }
 
 const sizeStyles: Record<ButtonSize, string> = {
-  sm: 'px-6 py-2 text-xs',
+  sm: 'px-6 py-3 text-xs',
   md: 'px-8 py-3 text-sm w-[200px]',
   lg: 'px-10 py-3 text-base w-[270px]',
 }

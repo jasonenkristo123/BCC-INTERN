@@ -85,12 +85,17 @@ export default function HeroSection() {
             <Button
               variant="primary"
               size="lg"
-              href="#"
-              className="text-primary-muda bg-skyblue"
+              href="/login"
+              className="text-primary-lebihmuda bg-skyblue"
             >
               Mulai Kelola Makanan
             </Button>
-            <Button variant="secondary" size="lg" href="#">
+            <Button 
+            variant="secondary" 
+            size="lg" 
+            href="#fitur"
+            className='text-white hover:bg-white/20'
+            >
               Pelajari Fitur
             </Button>
           </div>

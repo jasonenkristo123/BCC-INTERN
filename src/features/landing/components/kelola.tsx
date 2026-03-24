@@ -25,7 +25,7 @@ export default function Kelola() {
             <Button
               variant="primary"
               size="md"
-              className="bg-skyblue"
+              className="bg-skyblue text-primary-lebihmuda"
               href="/login"
             >
               Masuk
