@@ -21,32 +21,31 @@ const LEVEL_CONFIG: Record<
     lossText: string
     statusText: string
     statusLabel: string
-  
   }
 > = {
   red: {
     bg: 'bg-redlight',
     border: 'border-redlight',
     badgeBg: 'bg-redlight',
-    btnBg: 'bg-merah hover:bg-red-950 hover:text-white shadow-red-200 shadow-md',
+    btnBg:
+      'bg-merah hover:bg-red-950 hover:text-white shadow-red-200 shadow-md',
     btnText: 'text-white',
     btnBorder: '',
     lossText: 'text-merah',
     statusText: 'text-red-500',
     statusLabel: 'Harus segera digunakan',
-    
   },
   orange: {
     bg: 'bg-orange-muda',
     border: 'border-orange-muda',
     badgeBg: 'bg-orange-muda',
-    btnBg:'hover:bg-orangnormal hover:text-white text-orangnormal border border-orangnormal shadow-sm',
+    btnBg:
+      'hover:bg-orangnormal hover:text-white text-orangnormal border border-orangnormal shadow-sm',
     btnText: 'text-black',
     btnBorder: 'border border-orangnormal',
     lossText: 'text-merah',
     statusText: 'text-orangnormal',
     statusLabel: 'Perlu diperhatikan',
-    
   },
   green: {
     bg: 'bg-skyblue',
@@ -59,7 +58,6 @@ const LEVEL_CONFIG: Record<
     lossText: 'text-text-primary',
     statusText: 'text-text-primary',
     statusLabel: 'Aman',
-    
   },
 }
 
@@ -70,12 +68,12 @@ interface FoodExpiryCardProps {
 
 function formatRupiah(amount: number) {
   return new Intl.NumberFormat('id-ID', {
-    style: "currency",
-    currency: "IDR",
+    style: 'currency',
+    currency: 'IDR',
     minimumFractionDigits: 0,
   })
-  .format(amount)
-  .replace("IDR", "Rp")
+    .format(amount)
+    .replace('IDR', 'Rp')
 }
 
 export default function FoodExpiryCard({ item, onUse }: FoodExpiryCardProps) {
@@ -95,13 +93,13 @@ export default function FoodExpiryCard({ item, onUse }: FoodExpiryCardProps) {
         <div className="flex flex-col gap-1 min-w-0">
           <p className="truncate font-roboto-500 text-blackprimary text-[13px] sm:text-[15px] lg:text-xl leading-[150%]">
             {item.name}&nbsp;
-            <span className="font-roboto-500 text-blackprimary">({item.weight})</span>
+            <span className="font-roboto-500 text-blackprimary">
+              ({item.weight})
+            </span>
           </p>
           <p className="text-[11px] sm:text-xs lg:text-sm text-brown/70  font-roboto-700">
             Jika tidak digunakan total kerugian&nbsp;
-            <span className={`${cfg.lossText}`}>
-              {formatRupiah(item.loss)}
-            </span>
+            <span className={`${cfg.lossText}`}>{formatRupiah(item.loss)}</span>
           </p>
           <div className="mt-0.5 flex items-center gap-1.5 flex-wrap">
             <span

@@ -1,4 +1,4 @@
-export default function BahanSayaPage() {
+export default function BahanSaya() {
   return (
     <section>
       <h1>Bahan Saya</h1>

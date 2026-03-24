@@ -90,11 +90,11 @@ export default function HeroSection() {
             >
               Mulai Kelola Makanan
             </Button>
-            <Button 
-            variant="secondary" 
-            size="lg" 
-            href="#fitur"
-            className='text-white hover:bg-white/20'
+            <Button
+              variant="secondary"
+              size="lg"
+              href="#fitur"
+              className="text-white hover:bg-white/20"
             >
               Pelajari Fitur
             </Button>
