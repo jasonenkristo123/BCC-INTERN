@@ -13,4 +13,3 @@ export default function DashboardSmallCard({
 }: BaseProps) {
   return <div className={`${styles} ${className}`}>{children}</div>
 }
-  
