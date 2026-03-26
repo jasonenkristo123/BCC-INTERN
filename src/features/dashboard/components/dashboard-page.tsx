@@ -4,10 +4,7 @@ import DashBoardTwoGrid from './dashboard-twogrid'
 
 export default function DashBoardPage() {
   return (
-    <section
-      id="Dashboard"
-      className="bg-birumuda w-full min-h-screen flex flex-col pt-20 pb-10 lg:pb-0"
-    >
+    <section className="bg-skyblue w-full min-h-screen flex flex-col pt-20 pb-10 lg:pb-0">
       <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center py-6 lg:py-10 px-4 lg:px-8 gap-6 lg:gap-0">
         <div className="flex flex-col gap-1 lg:gap-2">
           <h1 className="text-xl sm:text-2xl md:text-2xl lg:text-3xl xl:text-4xl font-roboto-500">

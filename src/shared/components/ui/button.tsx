@@ -1,7 +1,7 @@
 import { ButtonHTMLAttributes, AnchorHTMLAttributes, ReactNode } from 'react'
 
 type ButtonVariant = 'primary' | 'secondary'
-type ButtonSize = 'sm' | 'md' | 'lg'
+type ButtonSize = 'sm' | 'md' | 'lg' | 'splg'
 
 type BaseProps = {
   variant?: ButtonVariant
@@ -30,9 +30,10 @@ const variantStyles: Record<ButtonVariant, string> = {
 }
 
 const sizeStyles: Record<ButtonSize, string> = {
-  sm: 'px-6 py-3 text-xs',
+  sm: 'px-6 py-2 text-xs w-[125px]',
   md: 'px-8 py-3 text-sm w-[200px]',
   lg: 'px-10 py-3 text-base w-[270px]',
+  splg: 'px-20 py-3 text-base w-[300px]',
 }
 
 export default function Button({

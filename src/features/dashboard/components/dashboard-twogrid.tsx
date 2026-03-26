@@ -68,7 +68,7 @@ export default function DashBoardTwoGrid() {
       <div className="bg-white rounded-xl p-5 lg:p-6">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 sm:gap-0">
           <h2 className="font-roboto-500 text-base md:text-lg lg:text-xl xl:text-2xl">
-            Trend Bahan Expired Mingguan
+            Trend Bahan Kedaluwarsa Mingguan
           </h2>
           <select
             value={selectedOption}
@@ -88,7 +88,7 @@ export default function DashBoardTwoGrid() {
               labels: dataDummyTren.map((data) => data.days),
               datasets: [
                 {
-                  label: 'Bahan Expired',
+                  label: 'Bahan Kedaluwarsa',
                   data: dataDummyTren.map((data) => data.expired),
                   backgroundColor: '#1c996d',
                   borderRadius: 5,

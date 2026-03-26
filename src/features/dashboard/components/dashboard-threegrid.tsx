@@ -160,7 +160,7 @@ export default function DashBoardTreeGrid() {
           <Button
             variant="primary"
             size="lg"
-            className="w-full mt-4 hover:bg-text-primary hover:text-white"
+            className="w-full mt-4 hover:bg-text-primary border-text-primary hover:text-white"
           >
             Lihat Semua Detail
           </Button>

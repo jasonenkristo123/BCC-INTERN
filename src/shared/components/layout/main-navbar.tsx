@@ -7,9 +7,9 @@ export default function MainNavbar() {
   const [activeSection, setActiveSection] = useState('#Dashboard')
 
   const navLinks = [
-    { name: 'Dashboard', href: '#Dashboard' },
-    { name: 'Bahan Saya', href: '#Bahan-Saya' },
-    { name: 'Waste Tracker', href: '#Waste-Tracker' },
+    { name: 'Dashboard', href: '/dashboard' },
+    { name: 'Bahan Saya', href: '/bahan-saya' },
+    { name: 'Waste Tracker', href: '/waste-tracker' },
   ]
   return (
     <>
@@ -24,7 +24,7 @@ export default function MainNavbar() {
                 key={links.href}
                 href={links.href}
                 onClick={() => setActiveSection(links.href)}
-                className={`${activeSection === links.href ? `text-text-primary opacity-100` : `text-text-secondary opacity-60`} font-roboto-500 text-sm transition-opacity `}
+                className={`${activeSection === links.href ? `text-text-primary opacity-100` : `text-abugelap opacity-60`} font-roboto-400 text-[16px] transition-opacity `}
               >
                 {links.name}
               </Link>
