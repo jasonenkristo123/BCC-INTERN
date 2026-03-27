@@ -33,7 +33,7 @@ const sizeStyles: Record<ButtonSize, string> = {
   sm: 'px-6 py-2 text-xs w-[125px]',
   md: 'px-8 py-3 text-sm w-[200px]',
   lg: 'px-10 py-3 text-base w-[270px]',
-  splg: 'px-20 py-3 text-base w-[300px]',
+  splg: 'px-20 py-3 text-base min-w-[300px]',
 }
 
 export default function Button({

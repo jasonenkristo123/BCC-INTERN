@@ -22,6 +22,7 @@ export default function RegisterFormWithZod() {
     defaultValues: {
       email: '',
       password: '',
+      confirmPassword: '',
     },
   })
 
@@ -114,7 +115,22 @@ export default function RegisterFormWithZod() {
                     {errors.password.message}
                   </p>
                 )}
-
+              </div>
+              <div className='mt-2 space-y-2'>
+                <label className="text-sm font-roboto-500 text-hitamdikit block">
+                  Konfirmasi Kata Sandi
+                </label>
+                <input
+                  type="password"
+                  placeholder="Masukkan kata sandi"
+                  {...register('confirmPassword')}
+                  className="w-full px-4 py-3.5 rounded-2xl border-2 border-gray-300 focus:outline-none focus:ring-2 focus:ring-text-primary focus:border-transparent transition-all placeholder:text-gray-400 text-sm"
+                />
+                {errors.confirmPassword && (
+                  <p className="text-red-500 text-sm">
+                    {errors.confirmPassword.message}
+                  </p>
+                )}
                 <div className="flex justify-end mt-1">
                   <Link
                     href="/register"

@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useInventoryStore, useActiveStatus } from '../../store/food-store'
 import HandleSortByRisk from '../ui/handleSortByRisk'
 import SearchBar from '../ui/searchBar'

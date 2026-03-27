@@ -4,7 +4,7 @@ import { useState } from 'react'
 import Image from 'next/image'
 
 export default function MainNavbar() {
-  const [activeSection, setActiveSection] = useState('#Dashboard')
+  const [activeSection, setActiveSection] = useState('/dashboard')
 
   const navLinks = [
     { name: 'Dashboard', href: '/dashboard' },
@@ -39,25 +39,11 @@ export default function MainNavbar() {
             height={40}
             className="rounded-full w-12 h-12 border border-slate-100"
           />
-          <div className="flex flex-col text-sm pt-1 gap-1">
-            <p>Dedy</p>
-            <p className="text-xs text-text-secondary">Premium</p>
-          </div>
-          <div className="flex gap-6 pl-8">
-            <Image
-              src="/assets/notif.webp"
-              alt="notification"
-              width={32}
-              height={32}
-              className="w-6 h-6"
-            />
-            <Image
-              src="/assets/setting.webp"
-              alt="setting"
-              width={32}
-              height={32}
-              className="w-6 h-6"
-            />
+          <div className="flex flex-col text-sm pt-1 gap-1 cursor-pointer">
+            <Link href="/profile/account">
+              <p>Dedy</p>
+              <p className="text-xs text-text-secondary">Premium</p>
+            </Link>
           </div>
         </div>
       </nav>
