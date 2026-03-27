@@ -27,7 +27,10 @@ api.interceptors.response.use(
 
       if (
         typeof window !== 'undefined' &&
-        !publicRoutes.some((route) => currentPath === route || currentPath.startsWith(`${route}/`))
+        !publicRoutes.some(
+          (route) =>
+            currentPath === route || currentPath.startsWith(`${route}/`),
+        )
       ) {
         window.location.href = '/login'
       }

@@ -5,7 +5,11 @@ import {
   formatCurrency,
   getExpiryStatus,
 } from '@/shared/utils/utils'
-import { useSelectMonth, useActiveStatus, useInventoryStore } from '@/shared/store/food-store'
+import {
+  useSelectMonth,
+  useActiveStatus,
+  useInventoryStore,
+} from '@/shared/store/food-store'
 import Button from '@/shared/components/ui/button'
 import { useRouter } from 'next/navigation'
 
