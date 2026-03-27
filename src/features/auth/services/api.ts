@@ -10,3 +10,8 @@ export const registerFn = async (data: TRegisterSchema) => {
   const response = await api.post('/auth/register', data)
   return response.data
 }
+
+export const getMe = async () => {
+  const res = await api.get('/auth/me')
+  return res.data
+}

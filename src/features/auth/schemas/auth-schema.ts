@@ -15,14 +15,14 @@ export const registerSchema = z
       .string()
       .min(6, 'Password setidaknya mengandung 6 huruf')
       .regex(/[A-Z]/, 'Password setidaknya mengandung 1 huruf besar'),
-    confirmPassword: z
+    confirm_password: z
       .string()
       .min(6, 'Password setidaknya mengandung 6 huruf')
       .regex(/[A-Z]/, 'Password setidaknya mengandung 1 huruf besar'),
   })
-  .refine((data) => data.password === data.confirmPassword, {
+  .refine((data) => data.password === data.confirm_password, {
     message: 'Password tidak cocok',
-    path: ['confirmPassword'],
+    path: ['confirm_password'],
   })
 
 export type TLoginSchema = z.infer<typeof loginSchema>

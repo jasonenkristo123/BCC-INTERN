@@ -7,6 +7,7 @@ import { TLoginSchema, loginSchema } from '../schemas/auth-schema'
 import { zodResolver } from '@hookform/resolvers/zod'
 import Image from 'next/image'
 import Link from 'next/link'
+import { AxiosError } from 'axios'
 
 export default function LoginFormWithZod() {
   const router = useRouter()
@@ -17,6 +18,7 @@ export default function LoginFormWithZod() {
     handleSubmit,
     formState: { errors, isSubmitting },
     reset,
+    setError,
   } = useForm<TLoginSchema>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
@@ -33,8 +35,11 @@ export default function LoginFormWithZod() {
           reset()
         },
       })
-    } catch (error) {
-      console.log(error)
+    } catch (err: unknown) {
+      const error = err as AxiosError<{ message: string }>
+      setError('root', {
+        message: error.response?.data?.message || 'Gagal masuk akun, pastikan kredensial benar',
+      })
     }
   }
 
@@ -82,6 +87,12 @@ export default function LoginFormWithZod() {
             </div>
 
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+              {errors.root && (
+                <div className="bg-red-50 text-red-500 p-4 rounded-xl text-sm border border-red-100 font-roboto-500">
+                  {errors.root.message}
+                </div>
+              )}
+              
               <div className="space-y-2">
                 <label className="text-sm font-roboto-500 text-hitamdikit block">
                   Email

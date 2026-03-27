@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { Roboto } from 'next/font/google'
 import '@/app/globals.css'
 import QueryProviders from '@/shared/providers/queryProvider'
+import AuthProvider from '@/features/auth/components/auth-provider'
 
 const roboto = Roboto({
   subsets: ['latin'],
@@ -21,7 +22,11 @@ export default function RootLayout({
   return (
     <html lang="en" className="scroll-smooth">
       <body className={`${roboto.variable} m-0 p-0 overflow-x-hidden`}>
-        <QueryProviders>{children}</QueryProviders>
+        <QueryProviders>
+          <AuthProvider>
+            {children}
+          </AuthProvider>
+        </QueryProviders>
       </body>
     </html>
   )

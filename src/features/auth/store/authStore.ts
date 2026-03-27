@@ -1,5 +1,4 @@
 import { create } from 'zustand'
-import { createJSONStorage, persist } from 'zustand/middleware'
 
 type User = {
   id: number
@@ -9,31 +8,27 @@ type User = {
 
 type AuthState = {
   user: User | null
-  token: string | null
-  setAuth: (user: User, token: string) => void
+  isLoading: boolean
+  setUser: (user: User) => void
   logout: () => void
+  setIsLoading: (isLoading: boolean) => void
 }
 
 export const useAuthStore = create<AuthState>()(
-  persist(
-    (set) => ({
-      user: null,
-      token: null,
+  (set) => ({
+    user: null,
+    isLoading: true,
 
-      setAuth: (user: User, token: string) => {
-        localStorage.setItem('token', token)
-        localStorage.setItem('user', JSON.stringify(user))
-        set({ user, token })
-      },
-
-      logout: () => {
-        localStorage.removeItem('token')
-        set({ user: null, token: null })
-      },
-    }),
-    {
-      name: 'auth-storage',
-      storage: createJSONStorage(() => localStorage),
+    setUser: (user: User) => {
+      set({ user, isLoading: false })
     },
-  ),
+
+    setIsLoading: (isLoading: boolean) => {
+      set({ isLoading })
+    },
+
+    logout: () => {
+      set({ user: null })
+    }
+  }),
 )

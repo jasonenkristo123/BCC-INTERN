@@ -7,6 +7,7 @@ import Link from 'next/link'
 import { TRegisterSchema, registerSchema } from '../schemas/auth-schema'
 import { useRegister } from '../hooks/authHooks'
 import { useRouter } from 'next/navigation'
+import { AxiosError } from 'axios'
 
 export default function RegisterFormWithZod() {
   const router = useRouter()
@@ -17,12 +18,13 @@ export default function RegisterFormWithZod() {
     handleSubmit,
     formState: { errors, isSubmitting },
     reset,
+    setError,
   } = useForm<TRegisterSchema>({
     resolver: zodResolver(registerSchema),
     defaultValues: {
       email: '',
       password: '',
-      confirmPassword: '',
+      confirm_password: '',
     },
   })
 
@@ -34,8 +36,11 @@ export default function RegisterFormWithZod() {
           reset()
         },
       })
-    } catch (error) {
-      console.log(error)
+    } catch (err: unknown) {
+      const error = err as AxiosError<{ message: string }>
+      setError('root', {
+        message: error.response?.data?.message || 'Gagal mendaftar, pastikan email belum terdaftar',
+      })
     }
   }
 
@@ -85,6 +90,12 @@ export default function RegisterFormWithZod() {
             </div>
 
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+              {errors.root && (
+                <div className="bg-red-50 text-red-500 p-4 rounded-xl text-sm border border-red-100 font-roboto-500">
+                  {errors.root.message}
+                </div>
+              )}
+
               <div className="space-y-2">
                 <label className="text-sm font-roboto-500 text-hitamdikit block">
                   Email
@@ -123,12 +134,12 @@ export default function RegisterFormWithZod() {
                 <input
                   type="password"
                   placeholder="Masukkan kata sandi"
-                  {...register('confirmPassword')}
+                  {...register('confirm_password')}
                   className="w-full px-4 py-3.5 rounded-2xl border-2 border-gray-300 focus:outline-none focus:ring-2 focus:ring-text-primary focus:border-transparent transition-all placeholder:text-gray-400 text-sm"
                 />
-                {errors.confirmPassword && (
+                {errors.confirm_password && (
                   <p className="text-red-500 text-sm">
-                    {errors.confirmPassword.message}
+                    {errors.confirm_password.message}
                   </p>
                 )}
                 <div className="flex justify-end mt-1">
