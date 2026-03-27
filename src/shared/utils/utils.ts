@@ -92,40 +92,43 @@ export function formatDate(date: Date): string {
 }
 
 export function getAvailableMonths(items: FoodItem[]) {
-  const monthMap = new Map();
+  const monthMap = new Map()
 
   items.forEach((item) => {
-    const date = new Date(item.buyDate);
-    const value = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
-    const label = date.toLocaleString('id-ID', { month: 'long', year: 'numeric' });
+    const date = new Date(item.buyDate)
+    const value = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`
+    const label = date.toLocaleString('id-ID', {
+      month: 'long',
+      year: 'numeric',
+    })
 
     if (!monthMap.has(value)) {
-      monthMap.set(value, label);
+      monthMap.set(value, label)
     }
-  });
+  })
 
   return Array.from(monthMap.entries())
     .map(([value, label]) => ({ value, label }))
-    .sort((a, b) => b.value.localeCompare(a.value));
+    .sort((a, b) => b.value.localeCompare(a.value))
 }
 
 export function filterItemsByMonth(
   items: FoodItem[],
   monthYear: string,
-  type: 'buy' | 'expired' = 'buy'
+  type: 'buy' | 'expired' = 'buy',
 ) {
-  if (!monthYear) return items;
+  if (!monthYear) return items
 
   return items.filter((item) => {
-    const rawDate = type === 'buy' ? item.buyDate : item.expiredDate;
+    const rawDate = type === 'buy' ? item.buyDate : item.expiredDate
 
-    if (!rawDate) return false;
+    if (!rawDate) return false
 
-    const date = new Date(rawDate);
-    if (isNaN(date.getTime())) return false;
+    const date = new Date(rawDate)
+    if (isNaN(date.getTime())) return false
 
-    const itemMonthYear = date.toISOString().slice(0, 7);
+    const itemMonthYear = date.toISOString().slice(0, 7)
 
-    return itemMonthYear === monthYear;
-  });
+    return itemMonthYear === monthYear
+  })
 }

@@ -74,6 +74,6 @@ export const useActiveStatus = create<ActiveStatusProps>((set) => ({
 }))
 
 export const useSelectMonth = create<useSelectedMonth>((set) => ({
-  selectedMonth: "",
+  selectedMonth: '',
   setSelectedMonth: (month) => set(() => ({ selectedMonth: month })),
 }))

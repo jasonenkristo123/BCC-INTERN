@@ -66,18 +66,18 @@
   --color-merah: #ef4444;
   --color-abugelap: #181818;
   --color-abu: #c1c1c1;
-  --color-umbi: #F09595;
-  --color-sayur: #97C459;
-  --color-buah: #ED93B1;
-  --color-daging: #F0997B;
-  --color-seafood: #5DCAA5;
-  --color-telur: #D3D1C7;
-  --color-susu: #85B7EB;
-  --color-rempah: #F5C4B3;
-  --color-bumbu: #FAC775;
-  --color-biji: #EF9F27;
-  --color-kacang: #C0DD97;
-  --color-lainnya: #C1C1C1;
+  --color-umbi: #f09595;
+  --color-sayur: #97c459;
+  --color-buah: #ed93b1;
+  --color-daging: #f0997b;
+  --color-seafood: #5dcaa5;
+  --color-telur: #d3d1c7;
+  --color-susu: #85b7eb;
+  --color-rempah: #f5c4b3;
+  --color-bumbu: #fac775;
+  --color-biji: #ef9f27;
+  --color-kacang: #c0dd97;
+  --color-lainnya: #c1c1c1;
 }
 
 html,
@@ -85,6 +85,6 @@ body {
   scroll-behavior: smooth;
 }
 
-[data-scroll-behavior="smooth"] {
+[data-scroll-behavior='smooth'] {
   scroll-behavior: smooth;
 }
