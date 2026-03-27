@@ -1,4 +1,4 @@
-import { useActiveStatus } from '@/shared/store/food-store'
+import { useActiveStatus } from '../../store/food-store'
 import { TriangleAlert } from 'lucide-react'
 
 export default function RiskStatus() {

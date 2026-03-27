@@ -2,316 +2,315 @@
 import { useRouter } from 'next/navigation'
 import { useForm } from 'react-hook-form'
 import {
-  KategoriBahan,
-  SatuanBahan,
-  TTambahBahanScema,
-  TambahBahanScema,
+    KategoriBahan,
+    SatuanBahan,
+    TTambahBahanScema,
+    TambahBahanScema,
 } from '../schemas/tambah-bahan-schema'
 import { zodResolver } from '@hookform/resolvers/zod'
 import Image from 'next/image'
 import { lokasiList, saranPenyimpanan } from '../data/lokasiData'
 import { TriangleAlert } from 'lucide-react'
 import Button from '@/shared/components/ui/button'
-import Link from 'next/link'
 
 export default function TambahBahanForm() {
-  const router = useRouter()
-  const {
-    register,
-    handleSubmit,
-    formState: { errors, isSubmitting },
-    reset,
-    setValue,
-    watch,
-  } = useForm<TTambahBahanScema>({
-    resolver: zodResolver(TambahBahanScema),
-    defaultValues: {
-      nama: '',
-      kategori: 'Sayur-sayuran',
-      jumlah: 0,
-      satuan: 'Ikat',
-      harga: 0,
-      penyimpanan: 'Freezer',
-    },
-  })
+    const router = useRouter()
+    const {
+        register,
+        handleSubmit,
+        formState: { errors, isSubmitting },
+        reset,
+        setValue,
+        watch,
+    } = useForm<TTambahBahanScema>({
+        resolver: zodResolver(TambahBahanScema),
+        defaultValues: {
+            nama: '',
+            kategori: 'Sayur-sayuran',
+            jumlah: 0,
+            satuan: 'Ikat',
+            harga: 0,
+            penyimpanan: 'Freezer',
+        },
+    })
 
-  const selectLocation = watch('penyimpanan')
-  const selectedKategori = watch('kategori')
+    const selectLocation = watch('penyimpanan')
+    const selectedKategori = watch('kategori')
 
-  const onSubmit = async () => {
-    try {
-      reset()
-      router.push('/bahan-saya')
-    } catch (error) {
-      console.log(error)
+    const onSubmit = async () => {
+        try {
+            reset()
+            router.push('/bahan-saya')
+        } catch (error) {
+            console.log(error)
+        }
     }
-  }
 
-  return (
-    <div className="py-10 px-10 w-full min-h-screen bg-skyblue">
-      <div className="mt-20">
-        <div className="flex gap-2 text-[16px] font-roboto-600">
-          <a href="/bahan-saya">
-            <p className="text-hitamdikit/50">Bahan Saya</p>
-          </a>
-          <p className="text-hitamdikit">{' > '} Tambah Bahan</p>
-        </div>
-        <div className="mt-3">
-          <h1 className="text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl font-roboto-500 text-hitamdikit">
-            Tambah Bahan Baru
-          </h1>
-          <p className="text-sm sm:text-base md:text-lg lg:text-xl text-hitamdikit/50">
-            Masukkan detail bahan makanan yang ingin kamu simpan.
-          </p>
-        </div>
-        {/*  informasi bahan */}
-        <div className="mt-8 grid grid-cols-1 sm:grid-cols-3 w-full">
-          <div className="flex items-center gap-4 p-6 rounded-l-xl shadow-lg bg-primaryskyblue">
-            <p className="bg-text-primary rounded-full px-3 py-1 text-white text-sm sm:text-base lg:text-lg xl:text-xl font-roboto-400">
-              1
-            </p>
-            <h3 className="text-sm sm:text-base lg:text-lg xl:text-xl font-roboto-400 text-hitamdikit">
-              Informasi Bahan
-            </h3>
-          </div>
-          <div className="flex items-center gap-4 p-6 shadow-lg bg-primaryskyblue">
-            <p className="bg-text-primary rounded-full px-3 py-1 text-white text-sm sm:text-base lg:text-lg xl:text-xl font-roboto-400">
-              2
-            </p>
-            <h3 className="text-sm sm:text-base lg:text-lg xl:text-xl font-roboto-400 text-hitamdikit">
-              Detail Stok
-            </h3>
-          </div>
-          <div className="flex items-center gap-4 p-6 rounded-r-xl shadow-lg bg-primaryskyblue">
-            <p className="bg-text-primary rounded-full px-3 py-1 text-white text-sm sm:text-base lg:text-lg xl:text-xl font-roboto-400">
-              3
-            </p>
-            <h3 className="text-sm sm:text-base lg:text-lg xl:text-xl font-roboto-400 text-hitamdikit">
-              Penyimpanan
-            </h3>
-          </div>
-        </div>
-
-        <form className="mt-8" onSubmit={handleSubmit(onSubmit)}>
-          <div className="bg-white rounded-xl p-10 shadow-lg">
-            <h2 className="border-b pb-2 border-hitamdikit/20 text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl font-roboto-400 text-hitamdikit">
-              Informasi Bahan
-            </h2>
-            <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-[18px] ">
-              <div>
-                <label
-                  htmlFor="nama"
-                  className="text-sm sm:text-base md:text-lg lg:text-xl font-roboto-400 text-hitamdikit block mt-2"
-                >
-                  Nama Bahan <span className="text-merah">*</span>
-                </label>
-                <input
-                  type="text"
-                  placeholder="Contoh : Wortel, Jagung, Susu"
-                  className="w-full border border-hitamdikit/30 rounded-xl px-3 py-2 text-sm sm:text-base md:text-lg lg:text-xl font-roboto-400 text-hitamdikit"
-                  {...register('nama', { required: 'Nama bahan wajib diisi' })}
-                />
-                {errors.nama && (
-                  <p className="text-red-500 text-sm">{errors.nama.message}</p>
-                )}
-              </div>
-
-              <div>
-                <label
-                  htmlFor="kategori"
-                  className="text-sm sm:text-base md:text-lg lg:text-xl font-roboto-400 text-hitamdikit block mt-2"
-                >
-                  Kategori <span className="text-merah">*</span>
-                </label>
-                <select
-                  id="kategori"
-                  className={`w-full border border-hitamdikit/30 rounded-xl px-3 py-2 text-sm sm:text-base md:text-lg lg:text-xl font-roboto-400 text-hitamdikit`}
-                  {...register('kategori', {
-                    required: 'Kategori wajib diisi',
-                  })}
-                >
-                  {KategoriBahan.options.map((kategori) => (
-                    <option key={kategori} value={kategori}>
-                      {kategori}
-                    </option>
-                  ))}
-                </select>
-                {errors.kategori && (
-                  <p className="text-red-500 text-sm">
-                    {errors.kategori.message}
-                  </p>
-                )}
-              </div>
-              <div>
-                <label
-                  htmlFor="tanggal-beli"
-                  className="text-sm sm:text-base md:text-lg lg:text-xl font-roboto-400 text-hitamdikit block mt-2"
-                >
-                  Tanggal Beli <span className="text-merah">*</span>
-                </label>
-                <input
-                  type="date"
-                  className="w-full  border border-hitamdikit/30 rounded-xl px-3 py-2 text-sm sm:text-base md:text-lg lg:text-xl font-roboto-400 text-hitamdikit"
-                  {...register('tanggalBeli', {
-                    required: 'Tanggal beli wajib diisi',
-                    valueAsDate: true,
-                  })}
-                />
-                {errors.tanggalBeli && (
-                  <p className="text-red-500 text-sm">
-                    {errors.tanggalBeli.message}
-                  </p>
-                )}
-              </div>
-            </div>
-          </div>
-
-          {/* Detail Stok */}
-          <div className="bg-white rounded-xl p-10 mt-8">
-            <h2 className="border-b pb-2 border-hitamdikit/20 text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl font-roboto-400 text-hitamdikit">
-              Detail Stok
-            </h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-[18px] mt-6">
-              <div>
-                <label
-                  htmlFor="jumlah"
-                  className="text-sm sm:text-base md:text-lg lg:text-xl font-roboto-400 text-hitamdikit block mt-2"
-                >
-                  Jumlah <span className="text-merah">*</span>
-                </label>
-                <div className="flex w-full border border-hitamdikit/30 rounded-xl overflow-hidden">
-                  <input
-                    type="number"
-                    placeholder="Contoh : 10, 20, 30"
-                    className="w-full border border-hitamdikit/30 rounded-xl rounded-r-none px-3 py-2 text-sm sm:text-base md:text-lg lg:text-xl font-roboto-400 text-hitamdikit"
-                    {...register('jumlah', {
-                      required: 'Jumlah wajib diisi',
-                      valueAsNumber: true,
-                    })}
-                  />
-
-                  <select
-                    className="border border-hitamdikit/30 rounded-xl px-3 py-2 rounded-l-none font-roboto-400"
-                    {...register('satuan', { required: 'Satuan wajib diisi' })}
-                  >
-                    {SatuanBahan.options.map((satuan) => (
-                      <option key={satuan} value={satuan}>
-                        {satuan}
-                      </option>
-                    ))}
-                  </select>
+    return (
+        <div className="py-10 px-10 w-full min-h-screen bg-skyblue">
+            <div className="mt-20">
+                <div className="flex gap-2 text-[16px] font-roboto-600">
+                    <a href="/bahan-saya">
+                        <p className="text-hitamdikit/50">Bahan Saya</p>
+                    </a>
+                    <p className="text-hitamdikit">{' > '} Tambah Bahan</p>
                 </div>
-                {errors.jumlah && (
-                  <p className="text-red-500 text-sm">
-                    {errors.jumlah.message}
-                  </p>
-                )}
-                <p className="text-sm text-hitamdikit/50 font-roboto-400 mt-2">
-                  Masukkan jumlah dan pilih satuan
-                </p>
-              </div>
-              <div>
-                <label
-                  htmlFor="jumlah"
-                  className="text-sm sm:text-base md:text-lg lg:text-xl font-roboto-400 text-hitamdikit block mt-2"
-                >
-                  Harga <span className="text-merah">*</span>
-                </label>
-                <div className="flex w-full border border-hitamdikit/30 rounded-xl overflow-hidden">
-                  <div className="border border-hitamdikit/30 rounded-xl rounded-r-none flex items-center justify-center pl-3 pr-15">
-                    <p>Rp</p>
-                  </div>
-
-                  <input
-                    type="number"
-                    placeholder="Contoh : 10, 20, 30"
-                    className="w-full border border-hitamdikit/30 rounded-xl rounded-l-none px-3 py-2 text-sm sm:text-base md:text-lg lg:text-xl font-roboto-400 text-hitamdikit"
-                    {...register('harga', {
-                      required: 'Harga wajib diisi',
-                      valueAsNumber: true,
-                    })}
-                  />
+                <div className="mt-3">
+                    <h1 className="text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl font-roboto-500 text-hitamdikit">
+                        Tambah Bahan Baru
+                    </h1>
+                    <p className="text-sm sm:text-base md:text-lg lg:text-xl text-hitamdikit/50">
+                        Masukkan detail bahan makanan yang ingin kamu simpan.
+                    </p>
                 </div>
-                {errors.harga && (
-                  <p className="text-red-500 text-sm">{errors.harga.message}</p>
-                )}
-                <p className="text-sm text-hitamdikit/50 font-roboto-400 mt-2">
-                  Untuk tracking pengeluaran
-                </p>
-              </div>
-            </div>
-          </div>
-          {/* Penyimpanan */}
-          <div className="bg-white rounded-xl p-10 shadow-lg mt-8">
-            <h2 className="border-b pb-2 border-hitamdikit/20 text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl font-roboto-400 text-hitamdikit">
-              Penyimpanan
-            </h2>
-            <div className="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-[18px] ">
-              {lokasiList.map((item) => (
-                <button
-                  key={item.name}
-                  type="button"
-                  onClick={() => setValue('penyimpanan', item.name)}
-                  className={`border border-hitamdikit/20 flex items-center flex-col w-full p-6 rounded-xl cursor-pointer space-y-2 ${selectLocation === item.name ? 'bg-primaryskyblue' : ''}`}
-                >
-                  <Image
-                    src={item.image}
-                    alt={item.name}
-                    width={66}
-                    height={58}
-                  />
-
-                  <h4 className="text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl font-roboto-400 text-hitamdikit">
-                    {item.name}
-                  </h4>
-                  <p className="text-sm sm:text-base md:text-lg lg:text-xl font-roboto-400 text-hitamdikit/50">
-                    {item.desc}
-                  </p>
-                </button>
-              ))}
-
-              <input type="hidden" {...register('penyimpanan')} />
-            </div>
-
-            {selectedKategori && (
-              <div className="mt-6 p-6 bg-primaryskyblue flex flex-col sm:flex-row gap-3 items-center rounded-xl">
-                <TriangleAlert
-                  className="text-orangnormal bg-white rounded-xl p-2 w-[58px] h-[58px]"
-                  size={38}
-                />
-                <div className="flex flex-col gap-2">
-                  <h4 className="text-sm lg:text-base text-hitamdikit font-roboto-500">
-                    Saran Penyimpanan
-                  </h4>
-                  <p className="text-xs lg:text-sm font-roboto-400 text-hitamdikit/50">
-                    {saranPenyimpanan[selectedKategori]}
-                  </p>
+                {/*  informasi bahan */}
+                <div className="mt-8 grid grid-cols-1 sm:grid-cols-3 w-full">
+                    <div className="flex items-center gap-4 p-6 rounded-l-xl shadow-lg bg-primaryskyblue">
+                        <p className="bg-text-primary rounded-full px-3 py-1 text-white text-sm sm:text-base lg:text-lg xl:text-xl font-roboto-400">
+                            1
+                        </p>
+                        <h3 className="text-sm sm:text-base lg:text-lg xl:text-xl font-roboto-400 text-hitamdikit">
+                            Informasi Bahan
+                        </h3>
+                    </div>
+                    <div className="flex items-center gap-4 p-6 shadow-lg bg-primaryskyblue">
+                        <p className="bg-text-primary rounded-full px-3 py-1 text-white text-sm sm:text-base lg:text-lg xl:text-xl font-roboto-400">
+                            2
+                        </p>
+                        <h3 className="text-sm sm:text-base lg:text-lg xl:text-xl font-roboto-400 text-hitamdikit">
+                            Detail Stok
+                        </h3>
+                    </div>
+                    <div className="flex items-center gap-4 p-6 rounded-r-xl shadow-lg bg-primaryskyblue">
+                        <p className="bg-text-primary rounded-full px-3 py-1 text-white text-sm sm:text-base lg:text-lg xl:text-xl font-roboto-400">
+                            3
+                        </p>
+                        <h3 className="text-sm sm:text-base lg:text-lg xl:text-xl font-roboto-400 text-hitamdikit">
+                            Penyimpanan
+                        </h3>
+                    </div>
                 </div>
-              </div>
-            )}
-          </div>
 
-          {/* button submit */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-8">
-            <Button
-              variant="primary"
-              href="/bahan-saya"
-              size="lg"
-              className="w-full border-text-primary text-text-primary hover:shadow-lg"
-            >
-              Batalkan
-            </Button>
-            <Button
-              variant="primary"
-              size="lg"
-              type="submit"
-              className="w-full bg-text-primary text-white "
-            >
-              {isSubmitting ? 'Menyimpan...' : 'Simpan'}
-            </Button>
-          </div>
-        </form>
-      </div>
-    </div>
-  )
+                <form className="mt-8" onSubmit={handleSubmit(onSubmit)}>
+                    <div className="bg-white rounded-xl p-10 shadow-lg">
+                        <h2 className="border-b pb-2 border-hitamdikit/20 text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl font-roboto-400 text-hitamdikit">
+                            Informasi Bahan
+                        </h2>
+                        <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-[18px] ">
+                            <div>
+                                <label
+                                    htmlFor="nama"
+                                    className="text-sm sm:text-base md:text-lg lg:text-xl font-roboto-400 text-hitamdikit block mt-2"
+                                >
+                                    Nama Bahan <span className="text-merah">*</span>
+                                </label>
+                                <input
+                                    type="text"
+                                    placeholder="Contoh : Wortel, Jagung, Susu"
+                                    className="w-full border border-hitamdikit/30 rounded-xl px-3 py-2 text-sm sm:text-base md:text-lg lg:text-xl font-roboto-400 text-hitamdikit"
+                                    {...register('nama', { required: 'Nama bahan wajib diisi' })}
+                                />
+                                {errors.nama && (
+                                    <p className="text-red-500 text-sm">{errors.nama.message}</p>
+                                )}
+                            </div>
+
+                            <div>
+                                <label
+                                    htmlFor="kategori"
+                                    className="text-sm sm:text-base md:text-lg lg:text-xl font-roboto-400 text-hitamdikit block mt-2"
+                                >
+                                    Kategori <span className="text-merah">*</span>
+                                </label>
+                                <select
+                                    id="kategori"
+                                    className={`w-full border border-hitamdikit/30 rounded-xl px-3 py-2 text-sm sm:text-base md:text-lg lg:text-xl font-roboto-400 text-hitamdikit`}
+                                    {...register('kategori', {
+                                        required: 'Kategori wajib diisi',
+                                    })}
+                                >
+                                    {KategoriBahan.options.map((kategori) => (
+                                        <option key={kategori} value={kategori}>
+                                            {kategori}
+                                        </option>
+                                    ))}
+                                </select>
+                                {errors.kategori && (
+                                    <p className="text-red-500 text-sm">
+                                        {errors.kategori.message}
+                                    </p>
+                                )}
+                            </div>
+                            <div>
+                                <label
+                                    htmlFor="tanggal-beli"
+                                    className="text-sm sm:text-base md:text-lg lg:text-xl font-roboto-400 text-hitamdikit block mt-2"
+                                >
+                                    Tanggal Beli <span className="text-merah">*</span>
+                                </label>
+                                <input
+                                    type="date"
+                                    className="w-full  border border-hitamdikit/30 rounded-xl px-3 py-2 text-sm sm:text-base md:text-lg lg:text-xl font-roboto-400 text-hitamdikit"
+                                    {...register('tanggalBeli', {
+                                        required: 'Tanggal beli wajib diisi',
+                                        valueAsDate: true,
+                                    })}
+                                />
+                                {errors.tanggalBeli && (
+                                    <p className="text-red-500 text-sm">
+                                        {errors.tanggalBeli.message}
+                                    </p>
+                                )}
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Detail Stok */}
+                    <div className="bg-white rounded-xl p-10 mt-8">
+                        <h2 className="border-b pb-2 border-hitamdikit/20 text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl font-roboto-400 text-hitamdikit">
+                            Detail Stok
+                        </h2>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-[18px] mt-6">
+                            <div>
+                                <label
+                                    htmlFor="jumlah"
+                                    className="text-sm sm:text-base md:text-lg lg:text-xl font-roboto-400 text-hitamdikit block mt-2"
+                                >
+                                    Jumlah <span className="text-merah">*</span>
+                                </label>
+                                <div className="flex w-full border border-hitamdikit/30 rounded-xl overflow-hidden">
+                                    <input
+                                        type="number"
+                                        placeholder="Contoh : 10, 20, 30"
+                                        className="w-full border border-hitamdikit/30 rounded-xl rounded-r-none px-3 py-2 text-sm sm:text-base md:text-lg lg:text-xl font-roboto-400 text-hitamdikit"
+                                        {...register('jumlah', {
+                                            required: 'Jumlah wajib diisi',
+                                            valueAsNumber: true,
+                                        })}
+                                    />
+
+                                    <select
+                                        className="border border-hitamdikit/30 rounded-xl px-3 py-2 rounded-l-none font-roboto-400"
+                                        {...register('satuan', { required: 'Satuan wajib diisi' })}
+                                    >
+                                        {SatuanBahan.options.map((satuan) => (
+                                            <option key={satuan} value={satuan}>
+                                                {satuan}
+                                            </option>
+                                        ))}
+                                    </select>
+                                </div>
+                                {errors.jumlah && (
+                                    <p className="text-red-500 text-sm">
+                                        {errors.jumlah.message}
+                                    </p>
+                                )}
+                                <p className="text-sm text-hitamdikit/50 font-roboto-400 mt-2">
+                                    Masukkan jumlah dan pilih satuan
+                                </p>
+                            </div>
+                            <div>
+                                <label
+                                    htmlFor="jumlah"
+                                    className="text-sm sm:text-base md:text-lg lg:text-xl font-roboto-400 text-hitamdikit block mt-2"
+                                >
+                                    Harga <span className="text-merah">*</span>
+                                </label>
+                                <div className="flex w-full border border-hitamdikit/30 rounded-xl overflow-hidden">
+                                    <div className="border border-hitamdikit/30 rounded-xl rounded-r-none flex items-center justify-center pl-3 pr-15">
+                                        <p>Rp</p>
+                                    </div>
+
+                                    <input
+                                        type="number"
+                                        placeholder="Contoh : 10, 20, 30"
+                                        className="w-full border border-hitamdikit/30 rounded-xl rounded-l-none px-3 py-2 text-sm sm:text-base md:text-lg lg:text-xl font-roboto-400 text-hitamdikit"
+                                        {...register('harga', {
+                                            required: 'Harga wajib diisi',
+                                            valueAsNumber: true,
+                                        })}
+                                    />
+                                </div>
+                                {errors.harga && (
+                                    <p className="text-red-500 text-sm">{errors.harga.message}</p>
+                                )}
+                                <p className="text-sm text-hitamdikit/50 font-roboto-400 mt-2">
+                                    Untuk tracking pengeluaran
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    {/* Penyimpanan */}
+                    <div className="bg-white rounded-xl p-10 shadow-lg mt-8">
+                        <h2 className="border-b pb-2 border-hitamdikit/20 text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl font-roboto-400 text-hitamdikit">
+                            Penyimpanan
+                        </h2>
+                        <div className="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-[18px] ">
+                            {lokasiList.map((item) => (
+                                <button
+                                    key={item.name}
+                                    type="button"
+                                    onClick={() => setValue('penyimpanan', item.name)}
+                                    className={`border border-hitamdikit/20 flex items-center flex-col w-full p-6 rounded-xl cursor-pointer space-y-2 ${selectLocation === item.name ? 'bg-primaryskyblue' : ''}`}
+                                >
+                                    <Image
+                                        src={item.image}
+                                        alt={item.name}
+                                        width={66}
+                                        height={58}
+                                    />
+
+                                    <h4 className="text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl font-roboto-400 text-hitamdikit">
+                                        {item.name}
+                                    </h4>
+                                    <p className="text-sm sm:text-base md:text-lg lg:text-xl font-roboto-400 text-hitamdikit/50">
+                                        {item.desc}
+                                    </p>
+                                </button>
+                            ))}
+
+                            <input type="hidden" {...register('penyimpanan')} />
+                        </div>
+
+                        {selectedKategori && (
+                            <div className="mt-6 p-6 bg-primaryskyblue flex flex-col sm:flex-row gap-3 items-center rounded-xl">
+                                <TriangleAlert
+                                    className="text-orangnormal bg-white rounded-xl p-2 w-[58px] h-[58px]"
+                                    size={38}
+                                />
+                                <div className="flex flex-col gap-2">
+                                    <h4 className="text-sm lg:text-base text-hitamdikit font-roboto-500">
+                                        Saran Penyimpanan
+                                    </h4>
+                                    <p className="text-xs lg:text-sm font-roboto-400 text-hitamdikit/50">
+                                        {saranPenyimpanan[selectedKategori]}
+                                    </p>
+                                </div>
+                            </div>
+                        )}
+                    </div>
+
+                    {/* button submit */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-8">
+                        <Button
+                            variant="primary"
+                            href="/bahan-saya"
+                            size="lg"
+                            className="w-full border-text-primary text-text-primary hover:shadow-lg"
+                        >
+                            Batalkan
+                        </Button>
+                        <Button
+                            variant="primary"
+                            size="lg"
+                            type="submit"
+                            className="w-full bg-text-primary text-white "
+                        >
+                            {isSubmitting ? 'Menyimpan...' : 'Simpan'}
+                        </Button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    )
 }

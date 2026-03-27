@@ -1,5 +1,5 @@
 import { useMemo } from 'react'
-import { useInventoryStore } from '@/shared/store/food-store'
+import { useInventoryStore } from '../store/food-store'
 import type { FoodItem } from '@/shared/types/food'
 
 export function useFilteredItems(allItems: FoodItem[]) {

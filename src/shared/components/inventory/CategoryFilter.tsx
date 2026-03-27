@@ -1,6 +1,6 @@
 'use client'
 
-import { useInventoryStore } from '@/shared/store/food-store'
+import { useInventoryStore } from '../../store/food-store'
 import { ALL_CATEGORIES } from '@/shared/dummyData/foodData'
 import type { FoodCategory } from '@/shared/types/food'
 
@@ -51,11 +51,10 @@ export default function CategorySlider() {
             <button
               key={cat}
               onClick={() => setCategory(cat as FoodCategory | 'Semua')}
-              className={`px-3.5 py-1.5 rounded-full text-xs font-roboto-500 whitespace-nowrap transition-all duration-200 ${
-                isSelected
-                  ? 'bg-text-primary text-white shadow-md '
-                  : 'bg-white border border-gray-200 text-gray-600 hover:border-text-primary hover:text-text-primary hover:bg-emerald-50'
-              }`}
+              className={`px-3.5 py-1.5 rounded-full text-xs font-roboto-500 whitespace-nowrap transition-all duration-200 ${isSelected
+                ? 'bg-text-primary text-white shadow-md '
+                : 'bg-white border border-gray-200 text-gray-600 hover:border-text-primary hover:text-text-primary hover:bg-emerald-50'
+                }`}
             >
               {cat}
             </button>

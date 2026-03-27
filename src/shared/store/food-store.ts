@@ -17,6 +17,11 @@ interface InventoryStore {
   setCategorySliderIndex: (index: number) => void
 }
 
+type useSelectedMonth = {
+  selectedMonth: string
+  setSelectedMonth: (month: string) => void
+}
+
 type ActiveStatusProps = {
   setActive: (isActive: boolean) => void
   isActive: boolean
@@ -66,4 +71,9 @@ export const useInventoryStore = create<InventoryStore>((set) => ({
 export const useActiveStatus = create<ActiveStatusProps>((set) => ({
   isActive: false,
   setActive: (isActive) => set(() => ({ isActive })),
+}))
+
+export const useSelectMonth = create<useSelectedMonth>((set) => ({
+  selectedMonth: "",
+  setSelectedMonth: (month) => set(() => ({ selectedMonth: month })),
 }))

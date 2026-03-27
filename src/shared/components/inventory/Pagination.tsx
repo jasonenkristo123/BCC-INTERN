@@ -1,6 +1,6 @@
 'use client'
 
-import { useInventoryStore } from '@/shared/store/food-store'
+import { useInventoryStore } from '../../store/food-store'
 import { ArrowLeft, ArrowRight } from 'lucide-react'
 
 interface PaginationProps {

@@ -1,10 +1,9 @@
 'use client'
 import Image from 'next/image'
 import { useState } from 'react'
-import { FoodItem, dataDummy, dataDummyTren } from '../dataDummy/dataDummy'
 import FoodExpiryCard from '@/shared/components/ui/dashboard-cardpriority'
-import { Bar } from 'react-chartjs-2'
-import 'chart.js/auto'
+import TrendChart from '@/shared/components/chart/trendChart'
+import { ALL_ITEMS } from '@/shared/dummyData/foodData'
 
 const options = [
   {
@@ -27,15 +26,15 @@ const options = [
 
 export default function DashBoardTwoGrid() {
   const [selectedOption, setSelectedOption] = useState(options[0].value)
-  const [items, setItems] = useState<FoodItem[]>(dataDummy)
 
-  function handleUse(id: number) {
-    setItems((prev) => prev.filter((item) => item.id !== id))
+  const sortedItems = [...ALL_ITEMS]
+    .sort((a, b) => b.riskScore - a.riskScore)
+    .slice(0, 3)
+
+  const handleUse = (id: string) => {
+    console.log(`Using item with id: ${id}`)
+    // Add logic here to remove item or update state
   }
-
-  const sliceItems = items.slice(0, 3)
-
-  const sortedItems = [...sliceItems].sort((a, b) => a.daysLeft - b.daysLeft)
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 py-6 lg:py-8 px-4 lg:px-8">
@@ -66,9 +65,9 @@ export default function DashBoardTwoGrid() {
       </div>
 
       <div className="bg-white rounded-xl p-5 lg:p-6">
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 sm:gap-0">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 sm:gap-0 pb-5">
           <h2 className="font-roboto-500 text-base md:text-lg lg:text-xl xl:text-2xl">
-            Trend Bahan Kedaluwarsa Mingguan
+            Trend Bahan Kedaluwarsa Bulanan
           </h2>
           <select
             value={selectedOption}
@@ -82,49 +81,7 @@ export default function DashBoardTwoGrid() {
             ))}
           </select>
         </div>
-        <div className="h-[220px] sm:h-[280px] lg:h-[314px]">
-          <Bar
-            data={{
-              labels: dataDummyTren.map((data) => data.days),
-              datasets: [
-                {
-                  label: 'Bahan Kedaluwarsa',
-                  data: dataDummyTren.map((data) => data.expired),
-                  backgroundColor: '#1c996d',
-                  borderRadius: 5,
-                  barThickness: 'flex',
-                  maxBarThickness: 50,
-                },
-              ],
-            }}
-            options={{
-              responsive: true,
-              maintainAspectRatio: false,
-              scales: {
-                y: {
-                  beginAtZero: true,
-                  min: 0,
-                  max: 60,
-                  ticks: {
-                    stepSize: 5,
-                  },
-                },
-              },
-              animations: {
-                y: {
-                  duration: 5000,
-                  easing: 'easeOutQuart',
-                  from: 0,
-                },
-                opacity: {
-                  duration: 5000,
-                  from: 1,
-                  to: 0,
-                },
-              },
-            }}
-          />
-        </div>
+        <TrendChart />
       </div>
     </div>
   )
