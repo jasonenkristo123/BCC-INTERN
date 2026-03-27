@@ -116,7 +116,7 @@ export default function RegisterFormWithZod() {
                   </p>
                 )}
               </div>
-              <div className='mt-2 space-y-2'>
+              <div className="mt-2 space-y-2">
                 <label className="text-sm font-roboto-500 text-hitamdikit block">
                   Konfirmasi Kata Sandi
                 </label>

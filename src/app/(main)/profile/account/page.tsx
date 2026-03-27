@@ -1,8 +1,8 @@
-import ProfileAccountPage from "@/features/profile/components/profileAccount";
+import ProfileAccountPage from '@/features/profile/components/profileAccount'
 
 export default function ProfilePage() {
   return (
-    <section >
+    <section>
       <ProfileAccountPage />
     </section>
   )

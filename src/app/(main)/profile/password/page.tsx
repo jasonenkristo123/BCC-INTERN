@@ -1,11 +1,9 @@
-import PasswordPage from "@/features/profile/components/password-page";
-
-
+import PasswordPage from '@/features/profile/components/password-page'
 
 export default function PasswordProfilePage() {
-    return (
-        <section>
-            <PasswordPage />
-        </section>
-    )
+  return (
+    <section>
+      <PasswordPage />
+    </section>
+  )
 }

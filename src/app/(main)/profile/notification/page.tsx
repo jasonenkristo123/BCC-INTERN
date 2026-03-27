@@ -1,10 +1,9 @@
-import NotificationPage from "@/features/profile/components/notification-page";
-
+import NotificationPage from '@/features/profile/components/notification-page'
 
 export default function NotificationProfilePage() {
-    return (
-        <section>
-            <NotificationPage />
-        </section>
-    )
+  return (
+    <section>
+      <NotificationPage />
+    </section>
+  )
 }
