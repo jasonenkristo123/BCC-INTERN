@@ -12,7 +12,7 @@ export default function AuthProvider({
 }) {
   const setUser = useAuthStore((state) => state.setUser)
   const setLoading = useAuthStore((state) => state.setIsLoading)
-  
+
   useEffect(() => {
     let mounted = true
     const fetchUser = async () => {

@@ -38,7 +38,9 @@ export default function LoginFormWithZod() {
     } catch (err: unknown) {
       const error = err as AxiosError<{ message: string }>
       setError('root', {
-        message: error.response?.data?.message || 'Gagal masuk akun, pastikan kredensial benar',
+        message:
+          error.response?.data?.message ||
+          'Gagal masuk akun, pastikan kredensial benar',
       })
     }
   }
@@ -92,7 +94,7 @@ export default function LoginFormWithZod() {
                   {errors.root.message}
                 </div>
               )}
-              
+
               <div className="space-y-2">
                 <label className="text-sm font-roboto-500 text-hitamdikit block">
                   Email

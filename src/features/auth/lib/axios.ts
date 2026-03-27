@@ -9,7 +9,6 @@ export const api = axios.create({
 })
 
 api.interceptors.request.use((config) => {
-
   return config
 })
 
@@ -18,9 +17,16 @@ api.interceptors.response.use(
   async (error) => {
     const originalRequest = error.config
 
-    // Prevent infinite loop 
-    if (error.response?.status === 401 && originalRequest.url === '/auth/refresh') {
-      if (typeof window !== 'undefined' && !window.location.pathname.startsWith('/login') && !window.location.pathname.startsWith('/register')) {
+    // Prevent infinite loop
+    if (
+      error.response?.status === 401 &&
+      originalRequest.url === '/auth/refresh'
+    ) {
+      if (
+        typeof window !== 'undefined' &&
+        !window.location.pathname.startsWith('/login') &&
+        !window.location.pathname.startsWith('/register')
+      ) {
         window.location.href = '/login'
       }
       return Promise.reject(error)
@@ -37,5 +43,5 @@ api.interceptors.response.use(
       }
     }
     return Promise.reject(error)
-  }
+  },
 )

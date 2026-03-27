@@ -9,7 +9,7 @@ export const useLogin = () => {
   return useMutation({
     mutationFn: loginFn,
     onSuccess: async () => {
-      const user = await getMe();
+      const user = await getMe()
       setUser(user)
       queryClient.invalidateQueries({ queryKey: ['user'] })
     },

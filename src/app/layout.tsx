@@ -23,9 +23,7 @@ export default function RootLayout({
     <html lang="en" className="scroll-smooth">
       <body className={`${roboto.variable} m-0 p-0 overflow-x-hidden`}>
         <QueryProviders>
-          <AuthProvider>
-            {children}
-          </AuthProvider>
+          <AuthProvider>{children}</AuthProvider>
         </QueryProviders>
       </body>
     </html>

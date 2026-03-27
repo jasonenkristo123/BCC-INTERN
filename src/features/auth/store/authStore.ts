@@ -14,21 +14,19 @@ type AuthState = {
   setIsLoading: (isLoading: boolean) => void
 }
 
-export const useAuthStore = create<AuthState>()(
-  (set) => ({
-    user: null,
-    isLoading: true,
+export const useAuthStore = create<AuthState>()((set) => ({
+  user: null,
+  isLoading: true,
 
-    setUser: (user: User) => {
-      set({ user, isLoading: false })
-    },
+  setUser: (user: User) => {
+    set({ user, isLoading: false })
+  },
 
-    setIsLoading: (isLoading: boolean) => {
-      set({ isLoading })
-    },
+  setIsLoading: (isLoading: boolean) => {
+    set({ isLoading })
+  },
 
-    logout: () => {
-      set({ user: null })
-    }
-  }),
-)
+  logout: () => {
+    set({ user: null })
+  },
+}))

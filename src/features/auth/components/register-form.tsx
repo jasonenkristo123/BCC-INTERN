@@ -39,7 +39,9 @@ export default function RegisterFormWithZod() {
     } catch (err: unknown) {
       const error = err as AxiosError<{ message: string }>
       setError('root', {
-        message: error.response?.data?.message || 'Gagal mendaftar, pastikan email belum terdaftar',
+        message:
+          error.response?.data?.message ||
+          'Gagal mendaftar, pastikan email belum terdaftar',
       })
     }
   }
