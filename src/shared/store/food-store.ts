@@ -69,7 +69,7 @@ export const useInventoryStore = create<InventoryStore>((set) => ({
 }))
 
 export const useActiveStatus = create<ActiveStatusProps>((set) => ({
-  isActive: false,
+  isActive: true,
   setActive: (isActive) => set(() => ({ isActive })),
 }))
 

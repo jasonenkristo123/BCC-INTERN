@@ -7,7 +7,6 @@ import { useEffect } from 'react'
 export default function DashBoardUser() {
   const { user, isLoading } = useAuthStore()
   const router = useRouter()
-
   useEffect(() => {
     if (!isLoading && !user) {
       router.push('/login')

@@ -22,10 +22,12 @@ api.interceptors.response.use(
       error.response?.status === 401 &&
       originalRequest.url === '/auth/refresh'
     ) {
+      const publicRoutes = ['/login', '/register', '/', '/home', '/landing']
+      const currentPath = window.location.pathname
+
       if (
         typeof window !== 'undefined' &&
-        !window.location.pathname.startsWith('/login') &&
-        !window.location.pathname.startsWith('/register')
+        !publicRoutes.some((route) => currentPath === route || currentPath.startsWith(`${route}/`))
       ) {
         window.location.href = '/login'
       }

@@ -1,10 +1,10 @@
 'use client'
 import Link from 'next/link'
-import { useState } from 'react'
+import { usePathname } from 'next/navigation'
 import Image from 'next/image'
 
 export default function MainNavbar() {
-  const [activeSection, setActiveSection] = useState('/dashboard')
+  const pathname = usePathname() || ''
 
   const navLinks = [
     { name: 'Dashboard', href: '/dashboard' },
@@ -13,22 +13,24 @@ export default function MainNavbar() {
   ]
   return (
     <>
-      <nav className="fixed hidden md:flex justify-between items-center w-full gap-4 bg-white px-8 py-4">
+      <nav className="fixed z-999 hidden md:flex justify-between items-center w-full gap-4 bg-white px-8 py-4">
         <div className="flex items-center w-full gap-8">
           <h1 className="md:text-lg lg:text-xl xl:text-2xl font-roboto-400">
             Simpanin.id
           </h1>
           <div className="flex gap-6">
-            {navLinks.map((links) => (
-              <Link
-                key={links.href}
-                href={links.href}
-                onClick={() => setActiveSection(links.href)}
-                className={`${activeSection === links.href ? `text-text-primary opacity-100` : `text-abugelap opacity-60`} font-roboto-400 text-[16px] transition-opacity `}
-              >
-                {links.name}
-              </Link>
-            ))}
+            {navLinks.map((links) => {
+              const isActive = pathname.startsWith(links.href)
+              return (
+                <Link
+                  key={links.href}
+                  href={links.href}
+                  className={`${isActive ? `text-text-primary opacity-100` : `text-abugelap opacity-60`} font-roboto-400 text-[16px] transition-opacity `}
+                >
+                  {links.name}
+                </Link>
+              )
+            })}
           </div>
         </div>
         <div className="flex items-center gap-2 pr-6">

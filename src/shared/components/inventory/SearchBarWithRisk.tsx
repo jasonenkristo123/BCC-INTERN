@@ -27,6 +27,7 @@ export default function SearchBarWithRisk() {
     }
   }
 
+  
   return (
     <div className="flex-1 min-w-0 w-full flex">
       <div className="flex items-center">
@@ -36,9 +37,9 @@ export default function SearchBarWithRisk() {
           setSearch={setSearch}
         />
       </div>
-      <HandleSortByRisk
-        handleSortByRisk={handleSortByRisk}
-        isActive={isActive}
+      <HandleSortByRisk 
+        handleSortByRisk={handleSortByRisk} 
+        isActive={isActive} 
       />
     </div>
   )

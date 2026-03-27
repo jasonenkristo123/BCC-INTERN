@@ -5,8 +5,9 @@ import {
   formatCurrency,
   getExpiryStatus,
 } from '@/shared/utils/utils'
-import { useSelectMonth } from '@/shared/store/food-store'
+import { useSelectMonth, useActiveStatus, useInventoryStore } from '@/shared/store/food-store'
 import Button from '@/shared/components/ui/button'
+import { useRouter } from 'next/navigation'
 
 export default function WasteTrackerTrend() {
   const items = ALL_ITEMS
@@ -18,6 +19,10 @@ export default function WasteTrackerTrend() {
   const warning = filteredItemMonth.filter(
     (item) => getExpiryStatus(item.expiredEstimation).status === 'warning',
   )
+  const setActive = useActiveStatus((s) => s.setActive)
+  const setSortBy = useInventoryStore((s) => s.setSortBy)
+  const setSortOrder = useInventoryStore((s) => s.setSortOrder)
+  const router = useRouter()
 
   const safeTotalPrice = safe.reduce((acc, item) => acc + item.price, 0)
   const warningTotalPrice = warning.reduce((acc, item) => acc + item.price, 0)
@@ -46,8 +51,13 @@ export default function WasteTrackerTrend() {
         </p>
         <Button
           variant="primary"
-          href="/bahan-saya"
           size="lg"
+          onClick={() => {
+            setActive(false)
+            setSortBy('riskScore')
+            setSortOrder('desc')
+            router.push('/bahan-saya')
+          }}
           className="bg-text-primary font-roboto-500 text-white text-base mt-4"
         >
           Lihat Bahan Prioritas
