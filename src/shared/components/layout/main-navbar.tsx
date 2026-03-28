@@ -73,7 +73,7 @@ export default function MainNavbar() {
             />
             <div className="flex flex-col  text-sm pt-1 gap-1 cursor-pointer">
               <Link href="/profile/account">
-                <p className='text-white'>Dedy</p>
+                <p className="text-white">Dedy</p>
                 <p className="text-xs text-white">Premium</p>
               </Link>
             </div>
@@ -100,8 +100,7 @@ export default function MainNavbar() {
                 )
               })}
             </div>
-            <div className="flex flex-col gap-4 mt-2">
-            </div>
+            <div className="flex flex-col gap-4 mt-2"></div>
           </FadeIn>
         )}
       </nav>
