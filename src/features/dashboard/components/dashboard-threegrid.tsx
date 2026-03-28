@@ -12,7 +12,7 @@ export default function DashBoardTreeGrid() {
             Status Bahan Total
           </h2>
           <Image
-            src="/assets/beverage.webp"
+            src="/assets/beverages.webp"
             alt="beverage"
             width={32}
             height={32}
