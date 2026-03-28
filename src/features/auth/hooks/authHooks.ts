@@ -13,8 +13,7 @@ export const useLogin = () => {
       setUser(user)
       queryClient.invalidateQueries({ queryKey: ['user'] })
     },
-    onError: () => {
-    },
+    onError: () => {},
   })
 }
 
@@ -26,7 +25,6 @@ export const useRegister = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['user'] })
     },
-    onError: () => {
-    },
+    onError: () => {},
   })
 }
