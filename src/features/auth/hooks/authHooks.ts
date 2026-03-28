@@ -13,8 +13,7 @@ export const useLogin = () => {
       setUser(user)
       queryClient.invalidateQueries({ queryKey: ['user'] })
     },
-    onError: (error) => {
-      console.log(error)
+    onError: () => {
     },
   })
 }
@@ -24,12 +23,10 @@ export const useRegister = () => {
 
   return useMutation({
     mutationFn: registerFn,
-    onSuccess: (data) => {
+    onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['user'] })
-      console.log(data)
     },
-    onError: (error) => {
-      console.log(error)
+    onError: () => {
     },
   })
 }

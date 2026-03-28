@@ -17,20 +17,12 @@ api.interceptors.response.use(
   async (error) => {
     const originalRequest = error.config
 
-    
-    if (process.env.NODE_ENV === 'development') {
-      console.log('API Error:', {
-        url: originalRequest.url,
-        status: error.response?.status,
-        message: error.response?.data?.message,
-      })
-    }
-
     const isRefreshRequest = originalRequest.url?.includes('/auth/refresh')
 
     if (error.response?.status === 401 && isRefreshRequest) {
       const publicRoutes = ['/login', '/register', '/', '/home', '/landing']
-      const currentPath = typeof window !== 'undefined' ? window.location.pathname : ''
+      const currentPath =
+        typeof window !== 'undefined' ? window.location.pathname : ''
 
       if (
         typeof window !== 'undefined' &&
