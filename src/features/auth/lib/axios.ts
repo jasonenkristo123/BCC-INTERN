@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 export const api = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_BASE_URL,
+  baseURL: '/api',
   headers: {
     'Content-Type': 'application/json',
   },
@@ -17,13 +17,20 @@ api.interceptors.response.use(
   async (error) => {
     const originalRequest = error.config
 
-    // Prevent infinite loop
-    if (
-      error.response?.status === 401 &&
-      originalRequest.url === '/auth/refresh'
-    ) {
+    
+    if (process.env.NODE_ENV === 'development') {
+      console.log('API Error:', {
+        url: originalRequest.url,
+        status: error.response?.status,
+        message: error.response?.data?.message,
+      })
+    }
+
+    const isRefreshRequest = originalRequest.url?.includes('/auth/refresh')
+
+    if (error.response?.status === 401 && isRefreshRequest) {
       const publicRoutes = ['/login', '/register', '/', '/home', '/landing']
-      const currentPath = window.location.pathname
+      const currentPath = typeof window !== 'undefined' ? window.location.pathname : ''
 
       if (
         typeof window !== 'undefined' &&
@@ -41,7 +48,6 @@ api.interceptors.response.use(
       originalRequest._retry = true
       try {
         await api.post('/auth/refresh')
-        // Retry the original request with the new tokens/cookies
         return api(originalRequest)
       } catch (refreshError) {
         return Promise.reject(refreshError)
