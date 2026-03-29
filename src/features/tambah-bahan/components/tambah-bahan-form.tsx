@@ -43,7 +43,9 @@ export default function TambahBahanForm() {
 
   const [showConfirmModal, setShowConfirmModal] = useState(false)
   const [showSuccessModal, setShowSuccessModal] = useState(false)
-  const [formDataState, setFormDataState] = useState<TTambahBahanScema | null>(null)
+  const [formDataState, setFormDataState] = useState<TTambahBahanScema | null>(
+    null,
+  )
 
   const onSubmit = async (data: TTambahBahanScema) => {
     setFormDataState(data)
@@ -55,7 +57,7 @@ export default function TambahBahanForm() {
     try {
       setShowConfirmModal(false)
       setShowSuccessModal(true)
-    
+
       setTimeout(() => {
         setShowSuccessModal(false)
         reset()
@@ -68,7 +70,10 @@ export default function TambahBahanForm() {
 
   return (
     <div className="py-10 px-10 w-full min-h-screen bg-skyblue">
-      <AllModalParent open={showConfirmModal} onClose={() => setShowConfirmModal(false)}>
+      <AllModalParent
+        open={showConfirmModal}
+        onClose={() => setShowConfirmModal(false)}
+      >
         {formDataState && (
           <TambahBahanChild
             data={formDataState}
@@ -78,8 +83,11 @@ export default function TambahBahanForm() {
           />
         )}
       </AllModalParent>
-      
-      <AllModalParent open={showSuccessModal} onClose={() => setShowSuccessModal(false)}>
+
+      <AllModalParent
+        open={showSuccessModal}
+        onClose={() => setShowSuccessModal(false)}
+      >
         <BerhasilTambahBahanChild />
       </AllModalParent>
 

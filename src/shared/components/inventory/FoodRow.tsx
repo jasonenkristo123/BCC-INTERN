@@ -26,8 +26,10 @@ interface FoodRowProps {
 export default function FoodRow({ item, index }: FoodRowProps) {
   const [openModal, setOpenModal] = useState(false)
   const [openHapusModal, setOpenHapusModal] = useState(false)
-  const [openBuangKedaluwarsaModal, setOpenBuangKedaluwarsaModal] = useState(false)
-  const [openBuangThreeDotMenuModal, setOpenBuangThreeDotMenuModal] = useState(false)
+  const [openBuangKedaluwarsaModal, setOpenBuangKedaluwarsaModal] =
+    useState(false)
+  const [openBuangThreeDotMenuModal, setOpenBuangThreeDotMenuModal] =
+    useState(false)
   const expiry = getExpiryStatus(item.expiredEstimation)
 
   const riskBarWidth = `${item.riskScore}%`
@@ -51,14 +53,14 @@ export default function FoodRow({ item, index }: FoodRowProps) {
   const riskPerDay = formatCurrency(
     Math.round(
       item.price /
-      Math.max(
-        1,
-        Math.ceil(
-          (new Date(item.expiredEstimation).getTime() -
-            new Date(item.buyDate).getTime()) /
-          (1000 * 60 * 60 * 24),
+        Math.max(
+          1,
+          Math.ceil(
+            (new Date(item.expiredEstimation).getTime() -
+              new Date(item.buyDate).getTime()) /
+              (1000 * 60 * 60 * 24),
+          ),
         ),
-      ),
     ),
   )
 
@@ -204,7 +206,6 @@ export default function FoodRow({ item, index }: FoodRowProps) {
             </div>
           </div>
 
-          
           <div className="shrink-0 w-40 flex items-center gap-1.5">
             {actionButton}
             <ThreeDotMenu />
@@ -217,7 +218,6 @@ export default function FoodRow({ item, index }: FoodRowProps) {
       <div
         className={`lg:hidden flex flex-col gap-3 px-4 sm:px-6 py-4 ${getBgColor} group`}
       >
-        
         <div className="flex items-center gap-3">
           <div className="shrink-0 w-[48px] h-[48px] sm:w-[54px] sm:h-[54px] rounded-xl bg-white flex items-center justify-center overflow-hidden shadow-md relative">
             {item.image ? (
@@ -295,20 +295,35 @@ export default function FoodRow({ item, index }: FoodRowProps) {
         </div>
       </div>
 
-      <AllModalParent open={openBuangKedaluwarsaModal} onClose={() => setOpenBuangKedaluwarsaModal(false)}>
-        <BuangKedaluwarsaChild item={item} onClose={() => setOpenBuangKedaluwarsaModal(false)} />
+      <AllModalParent
+        open={openBuangKedaluwarsaModal}
+        onClose={() => setOpenBuangKedaluwarsaModal(false)}
+      >
+        <BuangKedaluwarsaChild
+          item={item}
+          onClose={() => setOpenBuangKedaluwarsaModal(false)}
+        />
       </AllModalParent>
 
       <AllModalParent open={openModal} onClose={() => setOpenModal(false)}>
         <GunakanBahanChild item={item} onClose={() => setOpenModal(false)} />
       </AllModalParent>
 
-      <AllModalParent open={openHapusModal} onClose={() => setOpenHapusModal(false)}>
+      <AllModalParent
+        open={openHapusModal}
+        onClose={() => setOpenHapusModal(false)}
+      >
         <HapusBahanChild item={item} onClose={() => setOpenHapusModal(false)} />
       </AllModalParent>
 
-      <AllModalParent open={openBuangThreeDotMenuModal} onClose={() => setOpenBuangThreeDotMenuModal(false)}>
-        <BuangThreeDotMenuChild item={item} onClose={() => setOpenBuangThreeDotMenuModal(false)} />
+      <AllModalParent
+        open={openBuangThreeDotMenuModal}
+        onClose={() => setOpenBuangThreeDotMenuModal(false)}
+      >
+        <BuangThreeDotMenuChild
+          item={item}
+          onClose={() => setOpenBuangThreeDotMenuModal(false)}
+        />
       </AllModalParent>
     </>
   )

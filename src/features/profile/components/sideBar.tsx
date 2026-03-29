@@ -7,7 +7,11 @@ import Link from 'next/link'
 import AllModalParent from '@/shared/components/modal/AllModalParent'
 import LogoutChild from '@/shared/components/modal/modalChildren/logout-child'
 
-export default function ProfileSideBar({status}: {status: "Free" | "Premium"}) {
+export default function ProfileSideBar({
+  status,
+}: {
+  status: 'Free' | 'Premium'
+}) {
   const [image, setImage] = useState('/assets/dedy.webp')
   const [activeNav, setActiveNav] = useState('/profile/account')
   const imageRef = useRef<HTMLInputElement>(null)
@@ -61,14 +65,24 @@ export default function ProfileSideBar({status}: {status: "Free" | "Premium"}) {
           Dedy@gmail.com
         </p>
 
-        <div className={`flex ${status === "Premium" ? "bg-text-primary " : "bg-primaryskyblue border border-text-primary "} rounded-full p-6 mt-5 mx-auto w-[149px] h-10 items-center gap-3 justify-center`}>
+        <div
+          className={`flex ${status === 'Premium' ? 'bg-text-primary ' : 'bg-primaryskyblue border border-text-primary '} rounded-full p-6 mt-5 mx-auto w-[149px] h-10 items-center gap-3 justify-center`}
+        >
           <Image
-            src={status === "Premium" ? "/assets/starputih.webp" : "/assets/watch.webp"}
+            src={
+              status === 'Premium'
+                ? '/assets/starputih.webp'
+                : '/assets/watch.webp'
+            }
             width={24}
             height={24}
             alt="star"
           />
-          <p className={`${status === "Premium" ? "text-white" : "text-text-primary"} font-roboto-400 text-base`}>{status}</p>
+          <p
+            className={`${status === 'Premium' ? 'text-white' : 'text-text-primary'} font-roboto-400 text-base`}
+          >
+            {status}
+          </p>
         </div>
 
         <p className="text-center font-roboto-400 text-sm pb-5 sm:pb-0 sm:text-base text-hitamdikit/50 pt-5">
@@ -100,7 +114,10 @@ export default function ProfileSideBar({status}: {status: "Free" | "Premium"}) {
             </div>
           </Link>
         ))}
-        <div onClick={() => setOpenModal(true)} className="flex items-center gap-3 p-4 rounded-lg cursor-pointer">
+        <div
+          onClick={() => setOpenModal(true)}
+          className="flex items-center gap-3 p-4 rounded-lg cursor-pointer"
+        >
           <Image
             src="/assets/logout.webp"
             width={24}

@@ -40,7 +40,7 @@ export default function RegisterFormWithZod() {
           setTimeout(() => {
             router.push('/login')
             reset()
-          }, 2000) 
+          }, 2000)
         },
       })
     } catch (err: unknown) {

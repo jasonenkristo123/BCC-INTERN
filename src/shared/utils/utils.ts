@@ -32,8 +32,8 @@ export function getExpiryStatus(expiredEstimation: Date): ExpiryInfo {
       progressBarClass: 'bg-merah',
       actionBtnClass:
         'border-2 border-merah text-merah hover:bg-redlight font-semibold',
-      bgModalColor: "bg-redlight",
-      iconModal: "/assets/gunakaniconmerah.webp"
+      bgModalColor: 'bg-redlight',
+      iconModal: '/assets/gunakaniconmerah.webp',
     },
     warning: {
       status: 'warning',
@@ -44,7 +44,7 @@ export function getExpiryStatus(expiredEstimation: Date): ExpiryInfo {
       actionBtnClass:
         'border-2 border-orange-500 text-orange-600 hover:bg-orange-50 font-semibold',
       bgModalColor: 'bg-orange-muda',
-      iconModal: "/assets/gunakaniconoren.webp"
+      iconModal: '/assets/gunakaniconoren.webp',
     },
     safe: {
       status: 'safe',
@@ -54,8 +54,8 @@ export function getExpiryStatus(expiredEstimation: Date): ExpiryInfo {
       progressBarClass: 'bg-text-primary',
       actionBtnClass:
         'border-2 border-emerald-500 text-emerald-600 hover:bg-emerald-50 font-semibold',
-      bgModalColor: "bg-primaryskyblue",
-      iconModal: "/assets/gunakanicon.webp"
+      bgModalColor: 'bg-primaryskyblue',
+      iconModal: '/assets/gunakanicon.webp',
     },
   }
 
