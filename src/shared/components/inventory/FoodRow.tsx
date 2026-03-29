@@ -11,8 +11,11 @@ import {
 import Button from '../ui/button'
 import { Ellipsis } from 'lucide-react'
 import useMenu from '@/shared/hooks/menuHooks'
-import GunakanBahanModal from '../modal/gunakan-bahan'
+import AllModalParent from '../modal/AllModalParent'
 import GunakanBahanChild from '../modal/modalChildren/gunakan-bahan-child'
+import HapusBahanChild from '../modal/modalChildren/hapus-bahan-child'
+import BuangKedaluwarsaChild from '../modal/modalChildren/buang-kedaluwarsa-child'
+import BuangThreeDotMenuChild from '../modal/modalChildren/buang-threedotmenu-child'
 
 interface FoodRowProps {
   item: FoodItem
@@ -21,11 +24,11 @@ interface FoodRowProps {
 }
 
 export default function FoodRow({ item, index }: FoodRowProps) {
-  const [menuOpen, setMenuOpen] = useState(false)
   const [openModal, setOpenModal] = useState(false)
+  const [openHapusModal, setOpenHapusModal] = useState(false)
+  const [openBuangKedaluwarsaModal, setOpenBuangKedaluwarsaModal] = useState(false)
+  const [openBuangThreeDotMenuModal, setOpenBuangThreeDotMenuModal] = useState(false)
   const expiry = getExpiryStatus(item.expiredEstimation)
-  const menuRef = useRef<HTMLDivElement>(null)
-  useMenu(menuRef, setMenuOpen)
 
   const riskBarWidth = `${item.riskScore}%`
 
@@ -48,26 +51,28 @@ export default function FoodRow({ item, index }: FoodRowProps) {
   const riskPerDay = formatCurrency(
     Math.round(
       item.price /
-        Math.max(
-          1,
-          Math.ceil(
-            (new Date(item.expiredEstimation).getTime() -
-              new Date(item.buyDate).getTime()) /
-              (1000 * 60 * 60 * 24),
-          ),
+      Math.max(
+        1,
+        Math.ceil(
+          (new Date(item.expiredEstimation).getTime() -
+            new Date(item.buyDate).getTime()) /
+          (1000 * 60 * 60 * 24),
         ),
+      ),
     ),
   )
 
-  //  Action
+  // Action
   const actionButton =
     expiry.actionLabel === 'Buang' ? (
       <>
         <Button
-          onClick={() => setOpenModal(true)}
           variant="primary"
           size="sm"
           className={`flex-1 text-xs lg:text-base font-bold  transition-all duration-200 ${actionBtnMap[expiry.status]}`}
+          onClick={() => {
+            setOpenBuangKedaluwarsaModal(true)
+          }}
         >
           Buang
         </Button>
@@ -82,39 +87,49 @@ export default function FoodRow({ item, index }: FoodRowProps) {
         >
           Gunakan
         </Button>
-        <GunakanBahanModal open={openModal} onClose={() => setOpenModal(false)}>
-          <GunakanBahanChild />
-        </GunakanBahanModal>
       </>
     )
 
-  //  3-dot
-  const threeDotMenu = (
-    <div className="relative" ref={menuRef}>
-      <button
-        onClick={() => setMenuOpen(!menuOpen)}
-        className="w-7 h-7 rounded-lg flex items-center justify-center text-gray-400 hover:text-hitamdikit hover:bg-gray-100 transition-all"
-      >
-        <Ellipsis className="rotate-90" size={40} />
-      </button>
-      {menuOpen && (
-        <div className="absolute top-[-7] right-0 z-10 bg-white rounded-xl shadow-lg py-1 min-w-[106px]">
-          <button
-            className="w-full text-center px-3 font-roboto-500
-                    py-2 text-xs lg:text-base xl:text-lg text-hitamdikit hover:text-merah transition-colors"
-          >
-            Buang
-          </button>
-          <button
-            className="w-full text-center px-3 font-roboto-500
-                    py-2 text-xs lg:text-base xl:text-lg  text-hitamdikit  hover:text-merah transition-colors"
-          >
-            Hapus
-          </button>
-        </div>
-      )}
-    </div>
-  )
+  // 3-dot
+  const ThreeDotMenu = () => {
+    const [menuOpen, setMenuOpen] = useState(false)
+    const menuRef = useRef<HTMLDivElement>(null)
+    useMenu(menuRef, setMenuOpen)
+
+    return (
+      <div className="relative" ref={menuRef}>
+        <button
+          onClick={() => setMenuOpen(!menuOpen)}
+          className="w-7 h-7 rounded-lg flex items-center justify-center text-gray-400 hover:text-hitamdikit hover:bg-gray-100 transition-all"
+        >
+          <Ellipsis className="rotate-90" size={40} />
+        </button>
+        {menuOpen && (
+          <div className="absolute top-[-7] right-0 z-10 bg-white rounded-xl shadow-lg py-1 min-w-[106px]">
+            <button
+              className="w-full text-center px-3 font-roboto-500 py-2 text-xs lg:text-base xl:text-lg text-hitamdikit hover:text-merah transition-colors cursor-pointer"
+              onClick={() => {
+                setMenuOpen(false)
+                setOpenBuangThreeDotMenuModal(true)
+              }}
+            >
+              Buang
+            </button>
+
+            <button
+              className="w-full text-center px-3 font-roboto-500 py-2 text-xs lg:text-base xl:text-lg  text-hitamdikit  hover:text-merah transition-colors cursor-pointer"
+              onClick={() => {
+                setMenuOpen(false)
+                setOpenHapusModal(true)
+              }}
+            >
+              Hapus
+            </button>
+          </div>
+        )}
+      </div>
+    )
+  }
 
   return (
     <>
@@ -189,10 +204,10 @@ export default function FoodRow({ item, index }: FoodRowProps) {
             </div>
           </div>
 
-          {/* Action */}
+          
           <div className="shrink-0 w-40 flex items-center gap-1.5">
             {actionButton}
-            {threeDotMenu}
+            <ThreeDotMenu />
           </div>
         </div>
       </div>
@@ -202,7 +217,7 @@ export default function FoodRow({ item, index }: FoodRowProps) {
       <div
         className={`lg:hidden flex flex-col gap-3 px-4 sm:px-6 py-4 ${getBgColor} group`}
       >
-        {/* Top: image + name + expiry badge */}
+        
         <div className="flex items-center gap-3">
           <div className="shrink-0 w-[48px] h-[48px] sm:w-[54px] sm:h-[54px] rounded-xl bg-white flex items-center justify-center overflow-hidden shadow-md relative">
             {item.image ? (
@@ -231,7 +246,6 @@ export default function FoodRow({ item, index }: FoodRowProps) {
           </span>
         </div>
 
-        {/* Middle: 2-column data grid */}
         <div className="grid grid-cols-2 gap-x-4 gap-y-2 text-xs sm:text-sm">
           <div>
             <p className="text-hitamdikit/60 font-roboto-400 text-[10px] sm:text-xs">
@@ -275,12 +289,27 @@ export default function FoodRow({ item, index }: FoodRowProps) {
           </div>
         </div>
 
-        {/* Bottom: action + menu */}
         <div className="flex items-center gap-2 pt-1">
           <div className="flex-1">{actionButton}</div>
-          {threeDotMenu}
+          <ThreeDotMenu />
         </div>
       </div>
+
+      <AllModalParent open={openBuangKedaluwarsaModal} onClose={() => setOpenBuangKedaluwarsaModal(false)}>
+        <BuangKedaluwarsaChild item={item} onClose={() => setOpenBuangKedaluwarsaModal(false)} />
+      </AllModalParent>
+
+      <AllModalParent open={openModal} onClose={() => setOpenModal(false)}>
+        <GunakanBahanChild item={item} onClose={() => setOpenModal(false)} />
+      </AllModalParent>
+
+      <AllModalParent open={openHapusModal} onClose={() => setOpenHapusModal(false)}>
+        <HapusBahanChild item={item} onClose={() => setOpenHapusModal(false)} />
+      </AllModalParent>
+
+      <AllModalParent open={openBuangThreeDotMenuModal} onClose={() => setOpenBuangThreeDotMenuModal(false)}>
+        <BuangThreeDotMenuChild item={item} onClose={() => setOpenBuangThreeDotMenuModal(false)} />
+      </AllModalParent>
     </>
   )
 }

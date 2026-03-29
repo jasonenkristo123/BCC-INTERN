@@ -1,5 +1,6 @@
 'use client'
 import { useRouter } from 'next/navigation'
+import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import {
   KategoriBahan,
@@ -12,6 +13,9 @@ import Image from 'next/image'
 import { lokasiList, saranPenyimpanan } from '../data/lokasiData'
 import { TriangleAlert } from 'lucide-react'
 import Button from '@/shared/components/ui/button'
+import AllModalParent from '@/shared/components/modal/AllModalParent'
+import TambahBahanChild from '@/shared/components/modal/modalChildren/tambah-bahan-child'
+import BerhasilTambahBahanChild from '@/shared/components/modal/modalChildren/berhasil-tambahbahan-child'
 
 export default function TambahBahanForm() {
   const router = useRouter()
@@ -37,10 +41,26 @@ export default function TambahBahanForm() {
   const selectLocation = watch('penyimpanan')
   const selectedKategori = watch('kategori')
 
-  const onSubmit = async () => {
+  const [showConfirmModal, setShowConfirmModal] = useState(false)
+  const [showSuccessModal, setShowSuccessModal] = useState(false)
+  const [formDataState, setFormDataState] = useState<TTambahBahanScema | null>(null)
+
+  const onSubmit = async (data: TTambahBahanScema) => {
+    setFormDataState(data)
+    setShowConfirmModal(true)
+  }
+
+  const handleConfirmSubmit = async () => {
+    if (!formDataState) return
     try {
-      reset()
-      router.push('/bahan-saya')
+      setShowConfirmModal(false)
+      setShowSuccessModal(true)
+    
+      setTimeout(() => {
+        setShowSuccessModal(false)
+        reset()
+        router.push('/bahan-saya')
+      }, 5000)
     } catch (error) {
       console.log(error)
     }
@@ -48,6 +68,21 @@ export default function TambahBahanForm() {
 
   return (
     <div className="py-10 px-10 w-full min-h-screen bg-skyblue">
+      <AllModalParent open={showConfirmModal} onClose={() => setShowConfirmModal(false)}>
+        {formDataState && (
+          <TambahBahanChild
+            data={formDataState}
+            onCancel={() => setShowConfirmModal(false)}
+            onConfirm={handleConfirmSubmit}
+            isSubmitting={isSubmitting}
+          />
+        )}
+      </AllModalParent>
+      
+      <AllModalParent open={showSuccessModal} onClose={() => setShowSuccessModal(false)}>
+        <BerhasilTambahBahanChild />
+      </AllModalParent>
+
       <div className="mt-20">
         <div className="flex gap-2 text-[16px] font-roboto-600">
           <a href="/bahan-saya">

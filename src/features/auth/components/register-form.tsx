@@ -8,10 +8,14 @@ import { TRegisterSchema, registerSchema } from '../schemas/auth-schema'
 import { useRegister } from '../hooks/authHooks'
 import { useRouter } from 'next/navigation'
 import { AxiosError } from 'axios'
+import { useState } from 'react'
+import AllModalParent from '@/shared/components/modal/AllModalParent'
+import BerhasilBuatAkunChild from '@/shared/components/modal/modalChildren/berhasil-buatakun-child'
 
 export default function RegisterFormWithZod() {
   const router = useRouter()
   const { mutateAsync, isPending } = useRegister()
+  const [openModal, setOpenModal] = useState(false)
 
   const {
     register,
@@ -32,8 +36,11 @@ export default function RegisterFormWithZod() {
     try {
       await mutateAsync(data, {
         onSuccess: () => {
-          router.push('/login')
-          reset()
+          setOpenModal(true)
+          setTimeout(() => {
+            router.push('/login')
+            reset()
+          }, 2000) 
         },
       })
     } catch (err: unknown) {
@@ -163,6 +170,12 @@ export default function RegisterFormWithZod() {
                   {isPending || isSubmitting ? 'Memproses...' : 'Buat Akun'}
                 </button>
               </div>
+              <AllModalParent
+                open={openModal}
+                onClose={() => setOpenModal(false)}
+              >
+                <BerhasilBuatAkunChild />
+              </AllModalParent>
             </form>
 
             <p className="text-center text-sm text-gray-600 mt-10">

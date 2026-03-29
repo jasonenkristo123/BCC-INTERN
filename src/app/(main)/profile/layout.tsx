@@ -13,7 +13,7 @@ export default function ProfileLayout({
         </h1>
 
         <div className="flex flex-col xl:flex-row gap-6 lg:gap-8 w-full">
-          <ProfileSideBar />
+          <ProfileSideBar status="Free"/>
           <div className="flex-1 w-full bg-transparent">{children}</div>
         </div>
       </div>

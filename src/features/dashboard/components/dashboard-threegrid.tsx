@@ -1,3 +1,4 @@
+
 import Button from '@/shared/components/ui/button'
 import DashboardSmallCard from '@/shared/components/ui/dashboard-smallcard'
 import Image from 'next/image'
@@ -161,6 +162,7 @@ export default function DashBoardTreeGrid() {
             variant="primary"
             size="lg"
             className="w-full mt-4 hover:bg-text-primary border-text-primary hover:text-white"
+            href='/waste-tracker'
           >
             Lihat Semua Detail
           </Button>

@@ -39,6 +39,8 @@ export interface ExpiryInfo {
   progressBarClass: string
   actionLabel: 'Buang' | 'Gunakan'
   actionBtnClass: string
+  bgModalColor: string
+  iconModal: string
 }
 
 export interface FilterState {

@@ -26,30 +26,36 @@ export function getExpiryStatus(expiredEstimation: Date): ExpiryInfo {
   > = {
     expired: {
       status: 'expired',
-      cardBorderClass: 'border-l-red-500',
+      cardBorderClass: 'border-merah',
       badgeBgClass: 'bg-redlight',
       badgeTextClass: 'text-merah',
       progressBarClass: 'bg-merah',
       actionBtnClass:
-        'border-2 border-red-500 text-red-600 hover:bg-red-50 font-semibold',
+        'border-2 border-merah text-merah hover:bg-redlight font-semibold',
+      bgModalColor: "bg-redlight",
+      iconModal: "/assets/gunakaniconmerah.webp"
     },
     warning: {
       status: 'warning',
-      cardBorderClass: 'border-l-orange-500',
+      cardBorderClass: 'border-orangnormal',
       badgeBgClass: 'bg-redlight',
       badgeTextClass: 'text-orangnormal',
       progressBarClass: 'bg-orangnormal',
       actionBtnClass:
         'border-2 border-orange-500 text-orange-600 hover:bg-orange-50 font-semibold',
+      bgModalColor: 'bg-orange-muda',
+      iconModal: "/assets/gunakaniconoren.webp"
     },
     safe: {
       status: 'safe',
-      cardBorderClass: 'border-l-emerald-500',
+      cardBorderClass: 'border-text-primary',
       badgeBgClass: 'bg-primaryskyblue',
       badgeTextClass: 'text-text-primary',
       progressBarClass: 'bg-text-primary',
       actionBtnClass:
         'border-2 border-emerald-500 text-emerald-600 hover:bg-emerald-50 font-semibold',
+      bgModalColor: "bg-primaryskyblue",
+      iconModal: "/assets/gunakanicon.webp"
     },
   }
 

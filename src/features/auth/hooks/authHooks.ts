@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useAuthStore } from '../store/authStore'
-import { getMe, loginFn, registerFn } from '../services/api'
+import { getMe, loginFn, logoutFn, registerFn } from '../services/api'
 
 export const useLogin = () => {
   const setUser = useAuthStore((s) => s.setUser)
@@ -13,7 +13,6 @@ export const useLogin = () => {
       setUser(user)
       queryClient.invalidateQueries({ queryKey: ['user'] })
     },
-    onError: () => {},
   })
 }
 
@@ -25,6 +24,18 @@ export const useRegister = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['user'] })
     },
-    onError: () => {},
+  })
+}
+
+export const useLogout = () => {
+  const logout = useAuthStore((s) => s.logout)
+  const queryClient = useQueryClient()
+
+  return useMutation({
+    mutationFn: logoutFn,
+    onSuccess: () => {
+      logout()
+      queryClient.invalidateQueries({ queryKey: ['user'] })
+    },
   })
 }

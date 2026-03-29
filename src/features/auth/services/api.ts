@@ -1,5 +1,5 @@
 import { TLoginSchema, TRegisterSchema } from '../schemas/auth-schema'
-import { api } from '@/features/auth/lib/axios'
+import { api } from '@/shared/lib/axios'
 
 export const loginFn = async (data: TLoginSchema) => {
   const response = await api.post('/auth/login', data)
@@ -13,5 +13,10 @@ export const registerFn = async (data: TRegisterSchema) => {
 
 export const getMe = async () => {
   const res = await api.get('/auth/me')
+  return res.data
+}
+
+export const logoutFn = async () => {
+  const res = await api.post('/auth/logout')
   return res.data
 }
