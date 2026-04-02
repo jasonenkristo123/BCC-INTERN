@@ -10,7 +10,13 @@ export async function proxy(request: NextRequest) {
     request.cookies.get('token')?.value
 
   // Auth routes (can only be accessed by guests)
-  const authRoutes = ['/dashboard', '/bahan-saya', '/profile', '/tambah-bahan', '/waste-tracker']
+  const authRoutes = [
+    '/dashboard',
+    '/bahan-saya',
+    '/profile',
+    '/tambah-bahan',
+    '/waste-tracker',
+  ]
 
   // Public routes (guest and auth)
   const publicRoutes = ['/home', '/', '/register', '/login']
