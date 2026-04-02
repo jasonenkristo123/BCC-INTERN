@@ -1,12 +1,12 @@
 'use client'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
-import { useForm } from 'react-hook-form'
+import { useForm, useWatch } from 'react-hook-form'
 import {
-  KategoriBahan,
   SatuanBahan,
   TTambahBahanScema,
   TambahBahanScema,
+  TKategoriBahan,
 } from '../schemas/tambah-bahan-schema'
 import { zodResolver } from '@hookform/resolvers/zod'
 import Image from 'next/image'
@@ -16,30 +16,42 @@ import Button from '@/shared/components/ui/button'
 import AllModalParent from '@/shared/components/modal/AllModalParent'
 import TambahBahanChild from '@/shared/components/modal/modalChildren/tambah-bahan-child'
 import BerhasilTambahBahanChild from '@/shared/components/modal/modalChildren/berhasil-tambahbahan-child'
+import { useAddFood } from '../hooks/tambah-bahanhooks'
+import { useGetAllCategory } from '@/features/bahan-saya/hooks/bahan-sayahooks'
 
 export default function TambahBahanForm() {
   const router = useRouter()
+  const { mutateAsync: addFood, isPending: isAddingFood } = useAddFood()
+  const { data: categories, isLoading: isCategoriesLoading } =
+    useGetAllCategory()
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
     reset,
     setValue,
-    watch,
+    control,
   } = useForm<TTambahBahanScema>({
     resolver: zodResolver(TambahBahanScema),
     defaultValues: {
-      nama: '',
-      kategori: 'Sayur-sayuran',
-      jumlah: 0,
-      satuan: 'Ikat',
-      harga: 0,
-      penyimpanan: 'Freezer',
+      food_category_id: 0,
+      food_name: '',
+      initial_weight: 1,
+      unit_of_weight: 'gram',
+      price: 1000,
+      storage_location: 'refrigerator',
+      purchase_date: new Date(),
     },
   })
 
-  const selectLocation = watch('penyimpanan')
-  const selectedKategori = watch('kategori')
+  const selectLocation = useWatch({
+    control,
+    name: 'storage_location',
+  })
+  const selectedKategori = useWatch({
+    control,
+    name: 'food_category_id',
+  })
 
   const [showConfirmModal, setShowConfirmModal] = useState(false)
   const [showSuccessModal, setShowSuccessModal] = useState(false)
@@ -54,7 +66,37 @@ export default function TambahBahanForm() {
 
   const handleConfirmSubmit = async () => {
     if (!formDataState) return
+    const currentData = formDataState // narrowing for TS
     try {
+      let formattedDate = ''
+      if (currentData.purchase_date instanceof Date) {
+        const year = currentData.purchase_date.getFullYear()
+        const month = String(currentData.purchase_date.getMonth() + 1).padStart(
+          2,
+          '0',
+        )
+        const day = String(currentData.purchase_date.getDate()).padStart(2, '0')
+        formattedDate = `${year}-${month}-${day}`
+
+        const todayUTC = new Date().toISOString().split('T')[0]
+        if (formattedDate > todayUTC) {
+          formattedDate = todayUTC
+        }
+      } else {
+        formattedDate = String(currentData.purchase_date)
+      }
+
+      const payload = {
+        food_category_id: Number(currentData.food_category_id),
+        food_name: currentData.food_name,
+        initial_weight: Number(currentData.initial_weight),
+        unit_of_weight: currentData.unit_of_weight,
+        storage_location: currentData.storage_location,
+        purchase_date: formattedDate,
+        price: Number(currentData.price),
+      }
+
+      await addFood(payload as unknown as TTambahBahanScema)
       setShowConfirmModal(false)
       setShowSuccessModal(true)
 
@@ -63,9 +105,8 @@ export default function TambahBahanForm() {
         reset()
         router.push('/bahan-saya')
       }, 5000)
-    } catch (error) {
-      console.log(error)
-    }
+    } catch {}
+    setShowConfirmModal(false)
   }
 
   return (
@@ -79,7 +120,7 @@ export default function TambahBahanForm() {
             data={formDataState}
             onCancel={() => setShowConfirmModal(false)}
             onConfirm={handleConfirmSubmit}
-            isSubmitting={isSubmitting}
+            isSubmitting={isAddingFood}
           />
         )}
       </AllModalParent>
@@ -151,10 +192,14 @@ export default function TambahBahanForm() {
                   type="text"
                   placeholder="Contoh : Wortel, Jagung, Susu"
                   className="w-full border border-hitamdikit/30 rounded-xl px-3 py-2 text-sm sm:text-base md:text-lg lg:text-xl font-roboto-400 text-hitamdikit"
-                  {...register('nama', { required: 'Nama bahan wajib diisi' })}
+                  {...register('food_name', {
+                    required: 'Nama bahan wajib diisi',
+                  })}
                 />
-                {errors.nama && (
-                  <p className="text-red-500 text-sm">{errors.nama.message}</p>
+                {errors.food_name && (
+                  <p className="text-red-500 text-sm">
+                    {errors.food_name.message}
+                  </p>
                 )}
               </div>
 
@@ -168,19 +213,26 @@ export default function TambahBahanForm() {
                 <select
                   id="kategori"
                   className={`w-full border border-hitamdikit/30 rounded-xl px-3 py-2 text-sm sm:text-base md:text-lg lg:text-xl font-roboto-400 text-hitamdikit`}
-                  {...register('kategori', {
+                  {...register('food_category_id', {
                     required: 'Kategori wajib diisi',
+                    valueAsNumber: true,
                   })}
+                  disabled={isCategoriesLoading}
                 >
-                  {KategoriBahan.options.map((kategori) => (
-                    <option key={kategori} value={kategori}>
-                      {kategori}
+                  <option value={0} disabled>
+                    {isCategoriesLoading
+                      ? 'Memuat Kategori...'
+                      : 'Pilih Kategori'}
+                  </option>
+                  {categories?.map((cat) => (
+                    <option key={cat.id} value={cat.id}>
+                      {cat.categoryName}
                     </option>
                   ))}
                 </select>
-                {errors.kategori && (
+                {errors.food_category_id && (
                   <p className="text-red-500 text-sm">
-                    {errors.kategori.message}
+                    {errors.food_category_id.message}
                   </p>
                 )}
               </div>
@@ -194,14 +246,14 @@ export default function TambahBahanForm() {
                 <input
                   type="date"
                   className="w-full  border border-hitamdikit/30 rounded-xl px-3 py-2 text-sm sm:text-base md:text-lg lg:text-xl font-roboto-400 text-hitamdikit"
-                  {...register('tanggalBeli', {
+                  {...register('purchase_date', {
                     required: 'Tanggal beli wajib diisi',
                     valueAsDate: true,
                   })}
                 />
-                {errors.tanggalBeli && (
+                {errors.purchase_date && (
                   <p className="text-red-500 text-sm">
-                    {errors.tanggalBeli.message}
+                    {errors.purchase_date.message}
                   </p>
                 )}
               </div>
@@ -226,7 +278,7 @@ export default function TambahBahanForm() {
                     type="number"
                     placeholder="Contoh : 10, 20, 30"
                     className="w-full border border-hitamdikit/30 rounded-xl rounded-r-none px-3 py-2 text-sm sm:text-base md:text-lg lg:text-xl font-roboto-400 text-hitamdikit"
-                    {...register('jumlah', {
+                    {...register('initial_weight', {
                       required: 'Jumlah wajib diisi',
                       valueAsNumber: true,
                     })}
@@ -234,7 +286,9 @@ export default function TambahBahanForm() {
 
                   <select
                     className="border border-hitamdikit/30 rounded-xl px-3 py-2 rounded-l-none font-roboto-400"
-                    {...register('satuan', { required: 'Satuan wajib diisi' })}
+                    {...register('unit_of_weight', {
+                      required: 'Satuan wajib diisi',
+                    })}
                   >
                     {SatuanBahan.options.map((satuan) => (
                       <option key={satuan} value={satuan}>
@@ -243,9 +297,9 @@ export default function TambahBahanForm() {
                     ))}
                   </select>
                 </div>
-                {errors.jumlah && (
+                {errors.initial_weight && (
                   <p className="text-red-500 text-sm">
-                    {errors.jumlah.message}
+                    {errors.initial_weight.message}
                   </p>
                 )}
                 <p className="text-sm text-hitamdikit/50 font-roboto-400 mt-2">
@@ -268,14 +322,14 @@ export default function TambahBahanForm() {
                     type="number"
                     placeholder="Contoh : 10, 20, 30"
                     className="w-full border border-hitamdikit/30 rounded-xl rounded-l-none px-3 py-2 text-sm sm:text-base md:text-lg lg:text-xl font-roboto-400 text-hitamdikit"
-                    {...register('harga', {
+                    {...register('price', {
                       required: 'Harga wajib diisi',
                       valueAsNumber: true,
                     })}
                   />
                 </div>
-                {errors.harga && (
-                  <p className="text-red-500 text-sm">{errors.harga.message}</p>
+                {errors.price && (
+                  <p className="text-red-500 text-sm">{errors.price.message}</p>
                 )}
                 <p className="text-sm text-hitamdikit/50 font-roboto-400 mt-2">
                   Untuk tracking pengeluaran
@@ -289,22 +343,27 @@ export default function TambahBahanForm() {
               Penyimpanan
             </h2>
             <div className="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-[18px] ">
-              {lokasiList.map((item) => (
+              {Object.entries(lokasiList).map(([key, item]) => (
                 <button
-                  key={item.name}
+                  key={key}
                   type="button"
-                  onClick={() => setValue('penyimpanan', item.name)}
-                  className={`border border-hitamdikit/20 flex items-center flex-col w-full p-6 rounded-xl cursor-pointer space-y-2 ${selectLocation === item.name ? 'bg-primaryskyblue' : ''}`}
+                  onClick={() =>
+                    setValue(
+                      'storage_location',
+                      key as TTambahBahanScema['storage_location'],
+                    )
+                  }
+                  className={`border border-hitamdikit/20 flex items-center flex-col w-full p-6 rounded-xl cursor-pointer space-y-2 ${selectLocation === key ? 'bg-primaryskyblue' : ''}`}
                 >
                   <Image
                     src={item.image}
-                    alt={item.name}
+                    alt={item.displayName || key}
                     width={66}
                     height={58}
                   />
 
                   <h4 className="text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl font-roboto-400 text-hitamdikit">
-                    {item.name}
+                    {item.displayName || key}
                   </h4>
                   <p className="text-sm sm:text-base md:text-lg lg:text-xl font-roboto-400 text-hitamdikit/50">
                     {item.desc}
@@ -312,7 +371,7 @@ export default function TambahBahanForm() {
                 </button>
               ))}
 
-              <input type="hidden" {...register('penyimpanan')} />
+              <input type="hidden" {...register('storage_location')} />
             </div>
 
             {selectedKategori && (
@@ -326,7 +385,12 @@ export default function TambahBahanForm() {
                     Saran Penyimpanan
                   </h4>
                   <p className="text-xs lg:text-sm font-roboto-400 text-hitamdikit/50">
-                    {saranPenyimpanan[selectedKategori]}
+                    {saranPenyimpanan[
+                      (categories?.find(
+                        (c) => c.id === Number(selectedKategori),
+                      )?.categoryName as TKategoriBahan) ??
+                        ('' as TKategoriBahan)
+                    ] || 'Tidak ada saran'}
                   </p>
                 </div>
               </div>
@@ -348,8 +412,9 @@ export default function TambahBahanForm() {
               size="lg"
               type="submit"
               className="w-full bg-text-primary text-white "
+              disabled={isSubmitting || isAddingFood}
             >
-              {isSubmitting ? 'Menyimpan...' : 'Simpan'}
+              {isSubmitting || isAddingFood ? 'Memproses...' : 'Simpan'}
             </Button>
           </div>
         </form>

@@ -5,6 +5,7 @@ import Button from '../ui/button'
 import { useState } from 'react'
 import FadeIn from '@/shared/animations/Fadein'
 import { Menu, X } from 'lucide-react'
+import Image from 'next/image'
 
 export default function Navbar() {
   const [activeSection, setActiveSection] = useState('#beranda')
@@ -21,7 +22,19 @@ export default function Navbar() {
     <>
       <nav className="hidden fixed z-999 w-full bg-primary lg:flex justify-between items-center px-10 py-6">
         <FadeIn className="w-full h-full flex justify-between items-center ">
-          <div className="font-roboto-400 text-white text-2xl">Simpanin.id</div>
+          <div className="flex items-center">
+            <Image
+              src="/assets/logos.webp"
+              unoptimized
+              width={51}
+              height={60}
+              alt="logo"
+              className="translate-y-[-13px] translate-x-[10px]"
+            />
+            <div className="font-roboto-400 text-white text-2xl">
+              Simpanin.id
+            </div>
+          </div>
           <div className="flex gap-6 items-center">
             <div className="flex gap-6">
               {navLinks.map((links) => (
@@ -58,8 +71,20 @@ export default function Navbar() {
       </nav>
 
       <nav className="lg:hidden z-999 fixed w-full bg-primary">
-        <div className="flex justify-between items-center px-10 py-6">
-          <div className="font-roboto-400 text-white text-2xl">Simpanin.id</div>
+        <div className="flex justify-between items-center px-5 py-6">
+          <div className="flex items-center">
+            <Image
+              src="/assets/logos.webp"
+              unoptimized
+              width={51}
+              height={60}
+              alt="logo"
+              className="translate-y-[-13px] translate-x-[10px]"
+            />
+            <div className="font-roboto-400 text-white text-2xl">
+              Simpanin.id
+            </div>
+          </div>
           <button
             className="text-white"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}

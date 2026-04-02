@@ -1,47 +1,68 @@
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useForm } from 'react-hook-form'
 import {
-  TJumlahBahanSchema,
-  jumlahBahanSchema,
-} from '../../schemas/modalSchema'
+  useForm,
+  FieldValues,
+  Path,
+  SubmitHandler,
+  type Resolver,
+} from 'react-hook-form'
 
-type InputProps = {
+type InputProps<T extends FieldValues> = {
   id?: string
-  onSubmit: (data: TJumlahBahanSchema) => void
+  onSubmit: SubmitHandler<T>
+  schema: Parameters<typeof zodResolver>[0]
+  fieldName: Path<T>
+  maxWeight?: number
+  unitWeight?: string | number
 }
 
-export default function SmallInputGunakanBahan({ id, onSubmit }: InputProps) {
+export default function SmallInputGunakanBahan<T extends FieldValues>({
+  id,
+  onSubmit,
+  schema,
+  fieldName,
+  maxWeight,
+  unitWeight,
+}: InputProps<T>) {
   const {
     register,
     formState: { errors },
     handleSubmit,
-  } = useForm<TJumlahBahanSchema>({
-    resolver: zodResolver(jumlahBahanSchema),
-    defaultValues: {
-      jumlah: 0,
-    },
+  } = useForm<T>({
+    resolver: zodResolver(schema) as unknown as Resolver<T>,
   })
+
+  const errorMessage = errors[fieldName]?.message as string | undefined
 
   return (
     <form id={id} onSubmit={handleSubmit(onSubmit)}>
-      <div className="flex w-full max-w-[164px] mt-6 mx-auto border border-hitamdikit/30 rounded-xl overflow-hidden">
+      <div className="flex w-full max-w-[164px] mt-6 mx-auto border border-hitamdikit/30 rounded-xl overflow-hidden focus-within:ring-1 focus-within:ring-merah focus-within:border-merah transition-all">
         <input
           type="number"
-          placeholder="Contoh : 10, 20, 30"
-          className="w-full border border-hitamdikit/30 rounded-xl rounded-r-none px-3 py-2 text-sm sm:text-base md:text-lg lg:text-xl font-roboto-400 text-hitamdikit"
-          {...register('jumlah', {
+          step="any"
+          placeholder="Contoh : 10"
+          className="w-full px-3 py-2 text-sm sm:text-base md:text-lg lg:text-xl font-roboto-400 text-hitamdikit outline-none"
+          {...register(fieldName, {
             required: 'Jumlah wajib diisi',
             valueAsNumber: true,
+            min: { value: 0.1, message: 'Minimal 0.1' },
+            max: {
+              value: maxWeight || Infinity,
+              message: `Maksimal ${maxWeight} ${unitWeight}`,
+            },
           })}
         />
-        <div className="border border-hitamdikit/30 rounded-xl rounded-l-none flex items-center justify-center p-3">
-          {/* {items.unit} */}
-          <p>g</p>
+        <div className="border-l border-hitamdikit/30 flex items-center justify-center px-4 bg-gray-50 text-hitamdikit font-roboto-400">
+          <p className="text-sm">{unitWeight || 'g'}</p>
         </div>
       </div>
-      {errors.jumlah && (
-        <p className="text-red-500 text-sm">{errors.jumlah.message}</p>
-      )}
+      <div className="h-5">
+        {errorMessage && (
+          <p className="text-red-500 text-xs mt-1 text-center font-roboto-400">
+            {errorMessage}
+          </p>
+        )}
+      </div>
     </form>
   )
 }

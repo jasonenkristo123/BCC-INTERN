@@ -1,5 +1,5 @@
 import { create } from 'zustand'
-import type { FilterState, FoodCategory, StorageLocation } from '../types/food'
+import type { FilterState, StorageLocation } from '../types/food'
 
 interface InventoryStore {
   filters: FilterState
@@ -8,7 +8,7 @@ interface InventoryStore {
   categorySliderIndex: number
 
   setSearch: (search: string) => void
-  setCategory: (category: FoodCategory | 'Semua') => void
+  setCategory: (category: string) => void
   setStorageLocation: (location: StorageLocation | 'Semua') => void
   setRiskLevel: (level: FilterState['riskLevel']) => void
   setSortBy: (sortBy: FilterState['sortBy']) => void

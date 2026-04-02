@@ -1,9 +1,47 @@
 import Button from '@/shared/components/ui/button'
 import DashboardSmallCard from '@/shared/components/ui/dashboard-smallcard'
 import Image from 'next/image'
+import {
+  useGetConsumedFood,
+  useGetExpiredFood,
+  useGetFreshFood,
+  useGetWarningFood,
+} from '../hooks/dashboard-hooks'
+import { formatCurrency } from '@/shared/utils/utils'
+import { useGetCategoryLoss } from '@/features/waste-tracker/hooks/waste-trackerhooks'
 
 export default function DashBoardTreeGrid() {
-  // data masih sementara
+  const { data: ConsumedFood, isLoading: isLoadingConsumed } =
+    useGetConsumedFood()
+  const { data: WarningFood, isLoading: isLoadingWarning } = useGetWarningFood()
+  const { data: ExpiredFood, isLoading: isLoadingExpired } = useGetExpiredFood()
+  const { data: SafeFood, isLoading: isLoadingSafe } = useGetFreshFood()
+  const { data: CategoryLoss } = useGetCategoryLoss()
+
+  if (
+    isLoadingConsumed ||
+    isLoadingWarning ||
+    isLoadingExpired ||
+    isLoadingSafe
+  ) {
+    return (
+      <div className="flex justify-center items-center h-40">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-text-primary"></div>
+      </div>
+    )
+  }
+
+  const WarningFoodCount = WarningFood?.data?.[0]?.warning_count ?? 0
+  const ExpiredFoodCount = ExpiredFood?.data?.[0]?.expired_count ?? 0
+
+  const WarningFoodTotalPrice = WarningFood?.data?.[0]?.total_price ?? 0
+  const SafeFoodTotalPrice = SafeFood?.data?.[0]?.total_price ?? 0
+
+  const ConsumeFoodPercentage =
+    ConsumedFood?.data?.[0]?.consumed_percentage ?? 0
+  const WarningFoodPercentage = WarningFood?.data?.[0]?.warning_percentage ?? 0
+  const ExpiredFoodPercentage = ExpiredFood?.data?.[0]?.expired_percentage ?? 0
+
   return (
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 px-4 lg:px-8">
       <div className="bg-white rounded-xl shadow-lg p-4 lg:p-8">
@@ -23,15 +61,36 @@ export default function DashBoardTreeGrid() {
             Total Bahan
           </h3>
           <div className="w-full bg-gray-200 rounded-full h-3 flex overflow-hidden">
-            <div
-              className="bg-text-primary h-full"
-              style={{ width: '40%' }}
-            ></div>
-            <div
-              className="bg-orange-400 h-full"
-              style={{ width: '35%' }}
-            ></div>
-            <div className="bg-red-500 h-full" style={{ width: '25%' }}></div>
+            {(() => {
+              const total =
+                ConsumeFoodPercentage +
+                WarningFoodPercentage +
+                ExpiredFoodPercentage
+              if (total === 0) return null
+
+              return (
+                <>
+                  <div
+                    className="bg-text-primary h-full transition-all duration-500"
+                    style={{
+                      width: `${(ConsumeFoodPercentage / total) * 100}%`,
+                    }}
+                  ></div>
+                  <div
+                    className="bg-orange-400 h-full transition-all duration-500"
+                    style={{
+                      width: `${(WarningFoodPercentage / total) * 100}%`,
+                    }}
+                  ></div>
+                  <div
+                    className="bg-red-500 h-full transition-all duration-500"
+                    style={{
+                      width: `${(ExpiredFoodPercentage / total) * 100}%`,
+                    }}
+                  ></div>
+                </>
+              )
+            })()}
           </div>
           <div className="mt-2 flex flex-wrap gap-2 sm:gap-4">
             <div className="flex items-center gap-2 sm:gap-4">
@@ -52,7 +111,7 @@ export default function DashBoardTreeGrid() {
           <div className="flex flex-row gap-2 mt-4">
             <DashboardSmallCard className="bg-orange-muda border-orangnormal/40 flex-1">
               <h3 className="font-roboto-600 text-orangnormal text-base sm:text-lg lg:text-xl xl:text-3xl">
-                23
+                {WarningFoodCount}
               </h3>
               <p className="font-roboto-500 text-xs sm:text-sm text-blackprimary">
                 Mendekati Kedaluwarsa
@@ -60,7 +119,7 @@ export default function DashBoardTreeGrid() {
             </DashboardSmallCard>
             <DashboardSmallCard className="bg-white border-merah/40 flex-1">
               <h3 className="font-roboto-600 text-merah text-base sm:text-lg lg:text-xl xl:text-3xl">
-                23
+                {ExpiredFoodCount}
               </h3>
               <p className="font-roboto-500 text-xs sm:text-sm text-blackprimary">
                 Sudah Kedaluwarsa
@@ -83,16 +142,8 @@ export default function DashBoardTreeGrid() {
         </div>
         <div className="flex gap-2 items-center mt-8">
           <h3 className="font-roboto-500 text-base sm:text-lg md:text-xl lg:text-2xl xl:text-4xl">
-            Rp 1.250.000
+            {formatCurrency(WarningFoodTotalPrice + SafeFoodTotalPrice)}
           </h3>
-          <Image
-            src="/assets/tren-naik.webp"
-            alt="tren naik"
-            width={24}
-            height={24}
-            className="w-4 h-4"
-          />
-          <p className="text-merah font-roboto-400">12% dari bulan lalu</p>
         </div>
         <div className="flex flex-row gap-2 mt-8">
           <DashboardSmallCard className="bg-orange-muda border-orangnormal/40 flex-1">
@@ -100,7 +151,7 @@ export default function DashBoardTreeGrid() {
               Potensi Rugi:
             </h3>
             <p className="font-roboto-600 text-sm text-orangnormal sm:text-lg lg:text-xl xl:text-2xl">
-              Rp 450.000
+              {formatCurrency(WarningFoodTotalPrice)}
             </p>
           </DashboardSmallCard>
           <DashboardSmallCard className="bg-white border-text-primary flex-1">
@@ -108,7 +159,7 @@ export default function DashBoardTreeGrid() {
               Terselamatkan
             </h3>
             <p className="font-roboto-600 text-sm text-text-primary sm:text-lg lg:text-xl xl:text-2xl">
-              Rp 800.000
+              {formatCurrency(SafeFoodTotalPrice)}
             </p>
           </DashboardSmallCard>
         </div>
@@ -121,40 +172,50 @@ export default function DashBoardTreeGrid() {
           <Image src="/assets/trash.webp" alt="trash" width={32} height={32} />
         </div>
 
-        {/* Data disini */}
+        {/* Dynamic top wasted categories from API */}
         <div className="flex flex-col justify-center mt-4">
-          <div className="flex gap-4">
-            <div className="bg-redlight rounded-full w-12 h-12 flex items-center justify-center font-roboto-600">
-              1
-            </div>
-            <Image
-              src="/kategori/sayur.webp"
-              alt="sayur"
-              width={32}
-              height={32}
-              className="w-14 h-14"
-            />
-            <div className="font-roboto-500">
-              <h4>Daging</h4>
-              <p>10 kg</p>
-            </div>
-          </div>
-          <div className="flex gap-4 mt-4">
-            <div className="bg-redlight rounded-full w-12 h-12 flex items-center justify-center font-roboto-600">
-              2
-            </div>
-            <Image
-              src="/kategori/buahbuah.webp"
-              alt="sayur"
-              width={32}
-              height={32}
-              className="w-14 h-14"
-            />
-            <div className="font-roboto-500">
-              <h4>Buah</h4>
-              <p>10 kg</p>
-            </div>
-          </div>
+          {(() => {
+            const lossData: {
+              category: string
+              total_amount: number
+              unit_of_weight: string
+            }[] = CategoryLoss?.data || []
+            const topCategories = [...lossData]
+              .sort((a, b) => b.total_amount - a.total_amount)
+              .slice(0, 2)
+
+            if (topCategories.length === 0) {
+              return (
+                <p className="text-hitamdikit/50 italic text-sm">
+                  Belum ada data bahan terbuang
+                </p>
+              )
+            }
+
+            return topCategories.map((cat, index) => (
+              <div
+                key={cat.category}
+                className={`flex gap-4 ${index > 0 ? 'mt-4' : ''}`}
+              >
+                <div className="bg-redlight rounded-full w-12 h-12 flex items-center justify-center font-roboto-600">
+                  {index + 1}
+                </div>
+                <Image
+                  src={`/kategori/${cat.category === 'Sayur-sayuran' ? 'sayur' : cat.category === 'Buah-buahan' ? 'buahbuah' : cat.category === 'Daging' ? 'dagings' : cat.category === 'Seafood' ? 'seafood' : cat.category === 'Umbi-umbian' ? 'umbi' : cat.category === 'Telur' ? 'telur' : cat.category === 'Produk Susu' ? 'milk' : cat.category === 'Rempah-rempah' ? 'rempah' : cat.category === 'Bumbu Dapur' ? 'bumbu' : cat.category === 'Biji-bijian' ? 'biji' : 'kacang'}.webp`}
+                  alt={cat.category}
+                  width={32}
+                  height={32}
+                  className="w-14 h-14"
+                />
+                <div className="font-roboto-500">
+                  <h4>{cat.category}</h4>
+                  <p>
+                    {cat.total_amount} {cat.unit_of_weight}
+                  </p>
+                </div>
+              </div>
+            ))
+          })()}
         </div>
         <div>
           <Button

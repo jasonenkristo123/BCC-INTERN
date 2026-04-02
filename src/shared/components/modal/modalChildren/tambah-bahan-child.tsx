@@ -36,7 +36,7 @@ export default function TambahBahanChild({
             Nama bahan
           </p>
           <p className="text-sm md:text-base font-roboto-500 text-hitamdikit">
-            {data.nama}
+            {data.food_name}
           </p>
         </div>
         <div className="bg-putihabu rounded-xl p-3">
@@ -44,7 +44,7 @@ export default function TambahBahanChild({
             Kategori
           </p>
           <p className="text-sm md:text-base font-roboto-500 text-hitamdikit">
-            {data.kategori}
+            {data.food_category_id}
           </p>
         </div>
         <div className="bg-putihabu rounded-xl p-3">
@@ -52,12 +52,12 @@ export default function TambahBahanChild({
             Tanggal beli
           </p>
           <p className="text-sm md:text-base font-roboto-500 text-hitamdikit">
-            {data.tanggalBeli
+            {data.purchase_date
               ? new Intl.DateTimeFormat('id-ID', {
                   day: '2-digit',
                   month: 'short',
                   year: 'numeric',
-                }).format(new Date(data.tanggalBeli))
+                }).format(new Date(data.purchase_date))
               : '-'}
           </p>
         </div>
@@ -66,7 +66,7 @@ export default function TambahBahanChild({
             Stok
           </p>
           <p className="text-sm md:text-base font-roboto-500 text-hitamdikit">
-            {data.jumlah} {data.satuan}
+            {data.initial_weight} {data.unit_of_weight}
           </p>
         </div>
         <div className="bg-putihabu rounded-xl p-3">
@@ -74,7 +74,7 @@ export default function TambahBahanChild({
             Harga
           </p>
           <p className="text-sm md:text-base font-roboto-500 text-hitamdikit">
-            {formatCurrency(data.harga || 0)}
+            {formatCurrency(data.price || 0)}
           </p>
         </div>
         <div className="bg-putihabu rounded-xl p-3">
@@ -82,7 +82,7 @@ export default function TambahBahanChild({
             Simpan di
           </p>
           <p className="text-sm md:text-base font-roboto-500 text-hitamdikit">
-            {data.penyimpanan}
+            {data.storage_location}
           </p>
         </div>
       </div>

@@ -1,6 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useAuthStore } from '../store/authStore'
 import { getMe, loginFn, logoutFn, registerFn } from '../services/api'
+import { deleteCookie, setCookie } from '@/shared/lib/cookies'
 
 export const useLogin = () => {
   const setUser = useAuthStore((s) => s.setUser)
@@ -11,6 +12,8 @@ export const useLogin = () => {
     onSuccess: async () => {
       const user = await getMe()
       setUser(user)
+      // Save user data to cookie for 15 minutes (900 seconds) for middleware access
+      setCookie('user_data', JSON.stringify(user), 900)
       queryClient.invalidateQueries({ queryKey: ['user'] })
     },
   })
@@ -35,6 +38,8 @@ export const useLogout = () => {
     mutationFn: logoutFn,
     onSuccess: () => {
       logout()
+      // Remove user data from cookie on logout
+      deleteCookie('user_data')
       queryClient.invalidateQueries({ queryKey: ['user'] })
     },
   })

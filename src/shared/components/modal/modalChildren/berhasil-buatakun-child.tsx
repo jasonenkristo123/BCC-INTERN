@@ -16,6 +16,9 @@ export default function BerhasilBuatAkunChild() {
         Sekarang kamu bisa mulai menyimpan dan mengelola bahan makananmu dengan
         lebih rapi.
       </p>
+      <p className="text-lg font-bold pt-6 text-center text-hitamdikit">
+        Silahkan cek emailmu dispam untuk verifikasi email!
+      </p>
     </div>
   )
 }

@@ -5,10 +5,12 @@ import Image from 'next/image'
 import { useState } from 'react'
 import FadeIn from '@/shared/animations/Fadein'
 import { Menu, X } from 'lucide-react'
+import { useGetUserProfile } from '@/features/profile/hooks/profile-hooks'
 
 export default function MainNavbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const pathname = usePathname() || ''
+  const { data: userProfile } = useGetUserProfile()
 
   const navLinks = [
     { name: 'Dashboard', href: '/dashboard' },
@@ -17,11 +19,21 @@ export default function MainNavbar() {
   ]
   return (
     <>
-      <nav className="fixed z-999 hidden md:flex justify-between items-center w-full gap-4 bg-white px-8 py-4">
+      <nav className="fixed z-999 hidden md:flex justify-between items-center w-full gap-4 bg-white px-8 py-6">
         <div className="flex items-center w-full gap-8">
-          <h1 className="md:text-lg lg:text-xl xl:text-2xl font-roboto-400">
-            Simpanin.id
-          </h1>
+          <div className="flex items-center">
+            <Image
+              src="/assets/logos.webp"
+              unoptimized
+              width={51}
+              height={60}
+              alt="logo"
+              className="translate-y-[-13px] translate-x-[10px]"
+            />
+            <div className="font-roboto-400 text-hitamdikit text-2xl">
+              Simpanin.id
+            </div>
+          </div>
           <div className="flex gap-6">
             {navLinks.map((links) => {
               const isActive = pathname.startsWith(links.href)
@@ -39,7 +51,7 @@ export default function MainNavbar() {
         </div>
         <div className="flex items-center gap-2 pr-6">
           <Image
-            src="/assets/dedy.webp"
+            src={userProfile?.profile_picture || '/assets/dedy.webp'}
             alt="Profile"
             width={40}
             height={40}
@@ -47,8 +59,8 @@ export default function MainNavbar() {
           />
           <div className="flex flex-col text-sm pt-1 gap-1 cursor-pointer">
             <Link href="/profile/account">
-              <p>Dedy</p>
-              <p className="text-xs text-text-secondary">Premium</p>
+              <p>{userProfile?.name || 'User'}</p>
+              <p className="text-xs text-text-secondary">Free</p>
             </Link>
           </div>
         </div>
@@ -65,7 +77,7 @@ export default function MainNavbar() {
           </button>
           <div className="flex items-center gap-2">
             <Image
-              src="/assets/dedy.webp"
+              src={userProfile?.profile_picture || '/assets/dedy.webp'}
               alt="Profile"
               width={40}
               height={40}
@@ -73,8 +85,8 @@ export default function MainNavbar() {
             />
             <div className="flex flex-col  text-sm pt-1 gap-1 cursor-pointer">
               <Link href="/profile/account">
-                <p className="text-white">Dedy</p>
-                <p className="text-xs text-white">Premium</p>
+                <p className="text-white">{userProfile?.name || 'User'}</p>
+                <p className="text-xs text-white">Free</p>
               </Link>
             </div>
           </div>

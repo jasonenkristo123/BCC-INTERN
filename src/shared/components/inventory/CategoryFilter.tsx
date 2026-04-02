@@ -1,8 +1,8 @@
 'use client'
 
+import { useGetAllCategory } from '@/features/bahan-saya/hooks/bahan-sayahooks'
 import { useInventoryStore } from '../../store/food-store'
-import { ALL_CATEGORIES } from '@/shared/dummyData/foodData'
-import type { FoodCategory } from '@/shared/types/food'
+import type { CategoryItem } from '@/shared/types/food'
 
 const VISIBLE_COUNT = 5
 
@@ -11,6 +11,7 @@ export default function CategorySlider() {
   const setCategory = useInventoryStore((s) => s.setCategory)
   const sliderIndex = useInventoryStore((s) => s.categorySliderIndex)
   const setSliderIndex = useInventoryStore((s) => s.setCategorySliderIndex)
+  const { data: ALL_CATEGORIES = [] } = useGetAllCategory()
 
   const maxIndex = Math.max(0, ALL_CATEGORIES.length - VISIBLE_COUNT)
   const visibleCategories = ALL_CATEGORIES.slice(
@@ -45,19 +46,20 @@ export default function CategorySlider() {
       </button>
 
       <div className="flex items-center gap-2 overflow-hidden">
-        {visibleCategories.map((cat) => {
-          const isSelected = selectedCategory === cat
+        {visibleCategories.map((cat: CategoryItem) => {
+          const catName = cat.categoryName
+          const isSelected = selectedCategory === catName
           return (
             <button
-              key={cat}
-              onClick={() => setCategory(cat as FoodCategory | 'Semua')}
+              key={cat.id}
+              onClick={() => setCategory(cat.categoryName)}
               className={`px-3.5 py-1.5 rounded-full text-xs font-roboto-500 whitespace-nowrap transition-all duration-200 ${
                 isSelected
                   ? 'bg-text-primary text-white shadow-md '
                   : 'bg-white border border-gray-200 text-gray-600 hover:border-text-primary hover:text-text-primary hover:bg-emerald-50'
               }`}
             >
-              {cat}
+              {catName}
             </button>
           )
         })}

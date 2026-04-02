@@ -2,10 +2,8 @@
 
 import { useMemo } from 'react'
 import Image from 'next/image'
-import { ALL_ITEMS, ALL_CATEGORIES } from '@/shared/dummyData/foodData'
 import {
   filterItemsByMonth,
-  getExpiryStatus,
   formatCurrency,
   formatDate,
 } from '@/shared/utils/utils'
@@ -13,9 +11,13 @@ import { useSelectMonth, useInventoryStore } from '@/shared/store/food-store'
 import { useFilteredItems } from '@/shared/lib/useFilteredItems'
 import Pagination from '@/shared/components/inventory/Pagination'
 import EmptyState from '@/shared/components/inventory/EmptyState'
-import type { FoodCategory } from '@/shared/types/food'
+import type { CategoryItem } from '@/shared/types/food'
+import { categoriesWithImage } from '@/shared/types/food'
 import SearchBar from '@/shared/components/ui/searchBar'
 import { useState } from 'react'
+import { useGetAllCategory } from '@/features/bahan-saya/hooks/bahan-sayahooks'
+import { useGetAllExpiredFoodByMonth } from '../hooks/waste-trackerhooks'
+import type { TExpiredFoodRecord } from '../services/api'
 
 export default function WasteTrackerFoodRow() {
   const selectedMonth = useSelectMonth((s) => s.selectedMonth)
@@ -24,16 +26,25 @@ export default function WasteTrackerFoodRow() {
   const setSearch = useInventoryStore((s) => s.setSearch)
   const currentSearch = useInventoryStore((s) => s.filters.search)
   const [localValue, setLocalValue] = useState(currentSearch)
+  const { data: DiscardedFood } = useGetAllExpiredFoodByMonth()
+  const { data: ALL_CATEGORIES = [] } = useGetAllCategory()
 
-  // Derived expired items for the selected month
   const expiredItems = useMemo(() => {
-    const filteredByMonth = filterItemsByMonth(ALL_ITEMS, selectedMonth)
-    return filteredByMonth.filter(
-      (item) => getExpiryStatus(item.expiredEstimation).status === 'expired',
-    )
-  }, [selectedMonth])
+    // Correctly access the data array from the API response
+    const rawItems = DiscardedFood?.data || []
 
-  const { paginatedItems, totalItems } = useFilteredItems(expiredItems)
+    // Filter by month using the updated utility that supports discarded_date
+    const filteredByMonth = filterItemsByMonth(
+      rawItems,
+      selectedMonth,
+      'discarded',
+    )
+
+    return filteredByMonth
+  }, [selectedMonth, DiscardedFood])
+
+  const { paginatedItems, totalItems } =
+    useFilteredItems<TExpiredFoodRecord>(expiredItems)
 
   return (
     <div className="mt-6 md:mt-8 px-4 sm:px-6 lg:px-8">
@@ -53,19 +64,20 @@ export default function WasteTrackerFoodRow() {
             Kategori:
           </span>
           <div className="flex flex-wrap items-center gap-2 lg:gap-3 w-full">
-            {ALL_CATEGORIES.map((cat) => {
-              const isSelected = selectedCategory === cat
+            {ALL_CATEGORIES.map((cat: CategoryItem) => {
+              const catName = cat.categoryName
+              const isSelected = selectedCategory === catName
               return (
                 <button
-                  key={cat}
-                  onClick={() => setCategory(cat as FoodCategory | 'Semua')}
+                  key={cat.id}
+                  onClick={() => setCategory(catName)}
                   className={`px-4 py-1.5 rounded-full text-xs md:text-sm font-roboto-500 whitespace-nowrap transition-all duration-200 shrink-0 ${
                     isSelected
                       ? 'bg-text-primary text-white shadow-md'
                       : 'bg-gray-100/80 text-gray-600 hover:bg-emerald-50 hover:text-text-primary'
                   }`}
                 >
-                  {cat}
+                  {catName}
                 </button>
               )
             })}
@@ -101,29 +113,26 @@ export default function WasteTrackerFoodRow() {
                   : 'bg-white'
               return (
                 <div
-                  key={item.id}
+                  key={`${item.name}-${index}`}
                   className={`flex flex-col lg:flex-row lg:items-center px-4 sm:px-6 lg:px-8 py-5 lg:py-6 ${getBgColor} transition-colors duration-200 group`}
                 >
                   {/* Mobile labels */}
                   <div className="flex items-center gap-4 lg:flex-[1.5] min-w-0">
                     <div className="w-[48px] h-[48px] sm:w-[56px] sm:h-[56px] lg:w-[58px] lg:h-[58px] rounded-xl bg-white border border-gray-100 flex items-center justify-center overflow-hidden shrink-0 shadow-sm relative">
-                      {item.image ? (
-                        <Image
-                          src={item.image}
-                          width={50}
-                          height={36}
-                          alt={item.name}
-                        />
-                      ) : (
-                        <div className="w-full h-full bg-gray-100" />
-                      )}
+                      {/* Using fallback image since API doesn't provide it */}
+                      <Image
+                        src={categoriesWithImage[item.category].image}
+                        width={50}
+                        height={36}
+                        alt={item.name}
+                      />
                     </div>
                     <div className="flex flex-col min-w-0">
                       <p className="font-roboto-600 text-sm sm:text-base text-hitamdikit truncate">
                         {item.name}
                       </p>
                       <p className="font-roboto-400 text-xs sm:text-sm text-hitamdikit/60 truncate">
-                        Kategori {item.category}
+                        {item.category}
                       </p>
                     </div>
                   </div>
@@ -133,20 +142,20 @@ export default function WasteTrackerFoodRow() {
                       <span className="lg:hidden text-xs text-hitamdikit/60 block mb-1 font-normal">
                         Tanggal Dibuang
                       </span>
-                      {formatDate(item.expiredEstimation)}
+                      {formatDate(item.discarded_date)}
                     </div>
                     <div className="lg:flex-1 lg:text-center">
                       <span className="lg:hidden text-xs text-hitamdikit/60 block mb-1 font-normal">
                         Jumlah
                       </span>
-                      {item.quantity}
+                      {item.amount} {item.unit_of_weight}
                     </div>
                     <div className="col-span-2 sm:col-span-1 lg:flex-1 lg:text-center">
                       <span className="lg:hidden text-xs text-hitamdikit/60 block mb-1 font-normal">
                         Kerugian
                       </span>
                       <span className="text-red-500 lg:text-hitamdikit">
-                        {formatCurrency(item.price)}
+                        {formatCurrency(item.total_loss)}
                       </span>
                     </div>
                   </div>

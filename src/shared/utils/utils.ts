@@ -1,5 +1,11 @@
 import type { ExpiryInfo, ExpiryStatus, FoodItem } from '@/shared/types/food'
 
+export interface DateFilterable {
+  purchase_date?: string | Date
+  expiry_date?: string | Date
+  discarded_date?: string | Date
+}
+
 export function getExpiryStatus(expiredEstimation: Date): ExpiryInfo {
   const now = new Date()
   now.setHours(0, 0, 0, 0)
@@ -13,7 +19,7 @@ export function getExpiryStatus(expiredEstimation: Date): ExpiryInfo {
   if (daysLeft <= 0) {
     status = 'expired'
   } else if (daysLeft < 3) {
-    status = 'expired' // treat < 3 days as red
+    status = 'expired'
   } else if (daysLeft < 6) {
     status = 'warning'
   } else {
@@ -89,19 +95,21 @@ export function formatCurrency(amount: number): string {
     .replace('IDR', 'Rp')
 }
 
-export function formatDate(date: Date): string {
+export function formatDate(date: Date | string): string {
+  const d = typeof date === 'string' ? new Date(date) : date
+  if (isNaN(d.getTime())) return '-'
   return new Intl.DateTimeFormat('id-ID', {
     day: '2-digit',
     month: 'short',
     year: 'numeric',
-  }).format(new Date(date))
+  }).format(d)
 }
 
 export function getAvailableMonths(items: FoodItem[]) {
-  const monthMap = new Map()
+  const monthMap = new Map<string, string>()
 
   items.forEach((item) => {
-    const date = new Date(item.buyDate)
+    const date = new Date(item.purchase_date)
     const value = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`
     const label = date.toLocaleString('id-ID', {
       month: 'long',
@@ -118,15 +126,18 @@ export function getAvailableMonths(items: FoodItem[]) {
     .sort((a, b) => b.value.localeCompare(a.value))
 }
 
-export function filterItemsByMonth(
-  items: FoodItem[],
+export function filterItemsByMonth<T extends DateFilterable>(
+  items: T[],
   monthYear: string,
-  type: 'buy' | 'expired' = 'buy',
-) {
+  type: 'buy' | 'expired' | 'discarded' = 'buy',
+): T[] {
   if (!monthYear) return items
 
   return items.filter((item) => {
-    const rawDate = type === 'buy' ? item.buyDate : item.expiredDate
+    let rawDate: string | Date | undefined
+    if (type === 'buy') rawDate = item.purchase_date
+    else if (type === 'expired') rawDate = item.expiry_date
+    else if (type === 'discarded') rawDate = item.discarded_date
 
     if (!rawDate) return false
 

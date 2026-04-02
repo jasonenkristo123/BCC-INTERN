@@ -78,13 +78,7 @@ function formatRupiah(amount: number) {
 }
 
 export default function FoodExpiryCard({ item, onUse }: FoodExpiryCardProps) {
-  const today = new Date('2026-03-25')
-  const daysLeft = Math.ceil(
-    (new Date(item.expiredEstimation).getTime() - today.getTime()) /
-      (1000 * 60 * 60 * 24),
-  )
-
-  const level = getExpiryLevel(daysLeft)
+  const level = getExpiryLevel(item.days_left)
   const cfg = LEVEL_CONFIG[level]
 
   return (
@@ -96,7 +90,7 @@ export default function FoodExpiryCard({ item, onUse }: FoodExpiryCardProps) {
         <div className="flex h-11 w-11 sm:h-14 sm:w-14 shrink-0 items-center justify-center rounded-xl bg-white shadow-sm overflow-hidden relative">
           {item.image && (
             <Image
-              src={item.image}
+              src={item.image.image}
               alt={item.name}
               fill
               className="object-cover"
@@ -108,20 +102,20 @@ export default function FoodExpiryCard({ item, onUse }: FoodExpiryCardProps) {
           <p className="truncate font-roboto-500 text-blackprimary text-[13px] sm:text-[15px] lg:text-xl leading-[150%]">
             {item.name}&nbsp;
             <span className="font-roboto-500 text-blackprimary">
-              ({item.quantity})
+              ({item.current_weight} {item.unit_weight})
             </span>
           </p>
           <p className="text-[11px] sm:text-xs lg:text-sm text-brown/70  font-roboto-700">
             Jika tidak digunakan total kerugian&nbsp;
             <span className={`${cfg.lossText}`}>
-              {formatRupiah(item.price)}
+              {formatRupiah(item.total_price)}
             </span>
           </p>
           <div className="mt-0.5 flex items-center gap-1.5 flex-wrap">
             <span
               className={`text-[11px] sm:text-xs font-roboto-500 lg:text-sm ${cfg.statusText}`}
             >
-              Sisa {daysLeft} hari lagi - {cfg.statusLabel}
+              Sisa {item.days_left} hari lagi - {cfg.statusLabel}
             </span>
           </div>
         </div>
@@ -129,7 +123,7 @@ export default function FoodExpiryCard({ item, onUse }: FoodExpiryCardProps) {
 
       <Button
         variant="primary"
-        size="sm"
+        size="dashboard"
         onClick={() => onUse?.(item.id)}
         className={`${cfg.btnBg} ${cfg.btnText} ${cfg.btnBorder} cursor-pointer self-center shrink-0 px-3 sm:px-6 text-xs sm:text-sm`}
       >

@@ -1,23 +1,25 @@
 import { TKategoriBahan, TPenyimpanan } from '../schemas/tambah-bahan-schema'
 
-export const lokasiList: { name: TPenyimpanan; image: string; desc: string }[] =
-  [
-    {
-      name: 'Freezer',
-      image: '/lokasi/freezer.webp',
-      desc: '-18° C hingga -20° C',
-    },
-    {
-      name: 'Kulkas',
-      image: '/lokasi/kulkas.webp',
-      desc: '-2° C hingga -8° C',
-    },
-    {
-      name: 'Rak / Pantry',
-      image: '/lokasi/raks.webp',
-      desc: 'Suhu Ruangan',
-    },
-  ]
+export const lokasiList: Record<
+  TPenyimpanan,
+  { image: string; desc: string; displayName: string }
+> = {
+  freezer: {
+    image: '/lokasi/freezer.webp',
+    desc: '-18° C hingga -20° C',
+    displayName: 'Freezer',
+  },
+  refrigerator: {
+    image: '/lokasi/kulkas.webp',
+    desc: '-2° C hingga -8° C',
+    displayName: 'Kulkas',
+  },
+  room_temperature: {
+    image: '/lokasi/raks.webp',
+    desc: 'Suhu Ruangan',
+    displayName: 'Rak / Pantry',
+  },
+}
 
 export const saranPenyimpanan: Record<TKategoriBahan, string> = {
   'Umbi-umbian':

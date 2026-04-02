@@ -1,20 +1,17 @@
 'use client'
 
-import { generateDummyData } from '@/shared/dummyData/foodData'
 import { useFilteredItems } from '@/shared/lib/useFilteredItems'
 import CategorySlider from '@/shared/components/inventory/CategoryFilter'
 import FilterSection from '@/shared/components/inventory/LocationFilter'
 import FoodRow from '@/shared/components/inventory/FoodRow'
 import Pagination from '@/shared/components/inventory/Pagination'
 import EmptyState from '@/shared/components/inventory/EmptyState'
-import type { FoodItem } from '@/shared/types/food'
 import { TriangleAlert } from 'lucide-react'
-
-// Generate once outside the component (stable reference across renders)
-const ALL_ITEMS: FoodItem[] = generateDummyData()
+import { useGetAllFood } from '@/features/bahan-saya/hooks/bahan-sayahooks'
 
 export default function FoodInventory() {
-  const { paginatedItems, totalItems } = useFilteredItems(ALL_ITEMS)
+  const { data: ALL_ITEMS } = useGetAllFood()
+  const { paginatedItems, totalItems } = useFilteredItems(ALL_ITEMS || [])
 
   return (
     <div className="w-full">

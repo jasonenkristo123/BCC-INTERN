@@ -11,21 +11,21 @@ export default function NotificationPage() {
 
   return (
     <div>
-      <div className="bg-white rounded-xl shadow-md w-full p-8 sm:p-12 space-y-10">
+      <div className="bg-white rounded-xl shadow-md w-full p-6 sm:p-10 md:p-12 space-y-10">
         <h2 className="font-roboto-600 text-xl lg:text-2xl text-hitamdikit mb-7">
           Notifikasi Bahan
         </h2>
-        <div className="flex justify-between">
-          <div>
-            <h3 className="text-base sm:text-lg lg:text-xl font-roboto-500 pb-3 ">
+        <div className="flex flex-col sm:flex-row justify-between gap-6">
+          <div className="flex-1">
+            <h3 className="text-base sm:text-lg lg:text-xl font-roboto-500 pb-2">
               Bahan Mendekati Kedaluwarsa
             </h3>
             <p className="text-sm sm:text-base font-roboto-400 text-hitamdikit/50">
               Email dikirim saat bahan tersisa {' ≤ 3 hari'} sebelum kedaluwarsa
             </p>
           </div>
-          <div>
-            <label className=" cursor-pointer select-none">
+          <div className="shrink-0">
+            <label className="cursor-pointer select-none block w-max">
               <input
                 type="checkbox"
                 className="sr-only"
@@ -33,26 +33,26 @@ export default function NotificationPage() {
                 onChange={() => setEnabledExpired(!EnabledExpired)}
               />
               <div
-                className={`relative w-20 h-10 transition-colors duration-500 rounded-full ${EnabledExpired ? 'bg-text-primary' : 'bg-text-secondary'}`}
+                className={`relative w-16 h-8 sm:w-20 sm:h-10 transition-colors duration-500 rounded-full ${EnabledExpired ? 'bg-text-primary' : 'bg-text-secondary'}`}
               >
                 <div
-                  className={`absolute top-1 left-1 w-8 h-8 bg-white rounded-full transition-transform duration-500 transform ${EnabledExpired ? 'translate-x-10' : ''}`}
+                  className={`absolute top-1 left-1 w-6 h-6 sm:w-8 sm:h-8 bg-white rounded-full transition-transform duration-500 transform ${EnabledExpired ? 'translate-x-8 sm:translate-x-10' : ''}`}
                 />
               </div>
             </label>
           </div>
         </div>
-        <div className="flex justify-between">
-          <div>
-            <h3 className="text-base sm:text-lg lg:text-xl font-roboto-500 pb-3 ">
+        <div className="flex flex-col sm:flex-row justify-between gap-6">
+          <div className="flex-1">
+            <h3 className="text-base sm:text-lg lg:text-xl font-roboto-500 pb-2">
               Bahan harus segera dibuang
             </h3>
             <p className="text-sm sm:text-base font-roboto-400 text-hitamdikit/50">
               Email dikirim saat ada bahan yang expired hari ini
             </p>
           </div>
-          <div>
-            <label className=" cursor-pointer select-none">
+          <div className="shrink-0">
+            <label className="cursor-pointer select-none block w-max">
               <input
                 type="checkbox"
                 className="sr-only"
@@ -60,10 +60,10 @@ export default function NotificationPage() {
                 onChange={() => setEnabledExpiredToday(!EnabledExpiredToday)}
               />
               <div
-                className={`relative w-20 h-10 transition-colors duration-500 rounded-full ${EnabledExpiredToday ? 'bg-text-primary' : 'bg-text-secondary'}`}
+                className={`relative w-16 h-8 sm:w-20 sm:h-10 transition-colors duration-500 rounded-full ${EnabledExpiredToday ? 'bg-text-primary' : 'bg-text-secondary'}`}
               >
                 <div
-                  className={`absolute top-1 left-1 w-8 h-8 bg-white rounded-full transition-transform duration-500 transform ${EnabledExpiredToday ? 'translate-x-10' : ''}`}
+                  className={`absolute top-1 left-1 w-6 h-6 sm:w-8 sm:h-8 bg-white rounded-full transition-transform duration-500 transform ${EnabledExpiredToday ? 'translate-x-8 sm:translate-x-10' : ''}`}
                 />
               </div>
             </label>
@@ -71,13 +71,13 @@ export default function NotificationPage() {
         </div>
       </div>
 
-      <div className="bg-white mt-5 rounded-xl shadow-md w-full p-8 sm:p-12 space-y-10">
+      <div className="bg-white mt-5 rounded-xl shadow-md w-full p-6 sm:p-10 md:p-12 space-y-10">
         <h2 className="font-roboto-600 text-xl lg:text-2xl text-hitamdikit mb-7">
           Laporan & Ringkasan
         </h2>
-        <div className="flex justify-between">
-          <div>
-            <h3 className="text-base sm:text-lg lg:text-xl font-roboto-500 pb-3 ">
+        <div className="flex flex-col sm:flex-row justify-between gap-6">
+          <div className="flex-1">
+            <h3 className="text-base sm:text-lg lg:text-xl font-roboto-500 pb-2">
               Ringkasan mingguan
             </h3>
             <p className="text-sm sm:text-base font-roboto-400 text-hitamdikit/50">
@@ -85,8 +85,8 @@ export default function NotificationPage() {
               efisiensi minggu lalu
             </p>
           </div>
-          <div>
-            <label className=" cursor-pointer select-none">
+          <div className="shrink-0">
+            <label className="cursor-pointer select-none block w-max">
               <input
                 type="checkbox"
                 className="sr-only"
@@ -94,18 +94,18 @@ export default function NotificationPage() {
                 onChange={() => setEnabledWeeklyReport(!EnabledWeeklyReport)}
               />
               <div
-                className={`relative w-20 h-10 transition-colors duration-500 rounded-full ${EnabledWeeklyReport ? 'bg-text-primary' : 'bg-text-secondary'}`}
+                className={`relative w-16 h-8 sm:w-20 sm:h-10 transition-colors duration-500 rounded-full ${EnabledWeeklyReport ? 'bg-text-primary' : 'bg-text-secondary'}`}
               >
                 <div
-                  className={`absolute top-1 left-1 w-8 h-8 bg-white rounded-full transition-transform duration-500 transform ${EnabledWeeklyReport ? 'translate-x-10' : ''}`}
+                  className={`absolute top-1 left-1 w-6 h-6 sm:w-8 sm:h-8 bg-white rounded-full transition-transform duration-500 transform ${EnabledWeeklyReport ? 'translate-x-8 sm:translate-x-10' : ''}`}
                 />
               </div>
             </label>
           </div>
         </div>
-        <div className="flex justify-between">
-          <div>
-            <h3 className="text-base sm:text-lg lg:text-xl font-roboto-500 pb-3 ">
+        <div className="flex flex-col sm:flex-row justify-between gap-6">
+          <div className="flex-1">
+            <h3 className="text-base sm:text-lg lg:text-xl font-roboto-500 pb-2">
               Laporan bulanan
             </h3>
             <p className="text-sm sm:text-base font-roboto-400 text-hitamdikit/50">
@@ -113,8 +113,8 @@ export default function NotificationPage() {
               perbandingan bulan sebelumnya
             </p>
           </div>
-          <div>
-            <label className=" cursor-pointer select-none">
+          <div className="shrink-0">
+            <label className="cursor-pointer select-none block w-max">
               <input
                 type="checkbox"
                 className="sr-only"
@@ -122,26 +122,26 @@ export default function NotificationPage() {
                 onChange={() => setEnabledMonthlyReport(!EnabledMonthlyReport)}
               />
               <div
-                className={`relative w-20 h-10 transition-colors duration-500 rounded-full ${EnabledMonthlyReport ? 'bg-text-primary' : 'bg-text-secondary'}`}
+                className={`relative w-16 h-8 sm:w-20 sm:h-10 transition-colors duration-500 rounded-full ${EnabledMonthlyReport ? 'bg-text-primary' : 'bg-text-secondary'}`}
               >
                 <div
-                  className={`absolute top-1 left-1 w-8 h-8 bg-white rounded-full transition-transform duration-500 transform ${EnabledMonthlyReport ? 'translate-x-10' : ''}`}
+                  className={`absolute top-1 left-1 w-6 h-6 sm:w-8 sm:h-8 bg-white rounded-full transition-transform duration-500 transform ${EnabledMonthlyReport ? 'translate-x-8 sm:translate-x-10' : ''}`}
                 />
               </div>
             </label>
           </div>
         </div>
-        <div className="flex justify-between">
-          <div>
-            <h3 className="text-base sm:text-lg lg:text-xl font-roboto-500 pb-3 ">
+        <div className="flex flex-col sm:flex-row justify-between gap-6">
+          <div className="flex-1">
+            <h3 className="text-base sm:text-lg lg:text-xl font-roboto-500 pb-2">
               Tips & rekomendasi
             </h3>
             <p className="text-sm sm:text-base font-roboto-400 text-hitamdikit/50">
               Email saran penggunaan bahan berdasarkan pola stok kamu
             </p>
           </div>
-          <div>
-            <label className=" cursor-pointer select-none">
+          <div className="shrink-0">
+            <label className="cursor-pointer select-none block w-max">
               <input
                 type="checkbox"
                 className="sr-only"
@@ -149,10 +149,10 @@ export default function NotificationPage() {
                 onChange={() => setEnabledTips(!EnabledTips)}
               />
               <div
-                className={`relative w-20 h-10 transition-colors duration-500 rounded-full ${EnabledTips ? 'bg-text-primary' : 'bg-text-secondary'}`}
+                className={`relative w-16 h-8 sm:w-20 sm:h-10 transition-colors duration-500 rounded-full ${EnabledTips ? 'bg-text-primary' : 'bg-text-secondary'}`}
               >
                 <div
-                  className={`absolute top-1 left-1 w-8 h-8 bg-white rounded-full transition-transform duration-500 transform ${EnabledTips ? 'translate-x-10' : ''}`}
+                  className={`absolute top-1 left-1 w-6 h-6 sm:w-8 sm:h-8 bg-white rounded-full transition-transform duration-500 transform ${EnabledTips ? 'translate-x-8 sm:translate-x-10' : ''}`}
                 />
               </div>
             </label>

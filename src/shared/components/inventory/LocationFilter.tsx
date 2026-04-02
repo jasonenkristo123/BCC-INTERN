@@ -1,14 +1,18 @@
 'use client'
 
 import { useInventoryStore } from '../../store/food-store'
-import { ALL_LOCATIONS } from '@/shared/dummyData/foodData'
 import type { StorageLocation } from '@/shared/types/food'
 
 export default function FilterSection() {
   const { storageLocation } = useInventoryStore((s) => s.filters)
   const setStorageLocation = useInventoryStore((s) => s.setStorageLocation)
 
-  const locationOptions = ALL_LOCATIONS as readonly string[]
+  const locationOptions = [
+    'Semua',
+    'Kulkas',
+    'Rak / Pantry',
+    'Freezer',
+  ] as const
 
   return (
     <div className="flex flex-wrap items-center gap-3">

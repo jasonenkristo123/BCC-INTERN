@@ -1,40 +1,30 @@
-'use client'
 import Image from 'next/image'
-import { useState } from 'react'
 import FoodExpiryCard from '@/shared/components/ui/dashboard-cardpriority'
 import TrendChart from '@/shared/components/chart/trendChart'
-import { ALL_ITEMS } from '@/shared/dummyData/foodData'
-
-const options = [
-  {
-    value: 'option1',
-    label: 'Harian',
-  },
-  {
-    value: 'option2',
-    label: 'Mingguan',
-  },
-  {
-    value: 'option3',
-    label: 'Bulanan',
-  },
-  {
-    value: 'option4',
-    label: 'Tahunan',
-  },
-]
+import { useGetAllFood } from '@/features/bahan-saya/hooks/bahan-sayahooks'
+import { getExpiryStatus } from '@/shared/utils/utils'
 
 export default function DashBoardTwoGrid() {
-  const [selectedOption, setSelectedOption] = useState(options[0].value)
+  const { data: ALL_ITEMS, isLoading } = useGetAllFood()
 
-  const sortedItems = [...ALL_ITEMS]
-    .sort((a, b) => b.riskScore - a.riskScore)
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center h-40">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-text-primary"></div>
+      </div>
+    )
+  }
+
+  // Filter items that are warning or expiring, then sort by risk_score
+  const sortedItems = [...(ALL_ITEMS || [])]
+    .filter((item) => {
+      const status = getExpiryStatus(item.expiry_date).status
+      return status === 'warning' || status === 'expired'
+    })
+    .sort((a, b) => b.risk_score - a.risk_score)
     .slice(0, 3)
 
-  const handleUse = (id: string) => {
-    console.log(`Using item with id: ${id}`)
-    // Add logic here to remove item or update state
-  }
+  const handleUse = () => {}
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 py-6 lg:py-8 px-4 lg:px-8">
@@ -69,17 +59,7 @@ export default function DashBoardTwoGrid() {
           <h2 className="font-roboto-500 text-base md:text-lg lg:text-xl xl:text-2xl">
             Trend Bahan Kedaluwarsa Bulanan
           </h2>
-          <select
-            value={selectedOption}
-            onChange={(e) => setSelectedOption(e.target.value)}
-            className="border border-gray-300 rounded-md px-2 py-1 cursor-pointer text-sm sm:text-base w-full sm:w-auto"
-          >
-            {options.map((option) => (
-              <option key={option.value} value={option.value}>
-                {option.label}
-              </option>
-            ))}
-          </select>
+          <p className="font-roboto-400 text-base text-hitamdikit">Bulanan</p>
         </div>
         <TrendChart />
       </div>

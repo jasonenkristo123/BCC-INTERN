@@ -1,18 +1,17 @@
 import { useSelectMonth } from '../../../shared/store/food-store'
 import { useMemo } from 'react'
-import { ALL_ITEMS } from '@/shared/dummyData/foodData'
-import {
-  filterItemsByMonth,
-  getAvailableMonths,
-  getExpiryStatus,
-  formatCurrency,
-} from '@/shared/utils/utils'
+import { getAvailableMonths, formatCurrency } from '@/shared/utils/utils'
 import { Doughnut } from 'react-chartjs-2'
-import { FoodCategory } from '@/shared/types/food'
+import { FoodItem } from '@/shared/types/food'
 import 'chart.js/auto'
 import RankingPanelCategory from '../../../shared/components/ui/ranking-panel-category'
+import { useGetAllFood } from '@/features/bahan-saya/hooks/bahan-sayahooks'
+import {
+  useGetCategoryLossPerMonth,
+  useGetRiskRankingPanel,
+} from '../hooks/waste-trackerhooks'
 
-const categoryColorMap: Record<FoodCategory | string, string> = {
+const categoryColorMap: Record<string, string> = {
   'Umbi-umbian': '#F09595',
   'Sayur-sayuran': '#97C459',
   'Buah-buahan': '#ED93B1',
@@ -27,9 +26,14 @@ const categoryColorMap: Record<FoodCategory | string, string> = {
 }
 
 export default function WasteTrackerTwoGridPanel() {
-  const items = ALL_ITEMS
-  const availableMonths = useMemo(() => getAvailableMonths(items), [items])
+  const { data: ALL_ITEMS } = useGetAllFood()
+  const availableMonths = useMemo(
+    () => getAvailableMonths(ALL_ITEMS || []),
+    [ALL_ITEMS],
+  )
   const selectedMonth = useSelectMonth((s) => s.selectedMonth)
+  const { data: categoryLostPerMonth } = useGetCategoryLossPerMonth()
+  const { data: RiskRankingPanel } = useGetRiskRankingPanel()
 
   const monthLabel = useMemo(() => {
     return (
@@ -39,32 +43,43 @@ export default function WasteTrackerTwoGridPanel() {
   }, [availableMonths, selectedMonth])
 
   const chartData = useMemo(() => {
-    const filteredItems = filterItemsByMonth(items, selectedMonth)
-    const expiredItems = filteredItems.filter(
-      (item) => getExpiryStatus(item.expiredEstimation).status === 'expired',
+    const categoryLostPerMonthData: {
+      month: string
+      categories: {
+        category: string
+        total_price: number
+        percentage: number
+      }[]
+    }[] = categoryLostPerMonth?.data || []
+
+    const monthData = categoryLostPerMonthData.find(
+      (d) => d.month === selectedMonth,
+    )
+    const categories = monthData?.categories || []
+
+    const filteredCategories = categories.filter((c) => c.total_price > 0)
+
+    // Sort descending from highest total_price
+    const sortedCategories = [...filteredCategories].sort(
+      (a, b) => b.total_price - a.total_price,
     )
 
-    const categoryData: Record<string, number> = {}
-    expiredItems.forEach((item) => {
-      categoryData[item.category] =
-        (categoryData[item.category] || 0) + item.price
-    })
-
-    // Sort descending
-    const sortedCategories = Object.entries(categoryData).sort(
-      ([, a], [, b]) => b - a,
+    const labels = sortedCategories.map((c) => c.category)
+    const data = sortedCategories.map((c) => c.total_price)
+    const bgColors = labels.map(
+      (cat: string) => categoryColorMap[cat] || '#C1C1C1',
     )
+    const totalValue = data.reduce((acc: number, curr: number) => acc + curr, 0)
 
-    const labels = sortedCategories.map(([cat]) => cat)
-    const data = sortedCategories.map(([, value]) => value)
-    const bgColors = labels.map((cat) => categoryColorMap[cat] || '#C1C1C1')
-    const totalValue = data.reduce((acc, curr) => acc + curr, 0)
+    const rawData = sortedCategories.map(
+      (c) => [c.category, c.total_price] as [string, number],
+    )
 
     return {
       labels,
       data,
       bgColors,
-      rawData: sortedCategories,
+      rawData,
       totalValue,
       chartProps: {
         labels,
@@ -79,69 +94,50 @@ export default function WasteTrackerTwoGridPanel() {
         ],
       },
     }
-  }, [items, selectedMonth])
+  }, [categoryLostPerMonth, selectedMonth])
 
   const topRiskCategories = useMemo(() => {
-    const categoryData: Record<
-      string,
-      {
-        totalRiskScore: number
-        totalPrice: number
-        sumQty: number
-        unit: string
-        image: string
-      }
-    > = {}
-    const filteredItems = filterItemsByMonth(items, selectedMonth)
+    const rankingData: {
+      food_name: string
+      current_weight: number
+      unit_of_weight: string
+      price_of_unit: number
+      days_left: number
+      risk_score: number
+    }[] = RiskRankingPanel?.data || []
 
-    filteredItems.forEach((item) => {
-      if (!categoryData[item.category]) {
-        categoryData[item.category] = {
-          totalRiskScore: 0,
-          totalPrice: 0,
-          sumQty: 0,
-          unit: 'kg',
-          image: item.image || '/kategori/umbi.webp',
-        }
-      }
-
-      categoryData[item.category].totalRiskScore += item.riskScore
-      categoryData[item.category].totalPrice += item.price
-
-      const qtyMatch = item.quantity.match(/([\d.]+)\s*(.*)/)
-      if (qtyMatch) {
-        categoryData[item.category].sumQty += parseFloat(qtyMatch[1]) || 0
-        if (
-          !categoryData[item.category].unit ||
-          categoryData[item.category].unit === 'kg'
-        ) {
-          categoryData[item.category].unit = qtyMatch[2] || 'kg'
-        }
-      } else {
-        categoryData[item.category].sumQty += 1
-      }
-    })
-
-    const sortedArray = Object.entries(categoryData)
-      .sort(([, a], [, b]) => b.totalRiskScore - a.totalRiskScore)
+    const sortedArray = [...rankingData]
+      .sort((a, b) => b.risk_score - a.risk_score)
       .slice(0, 5)
 
-    const maxScore =
-      sortedArray.length > 0 ? sortedArray[0][1].totalRiskScore : 100
+    const maxScore = sortedArray.length > 0 ? sortedArray[0].risk_score : 100
 
-    return sortedArray.map(([cat, data], index) => {
-      const progressScore = (data.totalRiskScore / Math.max(1, maxScore)) * 90
+    return sortedArray.map((data, index) => {
+      const progressScore = (data.risk_score / Math.max(1, maxScore)) * 90
+
+      // Attempt to find the full item from ALL_ITEMS to grab its image
+      const matchedItem = ALL_ITEMS?.find(
+        (food: FoodItem) =>
+          (food.name?.toLowerCase() || '') ===
+          (data.food_name?.toLowerCase() || ''),
+      )
+
+      // If we found it, use its image. Otherwise default to a placeholder
+      const imageSrc = matchedItem?.image?.image || '/kategori/umbi.webp'
+
+      // Calculate the total price based on current weight and price unit
+      const totalPrice = data.current_weight * data.price_of_unit
 
       return {
         rank: index + 1,
-        categoryName: cat,
-        quantity: `${data.sumQty} ${data.unit}`.trim(),
+        categoryName: data.food_name,
+        quantity: `${data.current_weight} ${data.unit_of_weight}`.trim(),
         riskScore: progressScore,
-        totalPrice: data.totalPrice,
-        image: data.image,
+        totalPrice: totalPrice,
+        image: imageSrc,
       }
     })
-  }, [items, selectedMonth])
+  }, [RiskRankingPanel, ALL_ITEMS])
 
   return (
     <div className="mt-8 px-4 lg:px-8 grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -264,7 +260,7 @@ export default function WasteTrackerTwoGridPanel() {
           {topRiskCategories.length > 0 ? (
             topRiskCategories.map((cat) => (
               <RankingPanelCategory
-                key={cat.categoryName}
+                key={cat.rank}
                 rank={cat.rank}
                 image={cat.image}
                 categoryName={cat.categoryName}

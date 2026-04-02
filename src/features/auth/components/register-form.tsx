@@ -11,11 +11,14 @@ import { AxiosError } from 'axios'
 import { useState } from 'react'
 import AllModalParent from '@/shared/components/modal/AllModalParent'
 import BerhasilBuatAkunChild from '@/shared/components/modal/modalChildren/berhasil-buatakun-child'
+import { Eye, EyeClosed } from 'lucide-react'
 
 export default function RegisterFormWithZod() {
   const router = useRouter()
   const { mutateAsync, isPending } = useRegister()
   const [openModal, setOpenModal] = useState(false)
+  const [showPassword, setShowPassword] = useState(false)
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false)
 
   const {
     register,
@@ -120,32 +123,46 @@ export default function RegisterFormWithZod() {
                 )}
               </div>
 
-              <div className="space-y-2">
+              <div className="mt-2 relative">
                 <label className="text-sm font-roboto-500 text-hitamdikit block">
                   Kata Sandi
                 </label>
                 <input
-                  type="password"
+                  type={showPassword ? 'text' : 'password'}
                   placeholder="Masukkan kata sandi"
                   {...register('password')}
                   className="w-full px-4 py-3.5 rounded-2xl border-2 border-gray-300 focus:outline-none focus:ring-2 focus:ring-text-primary focus:border-transparent transition-all placeholder:text-gray-400 text-sm"
                 />
+                <div className="absolute right-4 top-[60%] -translate-y-1/2 cursor-pointer ">
+                  {showPassword ? (
+                    <Eye onClick={() => setShowPassword(false)} />
+                  ) : (
+                    <EyeClosed onClick={() => setShowPassword(true)} />
+                  )}
+                </div>
                 {errors.password && (
                   <p className="text-red-500 text-sm">
                     {errors.password.message}
                   </p>
                 )}
               </div>
-              <div className="mt-2 space-y-2">
+              <div className="mt-2 space-y-2 relative">
                 <label className="text-sm font-roboto-500 text-hitamdikit block">
                   Konfirmasi Kata Sandi
                 </label>
                 <input
-                  type="password"
+                  type={showConfirmPassword ? 'text' : 'password'}
                   placeholder="Masukkan kata sandi"
                   {...register('confirm_password')}
                   className="w-full px-4 py-3.5 rounded-2xl border-2 border-gray-300 focus:outline-none focus:ring-2 focus:ring-text-primary focus:border-transparent transition-all placeholder:text-gray-400 text-sm"
                 />
+                <div className="absolute right-4 top-1/2 -translate-y-1/2 cursor-pointer">
+                  {showConfirmPassword ? (
+                    <Eye onClick={() => setShowConfirmPassword(false)} />
+                  ) : (
+                    <EyeClosed onClick={() => setShowConfirmPassword(true)} />
+                  )}
+                </div>
                 {errors.confirm_password && (
                   <p className="text-red-500 text-sm">
                     {errors.confirm_password.message}

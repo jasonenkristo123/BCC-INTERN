@@ -1,27 +1,24 @@
 import Image from 'next/image'
 import BahanSayaCard from '@/shared/components/ui/bahan-saya-card'
-import { FoodItem } from '@/shared/types/food'
-import { formatCurrency, getExpiryStatus } from '@/shared/utils/utils'
+import { formatCurrency } from '@/shared/utils/utils'
+import {
+  useGetDiscardedFood,
+  useGetExpiredFood,
+  useGetFreshFood,
+} from '@/features/dashboard/hooks/dashboard-hooks'
 
-interface WasteTrackerStatsProps {
-  items: FoodItem[]
-}
+export default function WasteTrackerStats() {
+  const { data: ExpiredFood } = useGetExpiredFood()
+  const { data: SafeFood } = useGetFreshFood()
+  const { data: DiscardFood } = useGetDiscardedFood()
 
-export default function WasteTrackerStats({ items }: WasteTrackerStatsProps) {
-  const expired = items.filter(
-    (item) => getExpiryStatus(item.expiredEstimation).status === 'expired',
-  )
-  const warning = items.filter(
-    (item) => getExpiryStatus(item.expiredEstimation).status === 'warning',
-  )
-  const safe = items.filter(
-    (item) => getExpiryStatus(item.expiredEstimation).status === 'safe',
-  )
-
-  const hargaWarning = warning.reduce((acc, item) => acc + item.price, 0)
-  const hargaSafe = safe.reduce((acc, item) => acc + item.price, 0)
-  const kerugian = expired.reduce((acc, item) => acc + item.price, 0)
-  const terselamatkan = hargaWarning + hargaSafe
+  const DiscardFoodPrice = DiscardFood?.data[0]?.total_price
+  const ExpiredFoodPrice = ExpiredFood?.data[0]?.total_price
+  const totalKerugian = DiscardFoodPrice + ExpiredFoodPrice
+  const jumlahBahanTerbuang =
+    (DiscardFood?.data?.[0]?.discarded_count ?? 0) +
+    (ExpiredFood?.data?.[0]?.expired_count ?? 0)
+  const nilaiTerselamatkan = SafeFood?.data?.[0]?.total_price ?? 0
 
   return (
     <div className="px-4 lg:px-8 gap-5 grid grid-cols-1 md:grid-cols-1 md:mx-6 lg:mx-0 lg:grid-cols-3">
@@ -38,7 +35,7 @@ export default function WasteTrackerStats({ items }: WasteTrackerStatsProps) {
             Total Kerugian
           </h3>
           <p className="font-roboto-500 text-base sm:text-xl lg:text-2xl xl:text-3xl text-merah ">
-            {formatCurrency(kerugian)}
+            {formatCurrency(totalKerugian)}
           </p>
         </div>
       </BahanSayaCard>
@@ -56,7 +53,7 @@ export default function WasteTrackerStats({ items }: WasteTrackerStatsProps) {
             Jumlah Bahan Terbuang
           </h3>
           <p className="font-roboto-500 text-base sm:text-xl lg:text-2xl xl:text-3xl text-orangnormal ">
-            {expired.length}
+            {jumlahBahanTerbuang}
           </p>
         </div>
       </BahanSayaCard>
@@ -73,7 +70,7 @@ export default function WasteTrackerStats({ items }: WasteTrackerStatsProps) {
             Nilai Terselamatkan
           </h3>
           <p className="font-roboto-500 text-base sm:text-xl lg:text-2xl xl:text-3xl text-text-primary ">
-            {formatCurrency(terselamatkan)}
+            {formatCurrency(nilaiTerselamatkan)}
           </p>
         </div>
       </BahanSayaCard>

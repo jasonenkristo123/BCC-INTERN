@@ -1,5 +1,4 @@
 import TrendChart from '@/shared/components/chart/trendChart'
-import { ALL_ITEMS } from '@/shared/dummyData/foodData'
 import {
   filterItemsByMonth,
   formatCurrency,
@@ -12,25 +11,39 @@ import {
 } from '@/shared/store/food-store'
 import Button from '@/shared/components/ui/button'
 import { useRouter } from 'next/navigation'
+import { useGetAllFood } from '@/features/bahan-saya/hooks/bahan-sayahooks'
+import { useGetEfficiencyScore } from '../hooks/waste-trackerhooks'
 
 export default function WasteTrackerTrend() {
-  const items = ALL_ITEMS
+  const { data: ALL_ITEMS } = useGetAllFood()
   const selectedMonth = useSelectMonth((s) => s.selectedMonth)
-  const filteredItemMonth = filterItemsByMonth(items, selectedMonth)
+  const filteredItemMonth = filterItemsByMonth(ALL_ITEMS || [], selectedMonth)
   const safe = filteredItemMonth.filter(
-    (item) => getExpiryStatus(item.expiredEstimation).status === 'safe',
+    (item) => getExpiryStatus(item.expiry_date).status === 'safe',
   )
   const warning = filteredItemMonth.filter(
-    (item) => getExpiryStatus(item.expiredEstimation).status === 'warning',
+    (item) => getExpiryStatus(item.expiry_date).status === 'warning',
   )
+
+  const { data: scoreEfficiency } = useGetEfficiencyScore()
   const setActive = useActiveStatus((s) => s.setActive)
   const setSortBy = useInventoryStore((s) => s.setSortBy)
   const setSortOrder = useInventoryStore((s) => s.setSortOrder)
   const router = useRouter()
 
-  const safeTotalPrice = safe.reduce((acc, item) => acc + item.price, 0)
-  const warningTotalPrice = warning.reduce((acc, item) => acc + item.price, 0)
-  const totalPrice = safeTotalPrice + warningTotalPrice
+  const safeFoodTotalPrice = safe.reduce(
+    (acc, item) => acc + item.total_price,
+    0,
+  )
+  const warningFoodTotalPrice = warning.reduce(
+    (acc, item) => acc + item.total_price,
+    0,
+  )
+  const totalPrice = safeFoodTotalPrice + warningFoodTotalPrice
+  const eficiencyScore =
+    scoreEfficiency?.data?.efficiency_score ??
+    scoreEfficiency?.efficiency_score ??
+    0
 
   return (
     <div className="px-4 lg:px-8 my-8 grid grid-cols-1 sm:grid-cols-2 gap-6 grid-rows-5">
@@ -74,7 +87,7 @@ export default function WasteTrackerTrend() {
         <div className="mt-3 flex gap-3">
           <div className="w-[70px] h-[70px] rounded-full border-10 border-text-primary flex items-center justify-center">
             <span className="font-roboto-500 text-base sm:text-lg lg:text-xl xl:text-2xl text-hitamdikit">
-              86
+              {eficiencyScore}
             </span>
           </div>
           <div>
@@ -82,7 +95,7 @@ export default function WasteTrackerTrend() {
               Sangat Baik
             </h5>
             <p className="font-roboto-400 text-hitamdikit text-base pt-3">
-              Kamu lebih efisien 86% dari bulan lalu
+              Kamu lebih efisien {eficiencyScore}% dari bulan lalu
             </p>
           </div>
         </div>

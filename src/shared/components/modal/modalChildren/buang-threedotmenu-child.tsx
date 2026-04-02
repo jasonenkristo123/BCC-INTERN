@@ -5,8 +5,12 @@ import Button from '../../ui/button'
 
 import SmallInputGunakanBahan from '../../ui/small-input-gunakanbahan'
 import { useState } from 'react'
-import { TJumlahBahanSchema } from '@/shared/schemas/modalSchema'
+import {
+  TJumlahBuangSchema,
+  jumlahBuangSchema,
+} from '@/shared/schemas/modalSchema'
 import { formatCurrency } from '@/shared/utils/utils'
+import { useDiscardFood } from '@/features/bahan-saya/hooks/bahan-sayahooks'
 
 export default function BuangThreeDotMenuChild({
   item,
@@ -18,24 +22,34 @@ export default function BuangThreeDotMenuChild({
   const [step, setStep] = useState<'input' | 'confirm'>('input')
   const [wasteAmount, setWasteAmount] = useState(0)
 
-  const onNext = (data: TJumlahBahanSchema) => {
-    setWasteAmount(data.jumlah)
+  const onNext = (data: TJumlahBuangSchema) => {
+    setWasteAmount(data.discarded_weight)
     setStep('confirm')
   }
 
+  const { mutateAsync: discardFood, isPending, isError } = useDiscardFood()
+  const [submitError, setSubmitError] = useState<string | null>(null)
+
   const onConfirmBuang = async () => {
+    setSubmitError(null)
     try {
-      console.log('Membuang bahan: ', wasteAmount)
-      // TODO: Call API to buang bahan
+      await discardFood({
+        id: item.id,
+        data: { discarded_weight: wasteAmount },
+      })
       onClose()
-    } catch {}
+    } catch (err: unknown) {
+      const error = err as { response?: { data?: { message?: string } } }
+      setSubmitError(
+        error?.response?.data?.message ||
+          'Gagal membuang bahan. Silakan coba lagi.',
+      )
+    }
   }
 
   if (step === 'confirm') {
-    const itemQuantityNum = parseFloat(item.quantity) || 1
-    const kerugian = item.price
-      ? (item.price / itemQuantityNum) * wasteAmount
-      : 0
+    const pricePerItem = item.total_price / item.current_weight
+    const kerugian = pricePerItem * wasteAmount
 
     return (
       <div className="w-full">
@@ -51,18 +65,25 @@ export default function BuangThreeDotMenuChild({
           lebih waspada ke depannya.
         </p>
         <p className="text-sm font-roboto-400 mt-6 text-center text-hitamdikit">
-          Kerugian yang dibuang ({wasteAmount}g)
+          Kerugian yang dibuang {kerugian.toFixed(2)} {item.unit_weight}
         </p>
         <p className="text-sm sm:text-lg lg:text-xl font-bold text-center text-merah mt-3">
           {formatCurrency(kerugian)}
         </p>
-        <div className="w-[336px] h-[4px] bg-redlight rounded-full mt-6 mx-auto" />
-        <div className="flex gap-2 mt-6 ">
+        <div className="h-4 mt-2">
+          {(isError || submitError) && (
+            <p className="text-red-500 text-xs text-center font-roboto-400 italic">
+              {submitError || 'Terjadi kesalahan sistem'}
+            </p>
+          )}
+        </div>
+        <div className="flex gap-2 mt-4">
           <Button
             onClick={() => setStep('input')}
             variant="primary"
             size="custom"
-            className="w-full text-merah border border-merah hover:bg-redlight"
+            className="w-full text-merah border border-merah hover:bg-redlight disabled:opacity-50"
+            disabled={isPending}
           >
             Kembali
           </Button>
@@ -70,9 +91,17 @@ export default function BuangThreeDotMenuChild({
             onClick={() => onConfirmBuang()}
             variant="primary"
             size="custom"
-            className="w-full bg-merah border border-merah text-white hover:opacity-80"
+            className="w-full bg-merah border border-merah text-white hover:opacity-80 disabled:opacity-50 flex items-center justify-center gap-2"
+            disabled={isPending}
           >
-            Yakin Buang
+            {isPending ? (
+              <>
+                <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                Memproses...
+              </>
+            ) : (
+              'Yakin Buang'
+            )}
           </Button>
         </div>
       </div>
@@ -94,8 +123,15 @@ export default function BuangThreeDotMenuChild({
           Masukkan jumlah yang nggak bisa dipakai lagi
         </p>
 
-        <SmallInputGunakanBahan id="buang-form" onSubmit={onNext} />
-        <div className="w-[336px] h-[4px] bg-redlight rounded-full mt-6" />
+        <SmallInputGunakanBahan
+          id={`buang-form-${item.id}`}
+          onSubmit={onNext}
+          schema={jumlahBuangSchema}
+          fieldName="discarded_weight"
+          maxWeight={item.current_weight}
+          unitWeight={item.unit_weight}
+        />
+        <div className="w-full max-w-[336px] h-[4px] bg-redlight rounded-full mt-6 mx-auto" />
 
         <div className="mt-6 flex gap-2 ">
           <Button
@@ -108,7 +144,7 @@ export default function BuangThreeDotMenuChild({
             Batal
           </Button>
           <Button
-            form="buang-form"
+            form={`buang-form-${item.id}`}
             type="submit"
             variant="primary"
             size="md"

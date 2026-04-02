@@ -20,20 +20,20 @@ export default function PasswordPage() {
         </Button>
       </div>
 
-      <div className="flex flex-col gap-8 lg:gap-10 w-full pr-40">
-        <div className="flex justify-between w-full ">
-          <p className="font-roboto-400 text-hitamdikit/50 text-base sm:text-lg lg:text-xl">
+      <div className="flex flex-col gap-6 sm:gap-8 lg:gap-10 w-full lg:pr-20 xl:pr-40">
+        <div className="flex flex-col sm:flex-row sm:justify-between w-full gap-1 sm:gap-4 border-b border-hitamdikit/5 pb-4 sm:border-none sm:pb-0">
+          <p className="font-roboto-400 text-hitamdikit/50 text-sm sm:text-base lg:text-lg">
             Kata sandi
           </p>
-          <p className="font-roboto-500 text-hitamdikit text-base sm:text-lg lg:text-xl">
+          <p className="font-roboto-500 text-hitamdikit text-base sm:text-lg lg:text-xl break-all">
             {passwordMasked}
           </p>
         </div>
-        <div className="flex justify-between w-full ">
-          <p className="font-roboto-400 text-hitamdikit/50 text-base sm:text-lg lg:text-xl">
+        <div className="flex flex-col sm:flex-row sm:justify-between w-full gap-1 sm:gap-4">
+          <p className="font-roboto-400 text-hitamdikit/50 text-sm sm:text-base lg:text-lg">
             Terakhir diubah
           </p>
-          <p className="font-roboto-500 pr-33 text-hitamdikit text-base sm:text-lg lg:text-xl">
+          <p className="font-roboto-500 text-hitamdikit text-base sm:text-lg lg:text-xl">
             9 bulan lalu
           </p>
         </div>

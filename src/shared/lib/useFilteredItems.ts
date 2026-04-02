@@ -1,8 +1,18 @@
 import { useMemo } from 'react'
 import { useInventoryStore } from '../store/food-store'
-import type { FoodItem } from '@/shared/types/food'
 
-export function useFilteredItems(allItems: FoodItem[]) {
+interface BaseFilterableItem {
+  name?: string
+  category?: string
+  storage_location?: string
+  expiry_date?: string | Date
+  discarded_date?: string
+  risk_score?: number
+  total_price?: number
+  total_loss?: number
+}
+
+export function useFilteredItems<T extends BaseFilterableItem>(allItems: T[]) {
   const { filters, currentPage, itemsPerPage } = useInventoryStore()
 
   const filteredItems = useMemo(() => {
@@ -13,9 +23,9 @@ export function useFilteredItems(allItems: FoodItem[]) {
       const q = filters.search.toLowerCase().trim()
       result = result.filter(
         (item) =>
-          item.name.toLowerCase().includes(q) ||
-          item.category.toLowerCase().includes(q) ||
-          item.storageLocation.toLowerCase().includes(q),
+          item.name?.toLowerCase().includes(q) ||
+          item.category?.toLowerCase().includes(q) ||
+          item.storage_location?.toLowerCase().includes(q),
       )
     }
 
@@ -27,7 +37,7 @@ export function useFilteredItems(allItems: FoodItem[]) {
     // Storage Location
     if (filters.storageLocation !== 'Semua') {
       result = result.filter(
-        (item) => item.storageLocation === filters.storageLocation,
+        (item) => item.storage_location === filters.storageLocation,
       )
     }
 
@@ -36,19 +46,27 @@ export function useFilteredItems(allItems: FoodItem[]) {
       let comparison = 0
       switch (filters.sortBy) {
         case 'name':
-          comparison = a.name.localeCompare(b.name, 'id')
+          comparison = (a.name || '').localeCompare(b.name || '', 'id')
           break
-        case 'expiredEstimation':
-          comparison =
-            new Date(a.expiredEstimation).getTime() -
-            new Date(b.expiredEstimation).getTime()
+        case 'expiredEstimation': {
+          const dateA = new Date(
+            a.expiry_date || a.discarded_date || 0,
+          ).getTime()
+          const dateB = new Date(
+            b.expiry_date || b.discarded_date || 0,
+          ).getTime()
+          comparison = dateA - dateB
           break
+        }
         case 'riskScore':
-          comparison = a.riskScore - b.riskScore
+          comparison = (a.risk_score || 0) - (b.risk_score || 0)
           break
-        case 'price':
-          comparison = a.price - b.price
+        case 'price': {
+          const priceA = a.total_price ?? a.total_loss ?? 0
+          const priceB = b.total_price ?? b.total_loss ?? 0
+          comparison = priceA - priceB
           break
+        }
       }
       return filters.sortOrder === 'asc' ? comparison : -comparison
     })

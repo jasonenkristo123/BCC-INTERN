@@ -8,9 +8,12 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import Image from 'next/image'
 import Link from 'next/link'
 import { AxiosError } from 'axios'
+import { useState } from 'react'
+import { Eye, EyeClosed } from 'lucide-react'
 
 export default function LoginFormWithZod() {
   const router = useRouter()
+  const [showPassword, setShowPassword] = useState(false)
   const { mutateAsync, isPending } = useLogin()
 
   const {
@@ -110,16 +113,24 @@ export default function LoginFormWithZod() {
                 )}
               </div>
 
-              <div className="space-y-2">
+              <div className="space-y-2 relative">
                 <label className="text-sm font-roboto-500 text-hitamdikit block">
                   Kata Sandi
                 </label>
                 <input
-                  type="password"
+                  type={showPassword ? 'text' : 'password'}
                   placeholder="Masukkan kata sandi"
                   {...register('password')}
                   className="w-full px-4 py-3.5 rounded-2xl border-2 border-gray-300 focus:outline-none focus:ring-2 focus:ring-text-primary focus:border-transparent transition-all placeholder:text-gray-400 text-sm"
                 />
+                <div className="absolute right-4 top-1/2 -translate-y-1/2 cursor-pointer">
+                  {showPassword ? (
+                    <Eye onClick={() => setShowPassword(false)} />
+                  ) : (
+                    <EyeClosed onClick={() => setShowPassword(true)} />
+                  )}
+                </div>
+
                 {errors.password && (
                   <p className="text-red-500 text-sm">
                     {errors.password.message}

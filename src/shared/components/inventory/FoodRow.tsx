@@ -19,7 +19,6 @@ import BuangThreeDotMenuChild from '../modal/modalChildren/buang-threedotmenu-ch
 
 interface FoodRowProps {
   item: FoodItem
-  onAction?: (item: FoodItem, action: 'Buang' | 'Gunakan') => void
   index: number
 }
 
@@ -30,9 +29,9 @@ export default function FoodRow({ item, index }: FoodRowProps) {
     useState(false)
   const [openBuangThreeDotMenuModal, setOpenBuangThreeDotMenuModal] =
     useState(false)
-  const expiry = getExpiryStatus(item.expiredEstimation)
+  const expiry = getExpiryStatus(item.expiry_date)
 
-  const riskBarWidth = `${item.riskScore}%`
+  const riskBarWidth = `${Math.min(item.risk_score, 100)}%`
 
   const getBgColor = `${index % 2 === 0 ? 'bg-linear-to-r from-primaryskyblue to-white' : 'bg-white'}`
 
@@ -49,20 +48,6 @@ export default function FoodRow({ item, index }: FoodRowProps) {
       'border-2 border-orange-500 text-orangnormal hover:bg-orangnormal hover:text-white',
     safe: 'border-2 text-text-primary hover:bg-text-primary hover:text-white',
   }
-
-  const riskPerDay = formatCurrency(
-    Math.round(
-      item.price /
-        Math.max(
-          1,
-          Math.ceil(
-            (new Date(item.expiredEstimation).getTime() -
-              new Date(item.buyDate).getTime()) /
-              (1000 * 60 * 60 * 24),
-          ),
-        ),
-    ),
-  )
 
   // Action
   const actionButton =
@@ -142,7 +127,12 @@ export default function FoodRow({ item, index }: FoodRowProps) {
         {/* Image */}
         <div className="shrink-0 w-[58px] h-[58px] rounded-xl bg-white flex items-center justify-center overflow-hidden shadow-md relative">
           {item.image ? (
-            <Image src={item.image} alt={item.name} width={50} height={36} />
+            <Image
+              src={item.image.image}
+              alt={item.name}
+              width={50}
+              height={36}
+            />
           ) : (
             <div className="w-full h-full bg-gray-100" />
           )}
@@ -154,7 +144,7 @@ export default function FoodRow({ item, index }: FoodRowProps) {
             {item.name}
           </p>
           <p className="text-sm text-hitamdikit font-roboto-400">
-            {item.quantity} • {item.category}
+            {item.current_weight} {item.unit_weight} • {item.category}
           </p>
         </div>
 
@@ -162,7 +152,7 @@ export default function FoodRow({ item, index }: FoodRowProps) {
           {/* Buy Date */}
           <div className="shrink-0 w-34 text-end">
             <p className="text-sm font-roboto-500 text-hitamdikit">
-              {formatDate(item.buyDate)}
+              {formatDate(item.purchase_date)}
             </p>
           </div>
 
@@ -178,14 +168,14 @@ export default function FoodRow({ item, index }: FoodRowProps) {
           {/* Price */}
           <div className="shrink-0 w-28 text-center">
             <p className="text-sm font-semibold text-hitamdikit">
-              {formatCurrency(item.price)}
+              {formatCurrency(item.total_price)}
             </p>
           </div>
 
           {/* Location */}
           <div className="shrink-0 w-24 text-center">
             <span className="text-xs lg:text-sm font-roboto-500 text-hitamdikit bg-gray-100 px-2.5 py-1 rounded-full">
-              {item.storageLocation}
+              {item.storage_location}
             </span>
           </div>
 
@@ -201,7 +191,7 @@ export default function FoodRow({ item, index }: FoodRowProps) {
               <span
                 className={`text-xs lg:text-sm font-semibold text-hitamdikit`}
               >
-                {riskPerDay} / hari
+                {item.risk_score} / hari
               </span>
             </div>
           </div>
@@ -222,7 +212,7 @@ export default function FoodRow({ item, index }: FoodRowProps) {
           <div className="shrink-0 w-[48px] h-[48px] sm:w-[54px] sm:h-[54px] rounded-xl bg-white flex items-center justify-center overflow-hidden shadow-md relative">
             {item.image ? (
               <Image
-                src={item.image}
+                src={item.image.image}
                 alt={item.name}
                 fill
                 className="object-cover"
@@ -236,7 +226,7 @@ export default function FoodRow({ item, index }: FoodRowProps) {
               {item.name}
             </p>
             <p className="text-xs sm:text-sm text-hitamdikit font-roboto-400">
-              {item.quantity} • {item.category}
+              {item.current_weight} {item.unit_weight} • {item.category}
             </p>
           </div>
           <span
@@ -252,7 +242,7 @@ export default function FoodRow({ item, index }: FoodRowProps) {
               Tanggal Beli
             </p>
             <p className="font-roboto-500 text-hitamdikit">
-              {formatDate(item.buyDate)}
+              {formatDate(item.purchase_date)}
             </p>
           </div>
           <div>
@@ -260,7 +250,7 @@ export default function FoodRow({ item, index }: FoodRowProps) {
               Harga
             </p>
             <p className="font-semibold text-hitamdikit">
-              {formatCurrency(item.price)}
+              {formatCurrency(item.total_price)}
             </p>
           </div>
           <div>
@@ -268,7 +258,7 @@ export default function FoodRow({ item, index }: FoodRowProps) {
               Lokasi
             </p>
             <span className="font-roboto-500 text-hitamdikit bg-gray-100 px-2 py-0.5 rounded-full text-[10px] sm:text-xs inline-block mt-0.5">
-              {item.storageLocation}
+              {item.storage_location}
             </span>
           </div>
           <div>
@@ -283,7 +273,7 @@ export default function FoodRow({ item, index }: FoodRowProps) {
                 />
               </div>
               <span className="text-[10px] sm:text-xs font-semibold text-hitamdikit whitespace-nowrap">
-                {riskPerDay}/hr
+                {item.risk_score}/hr
               </span>
             </div>
           </div>

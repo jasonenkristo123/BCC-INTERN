@@ -4,22 +4,22 @@ export const TeamData: TeamMember[] = [
   {
     role: 'Product Manager',
     name: 'Sthefany\nSheanmoulia',
-    imageSrc: '/assets/dedy.webp',
+    imageSrc: '/assets/shean.webp',
   },
   {
     role: 'UI/UX Designer',
     name: 'Shananda\nPutri Aisyah',
-    imageSrc: '/assets/dedy.webp',
+    imageSrc: '/assets/nanda.webp',
   },
   {
     role: 'Front End',
     name: 'Jason\nEnkristo',
-    imageSrc: '/assets/dedy.webp',
+    imageSrc: '/assets/jason.webp',
   },
   {
     role: 'Back End',
     name: 'Rizkya Dwi\nAulya Fasya',
-    imageSrc: '/assets/dedy.webp',
+    imageSrc: '/assets/asya.webp',
   },
 ]
 
