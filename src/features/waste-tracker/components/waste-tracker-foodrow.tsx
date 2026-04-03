@@ -18,7 +18,6 @@ import { useGetAllExpiredFoodByMonth } from '../hooks/waste-trackerhooks'
 import { TExpiredFoodRecord } from '../services/api'
 import CategorySlider from '@/shared/components/inventory/CategoryFilter'
 
-
 export default function WasteTrackerFoodRow() {
   const selectedMonth = useSelectMonth((s) => s.selectedMonth)
   const setSearch = useInventoryStore((s) => s.setSearch)
@@ -57,7 +56,7 @@ export default function WasteTrackerFoodRow() {
 
         {/* Categories */}
         <div className="flex flex-col sm:flex-row sm:items-center gap-3">
-          <div className='w-full overflow-x-auto'>
+          <div className="w-full overflow-x-auto">
             <CategorySlider />
           </div>
         </div>

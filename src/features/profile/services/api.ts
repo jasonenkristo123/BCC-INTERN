@@ -3,7 +3,6 @@ import { TEditPasswordSchema } from '../schemas/profile-form-schemas'
 
 export const CreateUserProfile = async (data: FormData) => {
   try {
-
     const res = await api.post('/profile', data)
     const profileData = res.data.data ?? res.data
     return {

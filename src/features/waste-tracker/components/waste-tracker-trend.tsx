@@ -14,7 +14,6 @@ import { useRouter } from 'next/navigation'
 import { useGetAllFood } from '@/features/bahan-saya/hooks/bahan-sayahooks'
 import { useGetEfficiencyScore } from '../hooks/waste-trackerhooks'
 
-
 export default function WasteTrackerTrend() {
   const { data: ALL_ITEMS } = useGetAllFood()
   const selectedMonth = useSelectMonth((s) => s.selectedMonth)
@@ -53,7 +52,9 @@ export default function WasteTrackerTrend() {
           <h4 className="text-base sm:text-lg lg:text-xl xl:text-2xl font-roboto-500 text-hitamdikit">
             Trend Bahan Kedaluwarsa Bulanan
           </h4>
-          <p className="hidden sm:block font-roboto-400 text-hitamdikit text-base">Bulanan</p>
+          <p className="hidden sm:block font-roboto-400 text-hitamdikit text-base">
+            Bulanan
+          </p>
         </div>
         <TrendChart />
       </div>

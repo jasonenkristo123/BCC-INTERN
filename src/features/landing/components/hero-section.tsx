@@ -3,7 +3,6 @@ import Button from '@/shared/components/ui/button'
 import FadeIn from '@/shared/animations/Fadein'
 import SplitText from '@/components/SplitText'
 
-
 export default function HeroSection() {
   return (
     <section id="beranda" className="relative w-full h-screen overflow-hidden">
@@ -89,7 +88,7 @@ export default function HeroSection() {
 
           <h1 className="text-3xl sm:text-4xl md:text-5xl font-roboto-700 font-bold lg:text-7xl leading-tight max-w-4xl mb-8 ">
             <SplitText
-              text='Kelola Bahan Makanan dan Kurangi Food Waste'
+              text="Kelola Bahan Makanan dan Kurangi Food Waste"
               delay={50}
               duration={1}
               ease="power3.out"
