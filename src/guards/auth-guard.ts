@@ -16,7 +16,6 @@ export async function proxy(request: NextRequest) {
     '/waste-tracker',
   ]
 
-
   const isAuthRoute = authRoutes.some((route) => pathname.startsWith(route))
 
   if (!authToken && isAuthRoute) {
@@ -25,9 +24,6 @@ export async function proxy(request: NextRequest) {
     loginUrl.searchParams.set('error', 'unauthorized')
     return NextResponse.redirect(loginUrl)
   }
-  const isGuestOnlyRoute = pathname === '/login' || pathname === '/register'
-  if (authToken && isGuestOnlyRoute) {
-    return NextResponse.redirect(new URL('/home', request.url))
-  }
+
   return NextResponse.next()
 }
