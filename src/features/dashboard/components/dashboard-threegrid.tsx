@@ -37,7 +37,7 @@ export default function DashBoardTreeGrid() {
 
   const WarningFoodTotalPrice = WarningFood?.data?.[0]?.total_price ?? 0
   const SafeFoodTotalPrice = SafeFood?.data?.[0]?.total_price ?? 0
-  const TotalPrice = (WarningFoodTotalPrice + SafeFoodTotalPrice)
+  const TotalPrice = WarningFoodTotalPrice + SafeFoodTotalPrice
 
   const ConsumeFoodPercentage =
     ConsumedFood?.data?.[0]?.consumed_percentage ?? 0
@@ -116,7 +116,7 @@ export default function DashBoardTreeGrid() {
                 <CountUp
                   from={0}
                   to={WarningFoodCount}
-                  direction='up'
+                  direction="up"
                   duration={1}
                 />
               </h3>
@@ -129,10 +129,9 @@ export default function DashBoardTreeGrid() {
                 <CountUp
                   from={0}
                   to={ExpiredFoodCount}
-                  direction='up'
+                  direction="up"
                   duration={1}
                 />
-
               </h3>
               <p className="font-roboto-500 text-xs sm:text-sm text-blackprimary">
                 Sudah Kedaluwarsa
@@ -162,9 +161,8 @@ export default function DashBoardTreeGrid() {
               from={0}
               to={TotalPrice}
               separator="."
-              direction='up'
+              direction="up"
               duration={1}
-
             />
           </h3>
         </div>
@@ -173,16 +171,14 @@ export default function DashBoardTreeGrid() {
             <h3 className="font-roboto-500 text-blackprimary text-xs sm:text-sm">
               Potensi Rugi:
             </h3>
-            <div className='flex items-center gap-1 font-roboto-600 text-sm text-orangnormal sm:text-lg lg:text-xl xl:text-2xl'>
-              <p>
-                Rp
-              </p>
+            <div className="flex items-center gap-1 font-roboto-600 text-sm text-orangnormal sm:text-lg lg:text-xl xl:text-2xl">
+              <p>Rp</p>
               <p className="font-roboto-600 text-sm text-orangnormal sm:text-lg lg:text-xl xl:text-2xl">
                 <CountUp
                   from={0}
                   to={WarningFoodTotalPrice}
                   separator="."
-                  direction='up'
+                  direction="up"
                   duration={1}
                 />
               </p>
@@ -192,16 +188,14 @@ export default function DashBoardTreeGrid() {
             <h3 className="font-roboto-500 text-blackprimary text-xs sm:text-sm">
               Terselamatkan
             </h3>
-            <div className='flex items-center gap-1 font-roboto-600 text-sm text-text-primary sm:text-lg lg:text-xl xl:text-2xl'>
-              <p>
-                Rp
-              </p>
+            <div className="flex items-center gap-1 font-roboto-600 text-sm text-text-primary sm:text-lg lg:text-xl xl:text-2xl">
+              <p>Rp</p>
               <p className="font-roboto-600 text-sm text-text-primary sm:text-lg lg:text-xl xl:text-2xl">
                 <CountUp
                   from={0}
                   to={SafeFoodTotalPrice}
                   separator="."
-                  direction='up'
+                  direction="up"
                   duration={1}
                 />
               </p>

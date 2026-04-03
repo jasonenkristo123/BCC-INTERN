@@ -18,7 +18,7 @@ export default function DashBoardTwoGrid() {
     .sort((a, b) => b.risk_score - a.risk_score)
     .slice(0, 3)
 
-  const handleUse = () => { }
+  const handleUse = () => {}
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 py-6 lg:py-8 px-4 lg:px-8">

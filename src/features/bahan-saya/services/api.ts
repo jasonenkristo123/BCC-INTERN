@@ -18,7 +18,7 @@ export const GetAllFood = async (): Promise<FoodItem[]> => {
     GetAllCategory(),
   ])
 
-  const rawItems: ApiFoodItem[] = foodRes.data.data ?? [] 
+  const rawItems: ApiFoodItem[] = foodRes.data.data ?? []
 
   const categoryMap = new Map<number, CategoryItem>()
   for (const cat of categories) {

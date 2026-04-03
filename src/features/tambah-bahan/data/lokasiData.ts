@@ -28,11 +28,11 @@ export const saranPenyimpanan: Record<TKategoriBahan, string> = {
     'Simpan di kulkas (≤4°C) dalam wadah tertutup atau plastik berlubang untuk menjaga kelembaban dan kesegaran.',
   'Buah-buahan':
     'Simpan buah matang di kulkas, dan buah belum matang di suhu ruang. Pisahkan buah penghasil gas etilen (seperti pisang dan apel) agar tidak mempercepat pembusukan buah lain.',
-  'Daging':
+  Daging:
     'Simpan di freezer (≤ -18°C) jika tidak langsung digunakan. Untuk penggunaan dekat, simpan di kulkas dan pastikan terpisah dari bahan lain untuk mencegah kontaminasi.',
-  'Seafood':
+  Seafood:
     'Simpan di freezer atau di bagian paling dingin kulkas. Hindari penyimpanan terlalu lama di suhu ruang karena sangat mudah terkontaminasi bakteri.',
-  'Telur':
+  Telur:
     'Simpan di dalam kulkas (bukan di freezer) agar suhu tetap stabil dan kualitas terjaga.',
   'Produk Susu':
     'Simpan di kulkas dengan kemasan tertutup rapat. Hindari dibiarkan di suhu ruang terlalu lama karena mudah rusak.',
