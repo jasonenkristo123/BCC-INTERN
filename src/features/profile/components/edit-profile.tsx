@@ -98,7 +98,7 @@ export default function EditProfilePage() {
           <input
             type="text"
             id="nama-lengkap"
-            placeholder="Dedy Corbuzier"
+            placeholder="Jane Doe"
             {...register('name')}
             className="w-full border border-hitamdikit/30 rounded-xl px-4 py-3 mt-2 focus:outline-none focus:ring focus:ring-text-primary"
           />
@@ -131,7 +131,7 @@ export default function EditProfilePage() {
           <input
             type="text"
             id="nomor-handphone"
-            placeholder="+62 123 456 789"
+            placeholder="08"
             {...register('phone_number')}
             className="w-full border border-hitamdikit/30 rounded-xl px-4 py-3 mt-2 focus:outline-none focus:ring focus:ring-text-primary"
           />
@@ -151,7 +151,7 @@ export default function EditProfilePage() {
           <input
             type="text"
             id="alamat"
-            placeholder="Dedy Corbuzier"
+            placeholder="filkom ub"
             {...register('address')}
             className="w-full border border-hitamdikit/30 rounded-xl px-4 py-3 mt-2 focus:outline-none focus:ring focus:ring-text-primary"
           />

@@ -2,27 +2,40 @@ import { useSelectMonth } from '../../../shared/store/food-store'
 import { useMemo } from 'react'
 import { getAvailableMonths, formatCurrency } from '@/shared/utils/utils'
 import { Doughnut } from 'react-chartjs-2'
-import { FoodItem } from '@/shared/types/food'
 import 'chart.js/auto'
 import RankingPanelCategory from '../../../shared/components/ui/ranking-panel-category'
 import { useGetAllFood } from '@/features/bahan-saya/hooks/bahan-sayahooks'
 import {
   useGetCategoryLossPerMonth,
-  useGetRiskRankingPanel,
+  useGetCategoryLoss,
 } from '../hooks/waste-trackerhooks'
 
 const categoryColorMap: Record<string, string> = {
   'Umbi-umbian': '#F09595',
   'Sayur-sayuran': '#97C459',
   'Buah-buahan': '#ED93B1',
-  Daging: '#F0997B',
-  Seafood: '#5DCAA5',
-  Telur: '#D3D1C7',
+  'Daging': '#F0997B',
+  'Seafood': '#5DCAA5',
+  'Telur': '#D3D1C7',
   'Produk Susu': '#85B7EB',
   'Rempah-rempah': '#F5C4B3',
   'Bumbu Dapur': '#FAC775',
   'Biji-bijian': '#EF9F27',
   'Kacang-kacangan & Legum': '#C0DD97',
+}
+
+const categoryImageMap: Record<string, string> = {
+  'Umbi-umbian': '/kategori/umbi.webp',
+  'Sayur-sayuran': '/kategori/sayur.webp',
+  'Buah-buahan': '/kategori/buahbuah.webp',
+  'Daging': '/kategori/dagings.webp',
+  'Seafood': '/kategori/seafood.webp',
+  'Telur': '/kategori/telur.webp',
+  'Produk Susu': '/kategori/milk.webp',
+  'Rempah-rempah': '/kategori/rempah.webp',
+  'Bumbu Dapur': '/kategori/bumbu.webp',
+  'Biji-bijian': '/kategori/biji.webp',
+  'Kacang-kacangan & Legum': '/kategori/kacang.webp',
 }
 
 export default function WasteTrackerTwoGridPanel() {
@@ -33,7 +46,7 @@ export default function WasteTrackerTwoGridPanel() {
   )
   const selectedMonth = useSelectMonth((s) => s.selectedMonth)
   const { data: categoryLostPerMonth } = useGetCategoryLossPerMonth()
-  const { data: RiskRankingPanel } = useGetRiskRankingPanel()
+  const { data: allCategoryLoss } = useGetCategoryLoss()
 
   const monthLabel = useMemo(() => {
     return (
@@ -59,7 +72,6 @@ export default function WasteTrackerTwoGridPanel() {
 
     const filteredCategories = categories.filter((c) => c.total_price > 0)
 
-    // Sort descending from highest total_price
     const sortedCategories = [...filteredCategories].sort(
       (a, b) => b.total_price - a.total_price,
     )
@@ -98,46 +110,30 @@ export default function WasteTrackerTwoGridPanel() {
 
   const topRiskCategories = useMemo(() => {
     const rankingData: {
-      food_name: string
-      current_weight: number
+      category: string
+      total_price: number
+      total_amount: number
       unit_of_weight: string
-      price_of_unit: number
-      days_left: number
-      risk_score: number
-    }[] = RiskRankingPanel?.data || []
+      percentage: number
+    }[] = allCategoryLoss?.data || []
 
     const sortedArray = [...rankingData]
-      .sort((a, b) => b.risk_score - a.risk_score)
+      .sort((a, b) => b.percentage - a.percentage)
       .slice(0, 5)
 
-    const maxScore = sortedArray.length > 0 ? sortedArray[0].risk_score : 100
-
     return sortedArray.map((data, index) => {
-      const progressScore = (data.risk_score / Math.max(1, maxScore)) * 90
-
-      // Attempt to find the full item from ALL_ITEMS to grab its image
-      const matchedItem = ALL_ITEMS?.find(
-        (food: FoodItem) =>
-          (food.name?.toLowerCase() || '') ===
-          (data.food_name?.toLowerCase() || ''),
-      )
-
-      // If we found it, use its image. Otherwise default to a placeholder
-      const imageSrc = matchedItem?.image?.image || '/kategori/umbi.webp'
-
-      // Calculate the total price based on current weight and price unit
-      const totalPrice = data.current_weight * data.price_of_unit
+      const imageSrc = categoryImageMap[data.category] || '/kategori/umbi.webp'
 
       return {
         rank: index + 1,
-        categoryName: data.food_name,
-        quantity: `${data.current_weight} ${data.unit_of_weight}`.trim(),
-        riskScore: progressScore,
-        totalPrice: totalPrice,
+        categoryName: data.category,
+        quantity: `${data.total_amount} ${data.unit_of_weight}`.trim(),
+        riskScore: data.percentage,
+        totalPrice: data.total_price,
         image: imageSrc,
       }
     })
-  }, [RiskRankingPanel, ALL_ITEMS])
+  }, [allCategoryLoss])
 
   return (
     <div className="mt-8 px-4 lg:px-8 grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -249,7 +245,7 @@ export default function WasteTrackerTwoGridPanel() {
       <div className="bg-white px-6 py-8 rounded-xl shadow-lg border border-gray-100">
         <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-2 mb-6 sm:mb-8">
           <h2 className="font-roboto-500 text-lg xl:text-xl text-hitamdikit">
-            Risk Ranking - Kategori Banyak Terbuang
+            Kategori dengan Kerugian Terbesar
           </h2>
           <p className="text-hitamdikit/50 font-roboto-400 text-sm">
             Berdasarkan nilai

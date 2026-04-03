@@ -33,7 +33,7 @@ const defaultFilters: FilterState = {
   storageLocation: 'Semua',
   riskLevel: 'Semua',
   sortBy: 'expiredEstimation',
-  sortOrder: 'desc',
+  sortOrder: 'asc',
 }
 
 export const useInventoryStore = create<InventoryStore>((set) => ({

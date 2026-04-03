@@ -2,6 +2,7 @@ import { TTambahBahanScema } from '@/features/tambah-bahan/schemas/tambah-bahan-
 import Button from '../../ui/button'
 import { TriangleAlert } from 'lucide-react'
 import { formatCurrency } from '@/shared/utils/utils'
+import { lokasiList } from '@/features/tambah-bahan/data/lokasiData'
 
 interface Props {
   data: TTambahBahanScema
@@ -82,7 +83,7 @@ export default function TambahBahanChild({
             Simpan di
           </p>
           <p className="text-sm md:text-base font-roboto-500 text-hitamdikit">
-            {data.storage_location}
+            {lokasiList[data.storage_location].displayName}
           </p>
         </div>
       </div>

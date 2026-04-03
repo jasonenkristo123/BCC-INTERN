@@ -24,10 +24,10 @@ export default function Navbar() {
         <FadeIn className="w-full h-full flex justify-between items-center ">
           <div className="flex items-center">
             <Image
-              src="/assets/logos.webp"
+              src="/assets/logoslanding.webp"
               unoptimized
-              width={51}
-              height={60}
+              width={41}
+              height={50}
               alt="logo"
               className="translate-y-[-13px] translate-x-[10px]"
             />

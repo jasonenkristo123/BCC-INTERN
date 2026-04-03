@@ -18,7 +18,7 @@ export default function SearchBarWithRisk() {
     const nextActive = !isActive
     setActive(nextActive)
 
-    if (nextActive) {
+    if (isActive) {
       setSortBy('riskScore')
       setSortOrder('desc')
     } else {

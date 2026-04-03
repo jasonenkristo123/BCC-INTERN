@@ -2,7 +2,6 @@ import Image from 'next/image'
 import FoodExpiryCard from '@/shared/components/ui/dashboard-cardpriority'
 import TrendChart from '@/shared/components/chart/trendChart'
 import { useGetAllFood } from '@/features/bahan-saya/hooks/bahan-sayahooks'
-import { getExpiryStatus } from '@/shared/utils/utils'
 
 export default function DashBoardTwoGrid() {
   const { data: ALL_ITEMS, isLoading } = useGetAllFood()
@@ -15,16 +14,11 @@ export default function DashBoardTwoGrid() {
     )
   }
 
-  // Filter items that are warning or expiring, then sort by risk_score
   const sortedItems = [...(ALL_ITEMS || [])]
-    .filter((item) => {
-      const status = getExpiryStatus(item.expiry_date).status
-      return status === 'warning' || status === 'expired'
-    })
     .sort((a, b) => b.risk_score - a.risk_score)
     .slice(0, 3)
 
-  const handleUse = () => {}
+  const handleUse = () => { }
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 py-6 lg:py-8 px-4 lg:px-8">

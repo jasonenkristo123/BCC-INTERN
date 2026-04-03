@@ -7,8 +7,9 @@ import {
   useGetFreshFood,
   useGetWarningFood,
 } from '../hooks/dashboard-hooks'
-import { formatCurrency } from '@/shared/utils/utils'
+
 import { useGetCategoryLoss } from '@/features/waste-tracker/hooks/waste-trackerhooks'
+import CountUp from '@/components/CountUp'
 
 export default function DashBoardTreeGrid() {
   const { data: ConsumedFood, isLoading: isLoadingConsumed } =
@@ -36,6 +37,7 @@ export default function DashBoardTreeGrid() {
 
   const WarningFoodTotalPrice = WarningFood?.data?.[0]?.total_price ?? 0
   const SafeFoodTotalPrice = SafeFood?.data?.[0]?.total_price ?? 0
+  const TotalPrice = (WarningFoodTotalPrice + SafeFoodTotalPrice)
 
   const ConsumeFoodPercentage =
     ConsumedFood?.data?.[0]?.consumed_percentage ?? 0
@@ -111,7 +113,12 @@ export default function DashBoardTreeGrid() {
           <div className="flex flex-row gap-2 mt-4">
             <DashboardSmallCard className="bg-orange-muda border-orangnormal/40 flex-1">
               <h3 className="font-roboto-600 text-orangnormal text-base sm:text-lg lg:text-xl xl:text-3xl">
-                {WarningFoodCount}
+                <CountUp
+                  from={0}
+                  to={WarningFoodCount}
+                  direction='up'
+                  duration={1}
+                />
               </h3>
               <p className="font-roboto-500 text-xs sm:text-sm text-blackprimary">
                 Mendekati Kedaluwarsa
@@ -119,7 +126,13 @@ export default function DashBoardTreeGrid() {
             </DashboardSmallCard>
             <DashboardSmallCard className="bg-white border-merah/40 flex-1">
               <h3 className="font-roboto-600 text-merah text-base sm:text-lg lg:text-xl xl:text-3xl">
-                {ExpiredFoodCount}
+                <CountUp
+                  from={0}
+                  to={ExpiredFoodCount}
+                  direction='up'
+                  duration={1}
+                />
+
               </h3>
               <p className="font-roboto-500 text-xs sm:text-sm text-blackprimary">
                 Sudah Kedaluwarsa
@@ -141,8 +154,18 @@ export default function DashBoardTreeGrid() {
           />
         </div>
         <div className="flex gap-2 items-center mt-8">
+          <p className="font-roboto-500 text-base sm:text-lg md:text-xl lg:text-2xl xl:text-4xl">
+            Rp
+          </p>
           <h3 className="font-roboto-500 text-base sm:text-lg md:text-xl lg:text-2xl xl:text-4xl">
-            {formatCurrency(WarningFoodTotalPrice + SafeFoodTotalPrice)}
+            <CountUp
+              from={0}
+              to={TotalPrice}
+              separator="."
+              direction='up'
+              duration={1}
+
+            />
           </h3>
         </div>
         <div className="flex flex-row gap-2 mt-8">
@@ -150,17 +173,39 @@ export default function DashBoardTreeGrid() {
             <h3 className="font-roboto-500 text-blackprimary text-xs sm:text-sm">
               Potensi Rugi:
             </h3>
-            <p className="font-roboto-600 text-sm text-orangnormal sm:text-lg lg:text-xl xl:text-2xl">
-              {formatCurrency(WarningFoodTotalPrice)}
-            </p>
+            <div className='flex items-center gap-1 font-roboto-600 text-sm text-orangnormal sm:text-lg lg:text-xl xl:text-2xl'>
+              <p>
+                Rp
+              </p>
+              <p className="font-roboto-600 text-sm text-orangnormal sm:text-lg lg:text-xl xl:text-2xl">
+                <CountUp
+                  from={0}
+                  to={WarningFoodTotalPrice}
+                  separator="."
+                  direction='up'
+                  duration={1}
+                />
+              </p>
+            </div>
           </DashboardSmallCard>
           <DashboardSmallCard className="bg-white border-text-primary flex-1">
             <h3 className="font-roboto-500 text-blackprimary text-xs sm:text-sm">
               Terselamatkan
             </h3>
-            <p className="font-roboto-600 text-sm text-text-primary sm:text-lg lg:text-xl xl:text-2xl">
-              {formatCurrency(SafeFoodTotalPrice)}
-            </p>
+            <div className='flex items-center gap-1 font-roboto-600 text-sm text-text-primary sm:text-lg lg:text-xl xl:text-2xl'>
+              <p>
+                Rp
+              </p>
+              <p className="font-roboto-600 text-sm text-text-primary sm:text-lg lg:text-xl xl:text-2xl">
+                <CountUp
+                  from={0}
+                  to={SafeFoodTotalPrice}
+                  separator="."
+                  direction='up'
+                  duration={1}
+                />
+              </p>
+            </div>
           </DashboardSmallCard>
         </div>
       </div>
