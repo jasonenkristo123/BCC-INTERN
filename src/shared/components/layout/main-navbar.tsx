@@ -77,7 +77,9 @@ export default function MainNavbar() {
           </button>
           <div className="flex items-center gap-2">
             <Image
-              src={userProfile?.profile_picture || '/assets/defaultprofile.webp'}
+              src={
+                userProfile?.profile_picture || '/assets/defaultprofile.webp'
+              }
               alt="Profile"
               width={40}
               height={40}
