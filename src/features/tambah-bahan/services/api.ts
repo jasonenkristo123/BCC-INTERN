@@ -1,7 +1,16 @@
 import { api } from '@/shared/lib/axios'
-import { TTambahBahanScema } from '../schemas/tambah-bahan-schema'
 
-export const AddFood = async (data: TTambahBahanScema) => {
+export interface AddFoodPayload {
+  food_category_id: number
+  food_name: string
+  initial_weight: number
+  unit_of_weight: string
+  storage_location: string
+  purchase_date: string
+  price: number
+}
+
+export const AddFood = async (data: AddFoodPayload) => {
   const res = await api.post('/food', data)
   return res.data
 }

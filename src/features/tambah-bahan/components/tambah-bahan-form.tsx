@@ -19,6 +19,8 @@ import BerhasilTambahBahanChild from '@/shared/components/modal/modalChildren/be
 import { useAddFood } from '../hooks/tambah-bahanhooks'
 import { useGetAllCategory } from '@/features/bahan-saya/hooks/bahan-sayahooks'
 
+
+
 export default function TambahBahanForm() {
   const router = useRouter()
   const { mutateAsync: addFood, isPending: isAddingFood } = useAddFood()
@@ -96,7 +98,7 @@ export default function TambahBahanForm() {
         price: Number(currentData.price),
       }
 
-      await addFood(payload as unknown as TTambahBahanScema)
+      await addFood(payload)
       setShowConfirmModal(false)
       setShowSuccessModal(true)
 
@@ -105,7 +107,9 @@ export default function TambahBahanForm() {
         reset()
         router.push('/bahan-saya')
       }, 5000)
-    } catch {}
+    } catch {
+      // error handled silently
+    }
     setShowConfirmModal(false)
   }
 
@@ -118,6 +122,10 @@ export default function TambahBahanForm() {
         {formDataState && (
           <TambahBahanChild
             data={formDataState}
+            categoryName={
+              categories?.find((c) => c.id === formDataState.food_category_id)
+                ?.categoryName || 'Lainnya'
+            }
             onCancel={() => setShowConfirmModal(false)}
             onConfirm={handleConfirmSubmit}
             isSubmitting={isAddingFood}

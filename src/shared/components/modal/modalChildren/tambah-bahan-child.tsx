@@ -6,6 +6,7 @@ import { lokasiList } from '@/features/tambah-bahan/data/lokasiData'
 
 interface Props {
   data: TTambahBahanScema
+  categoryName: string
   onCancel: () => void
   onConfirm: () => void
   isSubmitting?: boolean
@@ -13,6 +14,7 @@ interface Props {
 
 export default function TambahBahanChild({
   data,
+  categoryName,
   onCancel,
   onConfirm,
   isSubmitting,
@@ -45,7 +47,7 @@ export default function TambahBahanChild({
             Kategori
           </p>
           <p className="text-sm md:text-base font-roboto-500 text-hitamdikit">
-            {data.food_category_id}
+            {categoryName}
           </p>
         </div>
         <div className="bg-putihabu rounded-xl p-3">

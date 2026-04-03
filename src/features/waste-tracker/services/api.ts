@@ -2,7 +2,6 @@ import { api } from '@/shared/lib/axios'
 
 export const GetCategoryLoss = async () => {
   const res = await api.get('/waste_tracker/category_loss')
-  console.log(res.data)
   return res.data
 }
 
