@@ -75,7 +75,7 @@ export default function ProfileSideBar({
             <div className="relative w-[100px] h-[100px] sm:w-[115px] sm:h-[115px]">
               <div className="w-full h-full overflow-hidden rounded-full">
                 <Image
-                  src={profile?.profile_picture || '/assets/dedy.webp'}
+                  src={profile?.profile_picture || '/assets/defaultprofile.webp'}
                   alt="profile"
                   fill
                   unoptimized
