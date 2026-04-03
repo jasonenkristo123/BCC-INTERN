@@ -24,11 +24,11 @@ export default function Pagination({ totalItems }: PaginationProps) {
         Menampilkan {startItem} - {endItem} dari {totalItems} bahan
       </p>
 
-      <div className="flex items-center gap-6 pr-6">
+      <div className="flex items-center gap-2 sm:gap-6 sm:pr-6">
         <button
           onClick={() => setPage(currentPage - 1)}
           disabled={currentPage === 1}
-          className="w-12 h-12 rounded-full border border-text-primary flex items-center justify-center text-white bg-text-primary hover:border-emerald-300 disabled:bg-white disabled:text-text-primary disabled:cursor-not-allowed transition-all shadow-sm"
+          className="w-8 h-8 sm:w-12 sm:h-12 rounded-full border border-text-primary flex items-center justify-center text-white bg-text-primary hover:border-emerald-300 disabled:bg-white disabled:text-text-primary disabled:cursor-not-allowed transition-all shadow-sm"
         >
           <ArrowLeft />
         </button>
@@ -36,7 +36,7 @@ export default function Pagination({ totalItems }: PaginationProps) {
         <button
           onClick={() => setPage(currentPage + 1)}
           disabled={currentPage === totalPages}
-          className="w-12 h-12 rounded-full border border-text-primary flex items-center justify-center text-white bg-text-primary hover:border-emerald-300 disabled:bg-white disabled:text-text-primary disabled:cursor-not-allowed transition-all shadow-sm"
+          className="w-8 h-8 sm:w-12 sm:h-12 rounded-full border border-text-primary flex items-center justify-center text-white bg-text-primary hover:border-emerald-300 disabled:bg-white disabled:text-text-primary disabled:cursor-not-allowed transition-all shadow-sm"
         >
           <ArrowRight />
         </button>

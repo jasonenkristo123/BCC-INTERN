@@ -256,7 +256,7 @@ export default function WasteTrackerTwoGridPanel() {
           </p>
         </div>
 
-        <div className="space-y-2 flex flex-col">
+        <div className="space-y-2 flex flex-col overflow-x-auto">
           {topRiskCategories.length > 0 ? (
             topRiskCategories.map((cat) => (
               <RankingPanelCategory

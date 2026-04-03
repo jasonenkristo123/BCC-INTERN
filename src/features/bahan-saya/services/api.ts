@@ -9,6 +9,7 @@ import { categoriesWithImage, mapStorageLocation } from '@/shared/types/food'
 export const GetAllCategory = async (): Promise<CategoryItem[]> => {
   const res = await api.get('/category')
   const items: CategoryItem[] = res.data.data ?? []
+  console.log(res.data.data)
   return items
 }
 

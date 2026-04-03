@@ -3,6 +3,7 @@ import DashBoardTreeGrid from './dashboard-threegrid'
 import DashBoardTwoGrid from './dashboard-twogrid'
 import FadeIn from '@/shared/animations/Fadein'
 import { useGetUserProfile } from '@/features/profile/hooks/profile-hooks'
+import DecryptedText from '@/components/DecryptedText'
 
 export default function DashBoardPage() {
   const { data: userProfile } = useGetUserProfile()
@@ -12,11 +13,34 @@ export default function DashBoardPage() {
         <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center py-6 lg:py-10 px-4 lg:px-8 gap-6 lg:gap-0">
           <div className="flex flex-col gap-1 lg:gap-2">
             <h1 className="text-xl sm:text-2xl md:text-2xl lg:text-3xl xl:text-4xl font-roboto-500">
-              Dashboard Manajemen Bahan
+              <DecryptedText
+                text="Dashboard Manajemen Bahan"
+                speed={30}
+                maxIterations={10}
+                characters="ABCD1234!?"
+                className="revealed"
+                parentClassName="all-letters"
+                encryptedClassName="encrypted"
+                animateOn="view"
+                revealDirection="start"
+                sequential
+                useOriginalCharsOnly={false}
+              />
             </h1>
             <p className="font-roboto-400 text-text-secondary/90 text-sm md:text-base lg:text-lg xl:text-xl">
-              Selamat datang kembali, {userProfile?.name || 'User'}. Berikut
-              ringkasan pengaturan bahan bulan ini
+              <DecryptedText
+                text={`Selamat datang kembali, ${userProfile?.name || 'User'}. Berikut ringkasan pengaturan bahan bulan ini`}
+                speed={20}
+                maxIterations={15}
+                characters="ABCD1234!?"
+                className="revealed"
+                parentClassName="all-letters"
+                encryptedClassName="encrypted"
+                animateOn="view"
+                revealDirection="start"
+                sequential
+                useOriginalCharsOnly={false}
+              />
             </p>
           </div>
 

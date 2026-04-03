@@ -15,6 +15,7 @@ const roboto = Roboto({
 
 export const metadata: Metadata = {
   title: 'Simpanin.id',
+  icons: '/assets/logos.webp'
 }
 
 export default function RootLayout({

@@ -11,23 +11,20 @@ import { useSelectMonth, useInventoryStore } from '@/shared/store/food-store'
 import { useFilteredItems } from '@/shared/lib/useFilteredItems'
 import Pagination from '@/shared/components/inventory/Pagination'
 import EmptyState from '@/shared/components/inventory/EmptyState'
-import type { CategoryItem } from '@/shared/types/food'
 import { categoriesWithImage } from '@/shared/types/food'
 import SearchBar from '@/shared/components/ui/searchBar'
 import { useState } from 'react'
-import { useGetAllCategory } from '@/features/bahan-saya/hooks/bahan-sayahooks'
 import { useGetAllExpiredFoodByMonth } from '../hooks/waste-trackerhooks'
-import type { TExpiredFoodRecord } from '../services/api'
+import { TExpiredFoodRecord } from '../services/api'
+import CategorySlider from '@/shared/components/inventory/CategoryFilter'
+
 
 export default function WasteTrackerFoodRow() {
   const selectedMonth = useSelectMonth((s) => s.selectedMonth)
-  const selectedCategory = useInventoryStore((s) => s.filters.category)
-  const setCategory = useInventoryStore((s) => s.setCategory)
   const setSearch = useInventoryStore((s) => s.setSearch)
   const currentSearch = useInventoryStore((s) => s.filters.search)
   const [localValue, setLocalValue] = useState(currentSearch)
   const { data: DiscardedFood } = useGetAllExpiredFoodByMonth()
-  const { data: ALL_CATEGORIES = [] } = useGetAllCategory()
 
   const expiredItems = useMemo(() => {
     // Correctly access the data array from the API response
@@ -60,27 +57,8 @@ export default function WasteTrackerFoodRow() {
 
         {/* Categories */}
         <div className="flex flex-col sm:flex-row sm:items-center gap-3">
-          <span className="text-sm font-roboto-400 text-hitamdikit hidden sm:block">
-            Kategori:
-          </span>
-          <div className="flex flex-wrap items-center gap-2 lg:gap-3 w-full">
-            {ALL_CATEGORIES.map((cat: CategoryItem) => {
-              const catName = cat.categoryName
-              const isSelected = selectedCategory === catName
-              return (
-                <button
-                  key={cat.id}
-                  onClick={() => setCategory(catName)}
-                  className={`px-4 py-1.5 rounded-full text-xs md:text-sm font-roboto-500 whitespace-nowrap transition-all duration-200 shrink-0 ${
-                    isSelected
-                      ? 'bg-text-primary text-white shadow-md'
-                      : 'bg-gray-100/80 text-gray-600 hover:bg-emerald-50 hover:text-text-primary'
-                  }`}
-                >
-                  {catName}
-                </button>
-              )
-            })}
+          <div className='w-full overflow-x-auto'>
+            <CategorySlider />
           </div>
         </div>
       </div>

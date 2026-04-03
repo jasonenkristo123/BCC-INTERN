@@ -59,7 +59,7 @@ export default function DashBoardTwoGrid() {
           <h2 className="font-roboto-500 text-base md:text-lg lg:text-xl xl:text-2xl">
             Trend Bahan Kedaluwarsa Bulanan
           </h2>
-          <p className="font-roboto-400 text-base text-hitamdikit">Bulanan</p>
+          <p className="hidden sm:block font-roboto-400 text-base text-hitamdikit">Bulanan</p>
         </div>
         <TrendChart />
       </div>

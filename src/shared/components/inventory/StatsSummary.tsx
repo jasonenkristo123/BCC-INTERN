@@ -14,7 +14,7 @@ export default function StatsSummary() {
   const expiredFoodCount = ExpiredFood?.data?.[0]?.expired_count ?? 0
 
   return (
-    <div className="px-8 gap-5 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+    <div className="px-8 gap-5 grid grid-cols-1 lg:grid-cols-3">
       <BahanSayaCard className="bg-birumuda border-text-primary flex">
         <Image
           src="/assets/beverages.webp"

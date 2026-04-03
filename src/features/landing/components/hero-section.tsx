@@ -1,7 +1,8 @@
 import Image from 'next/image'
 import Button from '@/shared/components/ui/button'
 import FadeIn from '@/shared/animations/Fadein'
-import TextType from '@/components/TextType'
+import SplitText from '@/components/SplitText'
+
 
 export default function HeroSection() {
   return (
@@ -72,21 +73,33 @@ export default function HeroSection() {
         </div>
 
         <div className="relative z-10 flex flex-col items-center justify-center h-full text-center text-white px-4">
-          <TextType
+          <SplitText
             className="text-sm md:text-base lg:text-3xl mb-3 font-semibold font-roboto-600 text-white"
             text="Kelola Bahan Makananmu Lebih Cerdas"
-            typingSpeed={75}
-            pauseDuration={1500}
-            showCursor
-            cursorCharacter="_"
-            deletingSpeed={50}
-            cursorBlinkDuration={0.5}
+            delay={50}
+            duration={1}
+            ease="power3.out"
+            splitType="chars"
+            from={{ opacity: 0, y: 40 }}
+            to={{ opacity: 1, y: 0 }}
+            threshold={0.1}
+            rootMargin="-100px"
+            textAlign="center"
           />
 
           <h1 className="text-3xl sm:text-4xl md:text-5xl font-roboto-700 font-bold lg:text-7xl leading-tight max-w-4xl mb-8 ">
-            Kelola Bahan Makanan
-            <br />
-            dan Kurangi Food Waste
+            <SplitText
+              text='Kelola Bahan Makanan dan Kurangi Food Waste'
+              delay={50}
+              duration={1}
+              ease="power3.out"
+              splitType="chars"
+              from={{ opacity: 0, y: 40 }}
+              to={{ opacity: 1, y: 0 }}
+              threshold={0.1}
+              rootMargin="-100px"
+              textAlign="center"
+            />
           </h1>
 
           <div className="flex flex-col sm:flex-row gap-4">

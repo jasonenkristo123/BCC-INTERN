@@ -15,7 +15,7 @@ export default function FilterSection() {
   ] as const
 
   return (
-    <div className="flex flex-wrap items-center gap-3">
+    <div className="flex flex-wrap items-center gap-3 overflow-x-auto">
       {/* Location Filter */}
       <div className="flex items-center gap-2">
         <span className="text-xs lg:text-sm font-roboto-400 text-hitamdikit whitespace-nowrap">

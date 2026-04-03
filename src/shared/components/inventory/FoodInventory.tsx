@@ -15,7 +15,7 @@ export default function FoodInventory() {
 
   return (
     <div className="w-full">
-      <div className="rounded-2xl border border-gray-200/60 shadow-sm p-3 sm:p-4 space-y-3.5 flex flex-wrap sm:flex-nowrap items-center gap-3 sm:gap-6">
+      <div className="rounded-2xl border border-gray-200/60 shadow-sm my-4 p-3 sm:p-4 space-y-3.5 flex flex-wrap sm:flex-nowrap items-center gap-3 sm:gap-6">
         <div className="w-full sm:w-auto overflow-x-auto">
           <CategorySlider />
         </div>

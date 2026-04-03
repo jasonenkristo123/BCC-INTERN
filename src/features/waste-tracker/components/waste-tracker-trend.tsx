@@ -14,6 +14,7 @@ import { useRouter } from 'next/navigation'
 import { useGetAllFood } from '@/features/bahan-saya/hooks/bahan-sayahooks'
 import { useGetEfficiencyScore } from '../hooks/waste-trackerhooks'
 
+
 export default function WasteTrackerTrend() {
   const { data: ALL_ITEMS } = useGetAllFood()
   const selectedMonth = useSelectMonth((s) => s.selectedMonth)
@@ -52,7 +53,7 @@ export default function WasteTrackerTrend() {
           <h4 className="text-base sm:text-lg lg:text-xl xl:text-2xl font-roboto-500 text-hitamdikit">
             Trend Bahan Kedaluwarsa Bulanan
           </h4>
-          <p className="font-roboto-400 text-hitamdikit text-base">Bulanan</p>
+          <p className="hidden sm:block font-roboto-400 text-hitamdikit text-base">Bulanan</p>
         </div>
         <TrendChart />
       </div>
@@ -66,19 +67,21 @@ export default function WasteTrackerTrend() {
         <p className="font-roboto-400 text-hitamdikit text-base lg:text-xl pt-4">
           masih bisa diselamatkan dari bahan mendekati kedaluwarsa
         </p>
-        <Button
-          variant="primary"
-          size="lg"
-          onClick={() => {
-            setActive(false)
-            setSortBy('riskScore')
-            setSortOrder('desc')
-            router.push('/bahan-saya')
-          }}
-          className="bg-text-primary font-roboto-500 text-white text-base mt-4"
-        >
-          Lihat Bahan Prioritas
-        </Button>
+        <div className="flex justify-start">
+          <Button
+            variant="primary"
+            size="lg"
+            onClick={() => {
+              setActive(false)
+              setSortBy('riskScore')
+              setSortOrder('desc')
+              router.push('/bahan-saya')
+            }}
+            className="bg-text-primary font-roboto-500 text-white text-base mt-4"
+          >
+            Lihat Bahan Prioritas
+          </Button>
+        </div>
       </div>
       <div className="row-span-2 bg-white h-[182px] rounded-xl py-8 px-6 shadow-lg">
         <h2 className="font-roboto-500 text-base sm:text-lg lg:text-xl xl:text-2xl text-hitamdikit">

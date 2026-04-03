@@ -17,7 +17,7 @@ export default function handleSortByRisk({
       <TriangleAlert
         className={`w-4 h-4 ${isActive ? 'text-text-primary' : 'text-merah'}`}
       />
-      <p className="font-roboto-400 text-base">Urutkan by Risk</p>
+      <p className="font-roboto-400 text-xs  sm:text-base">Urutkan by Risk</p>
     </div>
   )
 }

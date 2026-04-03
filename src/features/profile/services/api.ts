@@ -3,7 +3,7 @@ import { TEditPasswordSchema } from '../schemas/profile-form-schemas'
 
 export const CreateUserProfile = async (data: FormData) => {
   try {
-    // Use FormData directly as it's confirmed to work in Postman
+
     const res = await api.post('/profile', data)
     const profileData = res.data.data ?? res.data
     return {
@@ -19,7 +19,6 @@ export const CreateUserProfile = async (data: FormData) => {
 
 export const UpdateUserProfile = async (data: FormData) => {
   try {
-    // Use FormData directly
     const res = await api.put(`/profile`, data)
     const profileData = res.data.data ?? res.data
     return {
@@ -39,8 +38,6 @@ export const GetUserProfile = async () => {
     const profileData = res.data.data ?? res.data
 
     if (!profileData) return null
-
-    // Normalize camelCase to snake_case to match frontend schemas
     return {
       ...profileData,
       phone_number: profileData.phoneNumber || profileData.phone_number,

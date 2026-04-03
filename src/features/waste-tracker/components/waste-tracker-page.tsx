@@ -39,7 +39,7 @@ export default function WasteTrackerPages() {
             </p>
           </div>
           <div className="w-full lg:w-auto mt-4 lg:mt-0">
-            <div className="bg-primaryskyblue flex gap-4 items-center py-[10px] px-4">
+            <div className="bg-primaryskyblue flex gap-4 items-center justify-center lg:justify-start py-[10px] px-4">
               <Calendar />
               <select
                 className="bg-transparent border-none focus:ring-0 cursor-pointer pr-4"

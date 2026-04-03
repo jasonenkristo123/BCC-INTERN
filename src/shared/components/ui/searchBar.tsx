@@ -28,7 +28,7 @@ export default function SearchBar({
         value={localValue}
         onChange={(e) => setLocalValue(e.target.value)}
         placeholder="Cari bahan makanan..."
-        className="w-full h-full rounded-2xl bg-white text-black px-10 focus:outline-none focus:ring focus:ring-primary-lebihmuda"
+        className="w-full h-full rounded-2xl bg-white text-black py-3 px-10 focus:outline-none focus:ring focus:ring-primary-lebihmuda"
       />
       <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5" />
       {localValue && (
