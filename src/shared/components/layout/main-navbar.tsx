@@ -51,7 +51,7 @@ export default function MainNavbar() {
         </div>
         <div className="flex items-center gap-2 pr-6">
           <Image
-            src={userProfile?.profile_picture || '/assets/dedy.webp'}
+            src={userProfile?.profile_picture || '/assets/defaultprofile.webp'}
             alt="Profile"
             width={40}
             height={40}
@@ -77,7 +77,7 @@ export default function MainNavbar() {
           </button>
           <div className="flex items-center gap-2">
             <Image
-              src={userProfile?.profile_picture || '/assets/dedy.webp'}
+              src={userProfile?.profile_picture || '/assets/defaultprofile.webp'}
               alt="Profile"
               width={40}
               height={40}
